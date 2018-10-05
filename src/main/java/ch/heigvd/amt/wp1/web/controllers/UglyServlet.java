@@ -1,4 +1,4 @@
-package ch.heigvd.amt.mvcdemo.web.controllers;
+package ch.heigvd.amt.wp1.web.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,20 +1,20 @@
-package ch.heigvd.amt.mvcdemo.services;
+package ch.heigvd.amt.wp1.services;
 
-import ch.heigvd.amt.mvcdemo.model.Beer;
+import ch.heigvd.amt.wp1.model.Beer;
 import java.util.List;
 import javax.ejb.Local;
 
 /**
- * @see BeersManager
+ * @see BeersDataStore
  * @author Olivier Liechti (olivier.liechti@heig-vd.ch)
  */
 @Local
-public interface BeersManagerLocal {
-  
+public interface BeersDataStoreLocal {
+
   /**
    *
    * @return
    */
   List<Beer> getAllBeers();
-  
+
 }

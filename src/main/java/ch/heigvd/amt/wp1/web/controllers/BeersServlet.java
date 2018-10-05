@@ -1,6 +1,6 @@
-package ch.heigvd.amt.mvcdemo.web.controllers;
+package ch.heigvd.amt.wp1.web.controllers;
 
-import ch.heigvd.amt.mvcdemo.services.BeersManagerLocal;
+import ch.heigvd.amt.wp1.services.BeersManagerLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;

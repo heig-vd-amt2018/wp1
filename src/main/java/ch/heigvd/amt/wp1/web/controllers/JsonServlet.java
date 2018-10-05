@@ -1,10 +1,9 @@
-package ch.heigvd.amt.mvcdemo.web.controllers;
+package ch.heigvd.amt.wp1.web.controllers;
 
-import ch.heigvd.amt.mvcdemo.util.Chance;
+import ch.heigvd.amt.wp1.util.Chance;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.math.BigDecimal;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;

@@ -1,4 +1,4 @@
-package ch.heigvd.amt.mvcdemo.web.filters;
+package ch.heigvd.amt.wp1.web.filters;
 
 import java.io.IOException;
 import javax.servlet.Filter;
