@@ -1,47 +1,31 @@
-<%-- 
+<%--
     Document   : login
     Created on : Sep 9, 2015, 11:37:49 AM
     Author     : Olivier Liechti (olivier.liechti@heig-vd.ch)
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <meta name="description" content="">
+    <meta name="author" content="">
     <base href="${pageContext.request.contextPath}/">
 
-    <meta name="description" content="WP1 for the AMT Project">
-    <meta name="author" content="L. Delafontaine, T. Gallandat, J. Kaufmann & X. Vaz Afonso">
+    <title>Login Page</title>
 
-    <title>WP1 - Login page</title>
-
-    <!-- Bootstrap Core CSS -->
+    <!-- Bootstrap core CSS -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="static/css/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="static/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
+    <!-- Custom styles for this template -->
+    <link href="static/css/signin.css" rel="stylesheet">
 
 </head>
 
@@ -49,35 +33,102 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="login-panel panel panel-default">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Please sign in</h3>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="#" class="active" id="login-form-link">Login</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" id="register-form-link">Register</a>
+                        </div>
+                    </div>
+                    <hr>
                 </div>
                 <div class="panel-body">
-                    <form role="form" method="POST" action="auth">
-                        <fieldset>
-                            <div class="form-group">
-                                <input type="hidden" name="action" value="login">
-                                <input class="form-control" placeholder="E-mail" name="email" id="inputEmail" type="email" required autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" id="inputPassword" type="password" value="" required>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                </label>
-                            </div>
-                            <!-- Change this to a button or input when using this as a form -->
-                            <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
-                        </fieldset>
-                    </form>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form id="login-form" action="https://phpoll.com/login/process" method="post" role="form" style="display: block;">
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                </div>
+                                <div class="form-group text-center">
+                                    <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+                                    <label for="remember"> Remember Me</label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-3">
+                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="text-center">
+                                                <a href="https://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <form id="register-form" action="https://phpoll.com/register/process" method="post" role="form" style="display: none;">
+                                <div class="form-group">
+                                    <input type="text" name="firstname" id="firstname" tabindex="1" class="form-control" placeholder="Firstname" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="lastname" id="lastname" tabindex="1" class="form-control" placeholder="Lastname" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="address" id="address" tabindex="1" class="form-control" placeholder="Address" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="city" id="city" tabindex="1" class="form-control" placeholder="City/Town" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="state" id="state" tabindex="1" class="form-control" placeholder="State/Province/Region" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="postcode" id="postcode" tabindex="1" class="form-control" placeholder="Zip/Postcode" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-3">
+                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/myjs.js"></script>
+</body>
+</html>
+
 
 <!-- jQuery -->
 <script src="static/js/jquery.min.js"></script>
