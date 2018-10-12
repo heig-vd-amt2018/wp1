@@ -1,3 +1,24 @@
+# AMT 2018 - WP1
+
+## Deployment
+Follow the steps to deploy the application locally:
+
+1. Clone the repository: `git clone git@github.com:heig-vd-amt2018/wp1.git amt-wp1`.
+2. Move to the cloned directory: `mv amt-wp1/`.
+3. Compile the project: `mvn clean install`.
+4. Move the compiled `.war` to the `docker` directory: `cp target/WP1-1.0-SNAPSHOT.war docker/images/wp1/`
+5. Move to the `docker` directory: `cd docker/`
+6. Deploy the application with docker: `docker-compose up`
+7. Access to the application from [localhost:8080/WP1-1.0-SNAPSHOT](http://localhost:8080/WP1-1.0-SNAPSHOT).
+8. You are done !
+
+## Built with
+This website was done with the following technologies:
+
+- [SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/) as the main Bootstrap theme.
+
+
+
 # Teaching-HEIGVD-AMT-2018-Project
 
 
