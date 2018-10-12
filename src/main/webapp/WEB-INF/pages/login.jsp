@@ -4,47 +4,93 @@
     Author     : Olivier Liechti (olivier.liechti@heig-vd.ch)
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
-
 <html lang="en">
-  <head>
+
+<head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+
     <base href="${pageContext.request.contextPath}/">
 
-    <title>Login Page</title>
+    <meta name="description" content="WP1 for the AMT Project">
+    <meta name="author" content="L. Delafontaine, T. Gallandat, J. Kaufmann & X. Vaz Afonso">
 
-    <!-- Bootstrap core CSS -->
+    <title>WP1 - Login page</title>
+
+    <!-- Bootstrap Core CSS -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="static/css/signin.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="static/css/metisMenu.min.css" rel="stylesheet">
 
-  </head>
+    <!-- Custom CSS -->
+    <link href="static/css/sb-admin-2.css" rel="stylesheet">
 
-  <body>
+    <!-- Custom Fonts -->
+    <link href="static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <div class="container">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-      <form method="POST" action="auth" class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="hidden" name="action" value="login">
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name ="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
+</head>
 
-    </div> <!-- /container -->
+<body>
 
-  </body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please sign in</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" method="POST" action="auth">
+                        <fieldset>
+                            <div class="form-group">
+                                <input type="hidden" name="action" value="login">
+                                <input class="form-control" placeholder="E-mail" name="email" id="inputEmail" type="email" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Password" name="password" id="inputPassword" type="password" value="" required>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                </label>
+                            </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="static/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="static/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="static/js/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="static/js/sb-admin-2.js"></script>
+
+</body>
+
 </html>
-
