@@ -11,13 +11,24 @@ static content.
 
 <%@include file="includes/header.jsp" %>
 
-<h2>About</h2>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">About</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <p>This is just a demo application. Don't expect much.</p>
 
-<p>This is just a demo application. Don't expect much.</p>
-
-<div class="alert alert-info" role="alert">
-  By the way, this page only contains static content (no model provided by the 
-  servlet and used by the view).
+        <div class="alert alert-info" role="alert">
+            By the way, this page only contains static content (no model provided by the
+            servlet and used by the view).
+        </div>
+    </div>
+    <!-- /.row -->
 </div>
+<!-- /#page-wrapper -->
 
 <%@include file="includes/footer.jsp" %>

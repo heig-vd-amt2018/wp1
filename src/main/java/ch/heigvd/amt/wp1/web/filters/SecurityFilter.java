@@ -62,9 +62,9 @@ public class SecurityFilter implements Filter {
       isTargetUrlProtected = false;
     } else {
       /*
-       * Let's imagine that the user has sent a request to /MVCDemo/pages/beers before logging into the
+       * Let's imagine that the user has sent a request to /WP1/pages/beers before logging into the
        * application. In that case, we want to route the user to the login page. If he provides valid
-       * credentials, then we then want to redirect the user to /MVCDemo/pages/beers. In order to do that,
+       * credentials, then we then want to redirect the user to /WP1/pages/beers. In order to do that,
        * we need to save the target URL
        */
       request.setAttribute("targetUrl", path);
