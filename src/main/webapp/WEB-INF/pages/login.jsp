@@ -23,7 +23,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Custom styles for this template -->
     <link href="static/css/signin.css" rel="stylesheet">
 
@@ -124,14 +124,11 @@
         </div>
     </div>
 </div>
-<script src="static/js/jquery.min.js"></script>
-<script src="static/js/myjs.js"></script>
-</body>
-</html>
-
 
 <!-- jQuery -->
 <script src="static/js/jquery.min.js"></script>
+
+<script src="static/js/myjs.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="static/js/bootstrap.min.js"></script>
