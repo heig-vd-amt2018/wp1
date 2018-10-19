@@ -60,7 +60,11 @@ public class SecurityFilter implements Filter {
       isTargetUrlProtected = false;
     } else if ("/auth".equals(path)) {
       isTargetUrlProtected = false;
-    } else {
+    }
+    else if("/register".equals(path)) {
+      isTargetUrlProtected = false;
+    }
+    else {
       /*
        * Let's imagine that the user has sent a request to /WP1/pages/beers before logging into the
        * application. In that case, we want to route the user to the login page. If he provides valid

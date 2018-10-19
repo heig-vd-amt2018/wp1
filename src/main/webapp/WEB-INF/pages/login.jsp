@@ -74,7 +74,7 @@
                                 </div>
 
                             </form>
-                            <form id="register-form" action="https://phpoll.com/register/process" method="post" role="form" style="display: none;">
+                            <form id="register-form" action="register" method="post" role="form" style="display: none;">
                                 <div class="form-group">
                                     <input type="text" name="firstname" id="firstname" tabindex="1" class="form-control" placeholder="Firstname" value="">
                                 </div>

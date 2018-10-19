@@ -13,6 +13,10 @@
         <servlet-class>ch.heigvd.amt.wp1.web.controllers.AuthenticationServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.wp1.web.controllers.RegistrationServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>BeersServlet</servlet-name>
         <servlet-class>ch.heigvd.amt.wp1.web.controllers.BeersServlet</servlet-class>
     </servlet>
@@ -24,6 +28,12 @@
         <servlet-name>AuthenticationServlet</servlet-name>
         <url-pattern>/auth</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>BeersServlet</servlet-name>
         <url-pattern>/pages/beers</url-pattern>
