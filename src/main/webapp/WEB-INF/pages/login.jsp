@@ -124,7 +124,7 @@
 <!-- jQuery -->
 <script src="static/js/jquery.min.js"></script>
 
-<script src="static/js/myjs.js"></script>
+<script src="static/js/signin.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="static/js/bootstrap.min.js"></script>

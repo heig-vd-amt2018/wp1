@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * where the URL is equal to /pages/beers, then it should invoke a callback
  * implemented by this class.
  *
- * When this happens, the servlet acts as a controller. Its role is to invoke a
+ * When this happens, the servlet acts as a controller. Its Role is to invoke a
  * service (in the business tier), to receive a model (a Java object, or a graph
  * of Java objects), to make it available to the view and finally to delegate
  * the generation of HTML markup to a JSP page.
