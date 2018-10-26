@@ -49,10 +49,9 @@
                     <h3 class="panel-title">Please sign in</h3>
                 </div>
                 <div class="panel-body">
-                    <form role="form" method="POST" action="auth">
+                    <form role="form" method="POST" action="auth?action=login">
                         <fieldset>
                             <div class="form-group">
-                                <input type="hidden" name="action" value="login">
                                 <input class="form-control" placeholder="E-mail" name="email" id="inputEmail" type="email" required autofocus>
                             </div>
                             <div class="form-group">

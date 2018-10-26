@@ -2,6 +2,7 @@ package ch.heigvd.amt.wp1.web.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,21 +11,22 @@ import javax.servlet.http.HttpServletResponse;
  * This a very simple controller. There is no service to invoke, no model to
  * prepare for the view. We simply delegate rendering of a static view to a
  * JSP page.
- * 
+ *
  * @author Olivier Liechti (olivier.liechti@heig-vd.ch)
  */
+@WebServlet(name = "HomeServlet", urlPatterns = {"/pages/home"})
 public class HomeServlet extends HttpServlet {
-  
-  /**
-   * Handles the HTTP <code>GET</code> method.
-   *
-   * @param request servlet request
-   * @param response servlet response
-   * @throws ServletException if a servlet-specific error occurs
-   * @throws IOException if an I/O error occurs
-   */
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     /*
      * This is a place to experiment. From the JSP page, it is possible to retrieve models from different
      * scopes (request, session, application). The developer can either explicitely tell which scope should be
@@ -36,7 +38,7 @@ public class HomeServlet extends HttpServlet {
      
      * see https://docs.oracle.com/javaee/6/tutorial/doc/bnahu.html#bnahw
     */
-    request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
-  }
+        request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+    }
 
 }

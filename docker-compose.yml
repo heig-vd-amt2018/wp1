@@ -1,0 +1,23 @@
+version: '3'
+services:
+  payara:
+    build: images/payara
+    ports:
+      - "8080:8080"
+      - "4848:4848"
+    links:
+      - mysql:db
+  mysql:
+    build: ./images/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=adminpw
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    build: ./images/phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=adminpw
+    ports:
+      - "6060:80"
+    links:
+      - mysql:db
