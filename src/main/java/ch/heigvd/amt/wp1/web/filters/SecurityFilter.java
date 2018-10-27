@@ -1,13 +1,10 @@
 package ch.heigvd.amt.wp1.web.filters;
 
-import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import ch.heigvd.amt.wp1.model.entities.User;
+
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * This class implements the Filter interface defined in the Servlet API. A
@@ -68,14 +65,13 @@ public class SecurityFilter implements Filter {
              * we need to save the target URL
              */
             request.setAttribute("targetUrl", path);
-
         }
 
         /*
          * If the user has been authenticated before, then the AuthenticationServlet has placed
          * an object (in this case a String) in the HTTP session. We can retrieve it.
          */
-        String principal = (String) httpRequest.getSession().getAttribute("principal");
+        User principal = (User) httpRequest.getSession().getAttribute("principal");
         if (principal == null && isTargetUrlProtected) {
             /*
              * The user has not been authenticated and tries to access a protected resource,

@@ -1,16 +1,24 @@
 package ch.heigvd.amt.wp1.model.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
 @Table(name = "application_developer")
+@NamedQueries({
+        @NamedQuery(name = "ApplicationDeveloper.findByFirstName", query = "SELECT a FROM ApplicationDeveloper a WHERE a.firstName = :firstName"),
+        @NamedQuery(name = "ApplicationDeveloper.findByLastName", query = "SELECT a FROM ApplicationDeveloper a WHERE a.lastName = :lastName"),
+        @NamedQuery(name = "ApplicationDeveloper.findByEmail", query = "SELECT a FROM ApplicationDeveloper a WHERE a.email = :email"),
+        @NamedQuery(name = "ApplicationDeveloper.findAllOwnedApplications", query = "SELECT a FROM Application a WHERE a.applicationDeveloper = :application_developer_id"),
+})
 public class ApplicationDeveloper extends User {
 
-    @OneToMany
+    @OneToMany(
+            mappedBy = "applicationDeveloper",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Application> ownedApplications = new LinkedList<>();
 
     public ApplicationDeveloper() {

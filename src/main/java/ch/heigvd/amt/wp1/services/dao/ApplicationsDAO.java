@@ -13,7 +13,7 @@ public class ApplicationsDAO extends GenericDAO<Application, Long> implements Ap
         Application result = null;
 
         try {
-            result = (Application) em.createNamedQuery("ApplicationDTO.findByName").setParameter("name", name).getSingleResult();
+            result = (Application) em.createNamedQuery("Application.findByName").setParameter("name", name).getSingleResult();
         } catch (NoResultException e) {
             throw new BusinessDomainEntityNotFoundException();
         }

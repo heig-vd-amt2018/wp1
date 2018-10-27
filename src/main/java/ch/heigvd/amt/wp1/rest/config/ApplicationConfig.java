@@ -1,12 +1,11 @@
 package ch.heigvd.amt.wp1.rest.config;
 
+import javax.ws.rs.core.Application;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.core.Application;
 
 /**
- *
  * @author Olivier Liechti
  */
 @javax.ws.rs.ApplicationPath("api")

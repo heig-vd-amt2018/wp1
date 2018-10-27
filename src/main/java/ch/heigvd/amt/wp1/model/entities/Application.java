@@ -8,27 +8,32 @@ import java.util.UUID;
 @Entity
 @Table(name = "application")
 @NamedQueries({
-        @NamedQuery(name = "Application.findByName", query = "SELECT c FROM Application c WHERE c.name = :name"),
+        @NamedQuery(name = "Application.findByName", query = "SELECT a FROM Application a WHERE a.name = :name"),
 })
 public class Application extends AbstractDomainModelEntity<Long> {
+    //! The developer who made the application.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "application_developer_id", nullable = false)
+    private ApplicationDeveloper applicationDeveloper;
+
     //! Creation date of the application.
-    @Column(name="created_date", updatable = false, nullable = false)
+    @Column(name = "created_date", updatable = false, nullable = false)
     private Timestamp createdDate;
 
     //! Name of the application.
-    @Column(name="name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     //! Description of the application.
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
     //! ApplicationDTO key unique ID.
-    @Column(name="api_key", updatable = false, nullable = false)
+    @Column(name = "api_key", updatable = false, nullable = false)
     private String apiKey;
 
     //! ApplicationDTO secret unique ID.
-    @Column(name="api_secret", updatable = false, nullable = false)
+    @Column(name = "api_secret", updatable = false, nullable = false)
     private String apiSecret;
 
     public Application() {
@@ -36,17 +41,27 @@ public class Application extends AbstractDomainModelEntity<Long> {
     }
 
     public Application(
+            ApplicationDeveloper applicationDeveloper,
             Timestamp createdDate,
             String name,
             String description,
             String apiKey,
             String apiSecret
     ) {
+        this.applicationDeveloper = applicationDeveloper;
         this.createdDate = createdDate;
         this.name = name;
         this.description = description;
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
+    }
+
+    public ApplicationDeveloper getApplicationDeveloper() {
+        return applicationDeveloper;
+    }
+
+    public void setApplicationDeveloper(ApplicationDeveloper developer) {
+        this.applicationDeveloper = developer;
     }
 
     public Timestamp getCreatedDate() {

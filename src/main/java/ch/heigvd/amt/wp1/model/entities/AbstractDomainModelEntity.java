@@ -1,7 +1,7 @@
 package ch.heigvd.amt.wp1.model.entities;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @MappedSuperclass
 public abstract class AbstractDomainModelEntity<PK> implements Serializable {

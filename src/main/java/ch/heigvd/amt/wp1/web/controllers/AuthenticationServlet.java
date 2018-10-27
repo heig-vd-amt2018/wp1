@@ -1,11 +1,18 @@
 package ch.heigvd.amt.wp1.web.controllers;
 
-import java.io.IOException;
+import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
+import ch.heigvd.amt.wp1.model.entities.User;
+import ch.heigvd.amt.wp1.services.dao.AdministratorsDAOLocal;
+import ch.heigvd.amt.wp1.services.dao.ApplicationDevelopersDAOLocal;
+import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
+
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * This servlet illustrates various aspects of the Servlet API.
@@ -38,6 +45,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AuthenticationServlet", urlPatterns = {"/auth"})
 public class AuthenticationServlet extends HttpServlet {
 
+    @EJB
+    private AdministratorsDAOLocal administratorsDAO;
+
+    @EJB
+    private ApplicationDevelopersDAOLocal applicationDevelopersDAO;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,32 +63,57 @@ public class AuthenticationServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    /*
-     Get the parameter values, which have been transmitted either in the query string
-     (for GET requests) or in the body (for POST requests).
-     */
         String action = request.getParameter("action");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-    /*
-     When the user is not logged in yet and tries to access /pages/xxx, then he
-     is redirected to the login page by the security filter. The security filter
-     stores the targer url (/pages/xxx) in the request context, so that we can
-     send redirect the user to the desired location after successful authentication.
-
-     If the user accessed /auth directly and there is no targetUrl, then we send him
-     to the home page.
-     */
+        // When the user is not logged in yet and tries to access /pages/xxx, then he
+        // is redirected to the login page by the security filter. The security filter
+        // stores the targer url (/pages/xxx) in the request context, so that we can
+        // send redirect the user to the desired location after successful authentication.
+        //
+        // If the user accessed /auth directly and there is no targetUrl, then we send him
+        // to the home page.
         String targetUrl = (String) request.getAttribute("targetUrl");
+
         if (targetUrl == null) {
             targetUrl = "/pages/home";
         }
+
         targetUrl = request.getContextPath() + targetUrl;
 
         if ("login".equals(action)) {
-            request.getSession().setAttribute("principal", email);
-            response.sendRedirect(targetUrl);
+
+            User user = null;
+
+            try {
+                user = applicationDevelopersDAO.findByEmail(email);
+
+                // The user has not been found as a regular user.
+                // Will try to find the user as an administrator user.
+                if (user == null) {
+                    user = administratorsDAO.findByEmail(email);
+                }
+            } catch (BusinessDomainEntityNotFoundException e) {
+                // Continue
+            }
+
+            if (user == null || !user.getPassword().equals(password)) {
+                request.setAttribute("error", "Username of password incorrect.");
+                request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+            } else if (user.getState().equals(User.State.DISABLED)) {
+                request.setAttribute("error", "This account has been disabled.");
+                request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);;
+            } else if (user.getState().equals(User.State.RESET)) {
+                request.setAttribute("error", "You must reset your password.");
+                request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+                System.out.println("User has been reset.");
+            } else {
+                // Save the user in the session
+                request.getSession().setAttribute("principal", user);
+                response.sendRedirect(targetUrl);
+            }
+
         } else if ("logout".equals(action)) {
             request.getSession().invalidate();
             response.sendRedirect(request.getContextPath());
@@ -84,8 +122,6 @@ public class AuthenticationServlet extends HttpServlet {
         }
 
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -114,15 +150,4 @@ public class AuthenticationServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

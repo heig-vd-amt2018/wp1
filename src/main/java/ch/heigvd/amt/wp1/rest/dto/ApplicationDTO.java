@@ -1,8 +1,6 @@
 package ch.heigvd.amt.wp1.rest.dto;
 
-import ch.heigvd.amt.wp1.model.entities.AbstractDomainModelEntity;
-
-import javax.persistence.*;
+import javax.persistence.PrePersist;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
@@ -79,12 +77,5 @@ public class ApplicationDTO {
 
     public void setApiSecret(String apiSecret) {
         this.apiSecret = apiSecret;
-    }
-
-    @PrePersist
-    void onCreate() {
-        this.setCreatedDate(new Timestamp((new Date()).getTime()));
-        this.setApiKey(UUID.randomUUID().toString());
-        this.setApiSecret(UUID.randomUUID().toString());
     }
 }

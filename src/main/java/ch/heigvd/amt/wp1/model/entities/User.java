@@ -1,8 +1,9 @@
 package ch.heigvd.amt.wp1.model.entities;
 
-import ch.heigvd.amt.wp1.model.entities.AbstractDomainModelEntity;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class User extends AbstractDomainModelEntity<Long> {
@@ -19,28 +20,28 @@ public abstract class User extends AbstractDomainModelEntity<Long> {
     }
 
     //! First name of the user.
-    @Column(name="first_name", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     //! Last name of the user.
-    @Column(name="last_name", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     //! Email of the user.
-    @Column(name="email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     //! Password of the user's account.
-    @Column(name="password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     //! Role of the user's account.
-    @Column(name="role", nullable = false)
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
     //! State of the user's account.
-    @Column(name="state", nullable = false)
+    @Column(name = "state", nullable = false)
     @Enumerated(EnumType.STRING)
     private State state;
 

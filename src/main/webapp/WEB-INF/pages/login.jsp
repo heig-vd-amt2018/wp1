@@ -3,8 +3,8 @@
     Created on : Sep 9, 2015, 11:37:49 AM
     Author     : Olivier Liechti (olivier.liechti@heig-vd.ch)
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 
@@ -34,6 +34,9 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-login">
+                <c:if test = "${error != null}">
+                <p>${error}<p>
+                </c:if>
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-6">
@@ -50,45 +53,40 @@
                         <div class="col-lg-12">
                             <form id="login-form" action="auth?action=login" method="post" role="form" style="display: block;">
                                 <div class="form-group">
-                                    <input type="email" name="email" id="inputEmail" class="form-control" tabindex="1" placeholder="Email address" required autofocus>
+                                    <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="password" name ="password" id="inputPassword" class="form-control" tabindex="2" placeholder="Password" required>
-                                </div>
-                                <div class="form-group text-center">
-                                    <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-                                    <label for="remember"> Remember Me</label>
+                                    <input type="password" name ="password" class="form-control" placeholder="Password" required>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+                                            <input type="submit" name="login-submit" class="form-control btn btn-login" value="Log in">
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
                             <form id="register-form" action="register" method="post" role="form" style="display: none;">
                                 <div class="form-group">
-                                    <input type="text" name="firstname" id="firstname" tabindex="1" class="form-control" placeholder="Firstname" value="">
+                                    <input type="text" name="firstName" class="form-control" placeholder="First name" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="lastname" id="lastname" tabindex="1" class="form-control" placeholder="Lastname" value="">
+                                    <input type="text" name="lastName" class="form-control" placeholder="Last name" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                                    <input type="email" name="email" class="form-control" placeholder="Email" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                    <input type="password" name="password" class="form-control" placeholder="Password">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+                                    <input type="password" name="passwordConfirmation" class="form-control" placeholder="Confirm password">
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+                                            <input type="submit" name="register-submit" class="form-control btn btn-register" value="Register now">
                                         </div>
                                     </div>
                                 </div>

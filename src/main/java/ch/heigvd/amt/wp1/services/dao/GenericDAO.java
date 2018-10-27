@@ -48,7 +48,7 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
 
     @Override
     public long count() {
-        return (long)em.createQuery("Select count(t) from " + jpaEntityClass.getSimpleName() + " t").getSingleResult();
+        return (long) em.createQuery("Select count(t) from " + jpaEntityClass.getSimpleName() + " t").getSingleResult();
     }
 
     @Override
@@ -67,9 +67,8 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
 
     @Override
     public List<T> findAllByPage(int pageSize, int pageIndex) {
-        return em.createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t").setMaxResults(pageSize).setFirstResult(pageIndex*pageSize).getResultList();
+        return em.createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t").setMaxResults(pageSize).setFirstResult(pageIndex * pageSize).getResultList();
     }
-
 
 
 }
