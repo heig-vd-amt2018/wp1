@@ -7,7 +7,7 @@ import javax.persistence.*;
 public abstract class AbstractDomainModelEntity<PK> implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", updatable = false, nullable = false)
     private PK id;
 

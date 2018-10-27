@@ -12,7 +12,6 @@ public class Administrator extends User {
     }
 
     public Administrator(
-            int id,
             String firstName,
             String lastName,
             String email,

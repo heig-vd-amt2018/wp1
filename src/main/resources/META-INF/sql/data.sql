@@ -1,0 +1,1 @@
+INSERT IGNORE INTO `administrator` (`id`, `email`, `first_name`, `last_name`, `password`, `role`, `state`) VALUES (1, 'admin@wp1.ch', 'Administrator', '', 'adminadmin', 'ADMINISTRATOR', 'ENABLED');
