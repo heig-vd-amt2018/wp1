@@ -11,9 +11,14 @@ import java.io.IOException;
 public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
+        //TODO Register the new user
+
+        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
     }
 }
