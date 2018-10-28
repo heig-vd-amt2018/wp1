@@ -38,6 +38,12 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- DataTables CSS -->
+    <link href="static/css/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="static/css/dataTables.responsive.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -52,7 +58,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">AMT - WP1</a>
+            <a class="navbar-brand" href="./">AMT - WP1</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -63,9 +69,7 @@
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    <li><a href="./pages/profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
                     </li>
                     <li class="divider"></li>
                     <li><a href="./auth?action=logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -80,38 +84,11 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        <!-- /input-group -->
+                    <li>
+                        <a href="pages/users"><i class="fa fa-user fa-fw"></i> Users</a>
                     </li>
                     <li>
-                        <a href="pages/beers"><i class="fa fa-beer fa-fw"></i> Beers</a>
-                    </li>
-                    <li>
-                        <a href="pages/ugly"><i class="fa fa-warning fa-fw"></i> Ugly servlet</a>
-                    </li>
-                    <li>
-                        <a href="data/json"><i class="fa fa-bars fa-fw"></i> Json servlet</a>
-                    </li>
-                    <li>
-                        <a href="data/graph"><i class="fa fa-bar-chart fa-fw"></i> Graph servlet</a>
-                    </li>
-                    <li>
-                        <a href="pages/ajax"><i class="fa fa-send fa-fw"></i> AJAX page servlet</a>
-                    </li>
-                    <li>
-                        <a href="pages/concurrency"><i class="fa fa-cog fa-fw"></i> Concurrency</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="pages/about"><i class="fa fa-question fa-fw"></i> About</a>
+                        <a href="pages/applications"><i class="fa fa-list fa-fw"></i> Applications</a>
                     </li>
                 </ul>
             </div>

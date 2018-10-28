@@ -1,11 +1,16 @@
 package ch.heigvd.amt.wp1.rest.dto;
 
+import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
+
 import javax.persistence.PrePersist;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
 public class ApplicationDTO {
+    //! The developer who made the application.
+    private ApplicationDeveloper applicationDeveloper;
+
     //! Creation date of the application.
     private Timestamp createdDate;
 
@@ -26,17 +31,21 @@ public class ApplicationDTO {
     }
 
     public ApplicationDTO(
-            Timestamp createdDate,
+            ApplicationDeveloper applicationDeveloper,
             String name,
-            String description,
-            String apiKey,
-            String apiSecret
+            String description
     ) {
-        this.createdDate = createdDate;
+        this.applicationDeveloper = applicationDeveloper;
         this.name = name;
         this.description = description;
-        this.apiKey = apiKey;
-        this.apiSecret = apiSecret;
+    }
+
+    public ApplicationDeveloper getApplicationDeveloper() {
+        return applicationDeveloper;
+    }
+
+    public void setApplicationDeveloper(ApplicationDeveloper applicationDeveloper) {
+        this.applicationDeveloper = applicationDeveloper;
     }
 
     public Timestamp getCreatedDate() {

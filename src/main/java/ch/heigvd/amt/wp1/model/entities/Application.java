@@ -42,18 +42,15 @@ public class Application extends AbstractDomainModelEntity<Long> {
 
     public Application(
             ApplicationDeveloper applicationDeveloper,
-            Timestamp createdDate,
             String name,
-            String description,
-            String apiKey,
-            String apiSecret
+            String description
     ) {
         this.applicationDeveloper = applicationDeveloper;
-        this.createdDate = createdDate;
+        this.createdDate = new Timestamp((new Date()).getTime());
         this.name = name;
         this.description = description;
-        this.apiKey = apiKey;
-        this.apiSecret = apiSecret;
+        this.apiKey = UUID.randomUUID().toString();
+        this.apiSecret = UUID.randomUUID().toString();
     }
 
     public ApplicationDeveloper getApplicationDeveloper() {
@@ -102,12 +99,5 @@ public class Application extends AbstractDomainModelEntity<Long> {
 
     public void setApiSecret(String apiSecret) {
         this.apiSecret = apiSecret;
-    }
-
-    @PrePersist
-    void onCreate() {
-        this.setCreatedDate(new Timestamp((new Date()).getTime()));
-        this.setApiKey(UUID.randomUUID().toString());
-        this.setApiSecret(UUID.randomUUID().toString());
     }
 }

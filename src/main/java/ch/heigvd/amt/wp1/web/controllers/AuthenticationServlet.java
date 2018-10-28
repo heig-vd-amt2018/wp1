@@ -88,14 +88,14 @@ public class AuthenticationServlet extends HttpServlet {
 
             try {
                 user = applicationDevelopersDAO.findByEmail(email);
-
+            } catch (BusinessDomainEntityNotFoundException e) {
                 // The user has not been found as a regular user.
                 // Will try to find the user as an administrator user.
-                if (user == null) {
+                try {
                     user = administratorsDAO.findByEmail(email);
+                } catch (BusinessDomainEntityNotFoundException e1) {
+                    // Continue
                 }
-            } catch (BusinessDomainEntityNotFoundException e) {
-                // Continue
             }
 
             if (user == null || !user.getPassword().equals(password)) {

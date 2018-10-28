@@ -14,6 +14,11 @@
     <script src="static/js/raphael.min.js"></script>
     <script src="static/js/morris.min.js"></script>
 
+    <!-- DataTables JavaScript -->
+    <script src="static/js/jquery.dataTables.min.js"></script>
+    <script src="static/js/dataTables.bootstrap.min.js"></script>
+    <script src="static/js/dataTables.responsive.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="static/js/sb-admin-2.js"></script>
 

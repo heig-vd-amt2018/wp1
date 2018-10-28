@@ -34,7 +34,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-login">
-                <c:if test = "${error != null}">
+                <c:if test="${error != null}">
                 <p>${error}<p>
                 </c:if>
                 <div class="panel-heading">
@@ -51,28 +51,34 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form id="login-form" action="auth?action=login" method="post" role="form" style="display: block;">
+                            <form id="login-form" action="auth?action=login" method="post" role="form"
+                                  style="display: block;">
                                 <div class="form-group">
-                                    <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+                                    <input type="email" name="email" class="form-control" placeholder="Email address"
+                                           required autofocus>
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="password" name ="password" class="form-control" placeholder="Password" required>
+                                    <input type="password" name="password" class="form-control" placeholder="Password"
+                                           required>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" class="form-control btn btn-login" value="Log in">
+                                            <input type="submit" name="login-submit" class="form-control btn btn-login"
+                                                   value="Log in">
                                         </div>
                                     </div>
                                 </div>
                             </form>
                             <form id="register-form" action="register" method="post" role="form" style="display: none;">
                                 <div class="form-group">
-                                    <input type="text" name="firstName" class="form-control" placeholder="First name" value="">
+                                    <input type="text" name="firstName" class="form-control" placeholder="First name"
+                                           value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="lastName" class="form-control" placeholder="Last name" value="">
+                                    <input type="text" name="lastName" class="form-control" placeholder="Last name"
+                                           value="">
                                 </div>
                                 <div class="form-group">
                                     <input type="email" name="email" class="form-control" placeholder="Email" value="">
@@ -81,12 +87,14 @@
                                     <input type="password" name="password" class="form-control" placeholder="Password">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="passwordConfirmation" class="form-control" placeholder="Confirm password">
+                                    <input type="password" name="passwordConfirmation" class="form-control"
+                                           placeholder="Confirm password">
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" class="form-control btn btn-register" value="Register now">
+                                            <input type="submit" name="register-submit"
+                                                   class="form-control btn btn-register" value="Register now">
                                         </div>
                                     </div>
                                 </div>

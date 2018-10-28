@@ -3,7 +3,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">My applications</h1>
+            <h1 class="page-header">View all users</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -12,17 +12,18 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Applications
+                    Users
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover" id="applications">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th><code>API_KEY</code></th>
-                            <th><code>API_SECRET</code></th>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>State</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -47,10 +48,11 @@
             "responsive": true,
             //"ajax": "api/applications",
             "columns": [
-                { "data": "name" },
-                { "data": "description" },
-                { "data": "apiKey" },
-                { "data": "apiSecret" },
+                { "data": "firstName" },
+                { "data": "lastName" },
+                { "data": "email" },
+                { "data": "role" },
+                { "data": "state" },
             ],
             "columnDefs": [
                 {

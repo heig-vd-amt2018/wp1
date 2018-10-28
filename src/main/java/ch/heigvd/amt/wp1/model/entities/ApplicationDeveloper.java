@@ -37,6 +37,10 @@ public class ApplicationDeveloper extends User {
         this.ownedApplications = ownedApplications;
     }
 
+    public void addOwnedApplication(Application application) {
+        ownedApplications.add(application);
+    }
+
     public List<Application> getOwnedApplications() {
         return ownedApplications;
     }
