@@ -7,9 +7,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
-public class ApplicationDTO {
-    //! The developer who made the application.
-    private ApplicationDeveloper applicationDeveloper;
+public class ApplicationDTO extends AbstractDTO<Long> {
 
     //! Creation date of the application.
     private Timestamp createdDate;
@@ -31,21 +29,11 @@ public class ApplicationDTO {
     }
 
     public ApplicationDTO(
-            ApplicationDeveloper applicationDeveloper,
             String name,
             String description
     ) {
-        this.applicationDeveloper = applicationDeveloper;
         this.name = name;
         this.description = description;
-    }
-
-    public ApplicationDeveloper getApplicationDeveloper() {
-        return applicationDeveloper;
-    }
-
-    public void setApplicationDeveloper(ApplicationDeveloper applicationDeveloper) {
-        this.applicationDeveloper = applicationDeveloper;
     }
 
     public Timestamp getCreatedDate() {

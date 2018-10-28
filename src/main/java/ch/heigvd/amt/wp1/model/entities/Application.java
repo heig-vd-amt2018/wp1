@@ -8,7 +8,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "application")
 @NamedQueries({
-        @NamedQuery(name = "Application.findByName", query = "SELECT a FROM Application a WHERE a.name = :name"),
+        @NamedQuery(name = "Application.findByName", query = "SELECT a FROM Application a WHERE a.name = :name AND a.applicationDeveloper = :applicationDeveloper"),
+        @NamedQuery(name = "Application.findAllByDeveloper", query = "SELECT a FROM Application a WHERE a.applicationDeveloper = :applicationDeveloper"),
 })
 public class Application extends AbstractDomainModelEntity<Long> {
     //! The developer who made the application.
@@ -51,14 +52,8 @@ public class Application extends AbstractDomainModelEntity<Long> {
         this.description = description;
         this.apiKey = UUID.randomUUID().toString();
         this.apiSecret = UUID.randomUUID().toString();
-    }
 
-    public ApplicationDeveloper getApplicationDeveloper() {
-        return applicationDeveloper;
-    }
-
-    public void setApplicationDeveloper(ApplicationDeveloper developer) {
-        this.applicationDeveloper = developer;
+        applicationDeveloper.addOwnedApplication(this);
     }
 
     public Timestamp getCreatedDate() {

@@ -35,14 +35,22 @@ public class ApplicationsRessource {
     @GET
     @Produces("application/json")
     public List<ApplicationDTO> getApplications() {
+
+        ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
+
         List<ApplicationDTO> result = new ArrayList<>();
 
-        List<Application> applications = applicationsDAO.findAll();
+        List<Application> applications = null;
+        try {
+            applications = applicationsDAO.findAllByDeveloper(user);
 
-        for (Application application : applications) {
-            ApplicationDTO dto = new ApplicationDTO();
-            populateDTOFromEntity(application, dto);
-            result.add(dto);
+            for (Application application : applications) {
+                ApplicationDTO dto = new ApplicationDTO();
+                populateDTOFromEntity(application, dto);
+                result.add(dto);
+            }
+        } catch (BusinessDomainEntityNotFoundException e) {
+            // Continue
         }
 
         return result;
@@ -58,7 +66,7 @@ public class ApplicationsRessource {
         long applicationId;
 
         try {
-            applicationId = applicationsDAO.findByName(applicationDTO.getName()).getId();
+            applicationId = applicationsDAO.findByName(applicationDTO.getName(), user).getId();
         } catch (BusinessDomainEntityNotFoundException ex) {
             alreadyBeenCreated = false;
 
@@ -115,7 +123,7 @@ public class ApplicationsRessource {
     private void populateDTOFromEntity(Application application, ApplicationDTO dto) {
         ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
 
-        dto.setApplicationDeveloper(user);
+        dto.setId(application.getId());
         dto.setCreatedDate(application.getCreatedDate());
         dto.setName(application.getName());
         dto.setDescription(application.getDescription());

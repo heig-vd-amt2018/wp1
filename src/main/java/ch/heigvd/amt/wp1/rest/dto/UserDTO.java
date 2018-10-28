@@ -1,6 +1,6 @@
 package ch.heigvd.amt.wp1.rest.dto;
 
-public abstract class UserDTO {
+public abstract class UserDTO extends AbstractDTO<Long> {
 
     public enum Role {
         ADMINISTRATOR,
