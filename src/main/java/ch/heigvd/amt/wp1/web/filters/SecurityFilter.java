@@ -3,6 +3,7 @@ package ch.heigvd.amt.wp1.web.filters;
 import ch.heigvd.amt.wp1.model.entities.User;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -26,6 +27,7 @@ import java.io.IOException;
  *
  * @author Olivier Liechti (olivier.liechti@heig-vd.ch)
  */
+@WebFilter(filterName="SecurityFilter")
 public class SecurityFilter implements Filter {
 
     /**

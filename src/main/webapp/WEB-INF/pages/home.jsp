@@ -9,6 +9,12 @@
     </div>
     <!-- /.row -->
     <div class="row">
+        <c:if test="${error != null}">
+        <div class="alert alert-dismissable ${error.cssClass}">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            ${error.message}
+        </div>
+        </c:if>
         <div class="alert alert-info" role="alert">
             You are logged in as ${principal}.
         </div>

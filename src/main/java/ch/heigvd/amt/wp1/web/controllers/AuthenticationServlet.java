@@ -2,6 +2,7 @@ package ch.heigvd.amt.wp1.web.controllers;
 
 import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
 import ch.heigvd.amt.wp1.model.entities.User;
+import ch.heigvd.amt.wp1.services.business.errors.ErrorAlert;
 import ch.heigvd.amt.wp1.services.dao.AdministratorsDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.ApplicationDevelopersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
@@ -99,15 +100,14 @@ public class AuthenticationServlet extends HttpServlet {
             }
 
             if (user == null || !user.getPassword().equals(password)) {
-                request.setAttribute("error", "Username of password incorrect.");
+                request.setAttribute("error", new ErrorAlert("Username of password incorrect."));
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
             } else if (user.getState().equals(User.State.DISABLED)) {
-                request.setAttribute("error", "This account has been disabled.");
+                request.setAttribute("error", new ErrorAlert("This account has been disabled."));
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);;
             } else if (user.getState().equals(User.State.RESET)) {
-                request.setAttribute("error", "You must reset your password.");
+                request.setAttribute("error", new ErrorAlert("You must reset your password."));
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-                System.out.println("User has been reset.");
             } else {
                 // Save the user in the session
                 request.getSession().setAttribute("principal", user);
