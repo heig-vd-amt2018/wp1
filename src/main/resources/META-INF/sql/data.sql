@@ -1,1 +1,4 @@
 INSERT IGNORE INTO `administrator` (`id`, `email`, `first_name`, `last_name`, `password`, `role`, `state`) VALUES (1, 'admin@wp1.ch', 'Administrator', '', 'adminadmin', 'ADMINISTRATOR', 'ENABLED');
+INSERT IGNORE INTO `application_developer` (`id`, `email`, `first_name`, `last_name`, `password`, `role`, `state`) VALUES (2, 'admin@wp2.ch', 'je', '', 'adminadmin', 'APPLICATION_DEVELOPER', 'ENABLED');
+INSERT IGNORE INTO `application_developer` (`id`, `email`, `first_name`, `last_name`, `password`, `role`, `state`) VALUES (3, 'admin@wp3.ch', 'veux', '', 'adminadmin', 'APPLICATION_DEVELOPER', 'ENABLED');
+INSERT IGNORE INTO `application_developer` (`id`, `email`, `first_name`, `last_name`, `password`, `role`, `state`) VALUES (4, 'admin@wp4.ch', 'mourrir', '', 'adminadmin', 'APPLICATION_DEVELOPER', 'ENABLED');

@@ -92,7 +92,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         $('#applications').DataTable({
             "responsive": true,
-            //"ajax": "api/applications",
+            "ajax": "api/users",
             "columns": [
                 {"data": "firstName"},
                 {"data": "lastName"},
