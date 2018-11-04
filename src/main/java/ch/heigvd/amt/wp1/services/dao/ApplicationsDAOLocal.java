@@ -9,7 +9,9 @@ import java.util.List;
 @Local
 public interface ApplicationsDAOLocal extends IGenericDAO<Application, Long> {
 
-    Application findByName(String name, ApplicationDeveloper applicationDeveloper) throws BusinessDomainEntityNotFoundException;
+    Application findByIdByDeveloper(Long id, ApplicationDeveloper applicationDeveloper) throws BusinessDomainEntityNotFoundException;
 
-    List<Application> findAllByDeveloper(ApplicationDeveloper applicationDeveloper) throws BusinessDomainEntityNotFoundException;
+    Application findByNameByDeveloper(String name, ApplicationDeveloper applicationDeveloper) throws BusinessDomainEntityNotFoundException;
+
+    List<Application> findAllByDeveloper(ApplicationDeveloper applicationDeveloper, int length, int start) throws BusinessDomainEntityNotFoundException;
 }

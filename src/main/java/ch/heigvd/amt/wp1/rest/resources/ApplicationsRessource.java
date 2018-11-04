@@ -3,6 +3,7 @@ package ch.heigvd.amt.wp1.rest.resources;
 import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
 import ch.heigvd.amt.wp1.rest.dto.ApplicationDTO;
+import ch.heigvd.amt.wp1.rest.dto.DataTablesDTO;
 import ch.heigvd.amt.wp1.services.dao.ApplicationsDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 
@@ -34,24 +35,29 @@ public class ApplicationsRessource {
 
     @GET
     @Produces("application/json")
-    public List<ApplicationDTO> getApplications() {
+    public DataTablesDTO getApplications(@QueryParam("length") int length, @QueryParam("start") int start, @QueryParam("draw") int draw) {
 
         ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
 
-        List<ApplicationDTO> result = new ArrayList<>();
+        List<ApplicationDTO> data = new ArrayList<>();
 
         List<Application> applications = null;
         try {
-            applications = applicationsDAO.findAllByDeveloper(user);
+
+            applications = applicationsDAO.findAllByDeveloper(user, length, start);
 
             for (Application application : applications) {
                 ApplicationDTO dto = new ApplicationDTO();
                 populateDTOFromEntity(application, dto);
-                result.add(dto);
+                data.add(dto);
             }
         } catch (BusinessDomainEntityNotFoundException e) {
             // Continue
         }
+
+        long recordsTotal = applicationsDAO.count();
+
+        DataTablesDTO result = new DataTablesDTO(draw, recordsTotal, data);
 
         return result;
     }
@@ -66,7 +72,7 @@ public class ApplicationsRessource {
         long applicationId;
 
         try {
-            applicationId = applicationsDAO.findByName(applicationDTO.getName(), user).getId();
+            applicationId = applicationsDAO.findByNameByDeveloper(applicationDTO.getName(), user).getId();
         } catch (BusinessDomainEntityNotFoundException ex) {
             alreadyBeenCreated = false;
 
@@ -121,8 +127,6 @@ public class ApplicationsRessource {
     }
 
     private void populateDTOFromEntity(Application application, ApplicationDTO dto) {
-        ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
-
         dto.setId(application.getId());
         dto.setCreatedDate(application.getCreatedDate());
         dto.setName(application.getName());

@@ -69,6 +69,4 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
     public List<T> findAllByPage(int pageSize, int pageIndex) {
         return em.createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t").setMaxResults(pageSize).setFirstResult(pageIndex * pageSize).getResultList();
     }
-
-
 }

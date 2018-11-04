@@ -1,11 +1,6 @@
 package ch.heigvd.amt.wp1.rest.dto;
 
-import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
-
-import javax.persistence.PrePersist;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.UUID;
 
 public class ApplicationDTO extends AbstractDTO<Long> {
 

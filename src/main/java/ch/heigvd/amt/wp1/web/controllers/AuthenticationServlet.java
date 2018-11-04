@@ -120,7 +120,6 @@ public class AuthenticationServlet extends HttpServlet {
         } else {
             response.sendRedirect(targetUrl);
         }
-
     }
 
     /**

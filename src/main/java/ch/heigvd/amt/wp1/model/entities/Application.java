@@ -8,7 +8,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "application")
 @NamedQueries({
-        @NamedQuery(name = "Application.findByName", query = "SELECT a FROM Application a WHERE a.name = :name AND a.applicationDeveloper = :applicationDeveloper"),
+        @NamedQuery(name = "Application.findByIdByDeveloper", query = "SELECT a FROM Application a WHERE a.id = :id AND a.applicationDeveloper = :applicationDeveloper"),
+        @NamedQuery(name = "Application.findByNameByDeveloper", query = "SELECT a FROM Application a WHERE a.name = :name AND a.applicationDeveloper = :applicationDeveloper"),
         @NamedQuery(name = "Application.findAllByDeveloper", query = "SELECT a FROM Application a WHERE a.applicationDeveloper = :applicationDeveloper"),
 })
 public class Application extends AbstractDomainModelEntity<Long> {
