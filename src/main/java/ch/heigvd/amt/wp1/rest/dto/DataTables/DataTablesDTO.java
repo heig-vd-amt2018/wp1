@@ -1,19 +1,19 @@
-package ch.heigvd.amt.wp1.rest.dto;
+package ch.heigvd.amt.wp1.rest.dto.DataTables;
 
 import java.util.List;
 
-public class DataTablesDTO {
+public abstract class DataTablesDTO<T> {
 
     private long draw;
     private long recordsTotal;
     private long recordsFiltered;
-    private List<ApplicationDTO> data;
+    private List<T> data;
 
     public DataTablesDTO() {
 
     }
 
-    public DataTablesDTO(long draw, long recordsTotal, List<ApplicationDTO> data) {
+    public DataTablesDTO(long draw, long recordsTotal, List<T> data) {
         this.draw = draw;
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsTotal;
@@ -44,11 +44,11 @@ public class DataTablesDTO {
         this.recordsFiltered = recordsFiltered;
     }
 
-    public List<ApplicationDTO> getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(List<ApplicationDTO> data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
 }

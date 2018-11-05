@@ -62,7 +62,7 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="applications">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="users">
                         <thead>
                         <tr>
                             <th>First name</th>
@@ -89,27 +89,54 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        $('#applications').DataTable({
-            "responsive": true,
-            "ajax": "api/users",
+    document.addEventListener("DOMContentLoaded", function() {
+        $('#users').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "api/users",
+                "method": "GET",
+            },
             "columns": [
-                {"data": "firstName"},
-                {"data": "lastName"},
-                {"data": "email"},
-                {"data": "role"},
-                {"data": "state"},
+                { "data": "firstName" },
+                { "data": "lastName" },
+                { "data": "email" },
+                { "data": "role" },
+                { "data": "state" },
+                { "data": "id"}
             ],
             "columnDefs": [
                 {
+                    "targets": 3,
+                    "data": "id",
+                    "render": function(data) {
+                        return '<code>' + data + '</code>';
+                    }
+                },
+                {
+                    "targets": 4,
+                    "data": "id",
+                    "render": function(data) {
+                        return '<code>' + data + '</code>';
+                    }
+                },
+                {
                     "targets": -1,
-                    "data": null,
-                    "defaultContent": "<button>Click!</button>"
+                    "render": function(data) {
+                        actions = '<a href="pages/users?userId=' + data + '" class="btn btn-default"><i class="fa fa-eye"></a>';
+
+                        return actions;
+                    }
                 }
             ],
             "language": {
-                "emptyTable": "No data available in table"
-            }
+                "emptyTable": "No application in table.",
+                "zeroRecords": "There were no matching applications found."
+            },
+            "searching": false,
+            "ordering": false,
+            "paging": true,
+            "responsive": true
         });
     });
 </script>

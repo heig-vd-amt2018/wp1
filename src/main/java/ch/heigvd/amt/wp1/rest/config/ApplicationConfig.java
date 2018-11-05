@@ -42,6 +42,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(ch.heigvd.amt.wp1.rest.resources.ApplicationsRessource.class);
+        resources.add(ch.heigvd.amt.wp1.rest.resources.UsersRessource.class);
     }
 
 }

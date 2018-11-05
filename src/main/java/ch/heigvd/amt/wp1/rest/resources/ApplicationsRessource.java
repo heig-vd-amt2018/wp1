@@ -3,7 +3,8 @@ package ch.heigvd.amt.wp1.rest.resources;
 import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
 import ch.heigvd.amt.wp1.rest.dto.ApplicationDTO;
-import ch.heigvd.amt.wp1.rest.dto.DataTablesDTO;
+import ch.heigvd.amt.wp1.rest.dto.DataTables.ApplicationDataTablesDTO;
+import ch.heigvd.amt.wp1.rest.dto.DataTables.DataTablesDTO;
 import ch.heigvd.amt.wp1.services.dao.ApplicationsDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 
@@ -57,7 +58,7 @@ public class ApplicationsRessource {
 
         long recordsTotal = applicationsDAO.count();
 
-        DataTablesDTO result = new DataTablesDTO(draw, recordsTotal, data);
+        DataTablesDTO result = new ApplicationDataTablesDTO(draw, recordsTotal, data);
 
         return result;
     }

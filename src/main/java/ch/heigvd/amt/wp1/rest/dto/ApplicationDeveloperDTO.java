@@ -1,11 +1,18 @@
 package ch.heigvd.amt.wp1.rest.dto;
 
+import ch.heigvd.amt.wp1.model.entities.Application;
+import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class ApplicationDeveloperDTO extends UserDTO {
 
     private List<ApplicationDTO> ownedApplications = new LinkedList<>();
+
+    public ApplicationDeveloperDTO(){
+
+    }
 
     public ApplicationDeveloperDTO(
             String firstName,
