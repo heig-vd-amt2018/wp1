@@ -95,7 +95,7 @@
             "serverSide": true,
             "ajax": {
                 "url": "api/users",
-                "method": "GET",
+                "method": "GET"
             },
             "columns": [
                 { "data": "firstName" },
@@ -130,8 +130,8 @@
                 }
             ],
             "language": {
-                "emptyTable": "No application in table.",
-                "zeroRecords": "There were no matching applications found."
+                "emptyTable": "No user in table.",
+                "zeroRecords": "There were no matching users found."
             },
             "searching": false,
             "ordering": false,

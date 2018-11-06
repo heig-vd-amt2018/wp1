@@ -1,5 +1,7 @@
 package ch.heigvd.amt.wp1.rest.dto;
 
+import ch.heigvd.amt.wp1.model.entities.User;
+
 public abstract class UserDTO extends AbstractDTO<Long> {
 
     public enum Role {
@@ -97,5 +99,25 @@ public abstract class UserDTO extends AbstractDTO<Long> {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public abstract void fromEntity(User user);
+
+    protected UserDTO.Role convertRole(User.Role uRole) {
+        if (uRole == User.Role.ADMINISTRATOR) {
+            return UserDTO.Role.ADMINISTRATOR;
+        } else {
+            return UserDTO.Role.APPLICATION_DEVELOPER;
+        }
+    }
+
+    protected UserDTO.State convertState(User.State uState) {
+        if (uState == User.State.DISABLED) {
+            return UserDTO.State.DISABLED;
+        } else if (uState == User.State.ENABLED) {
+            return UserDTO.State.ENABLED;
+        } else {
+            return UserDTO.State.RESET;
+        }
     }
 }

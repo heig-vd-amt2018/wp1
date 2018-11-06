@@ -49,7 +49,7 @@ public class ApplicationsRessource {
 
             for (Application application : applications) {
                 ApplicationDTO dto = new ApplicationDTO();
-                populateDTOFromEntity(application, dto);
+                dto.fromEntity(application);
                 data.add(dto);
             }
         } catch (BusinessDomainEntityNotFoundException e) {
@@ -125,14 +125,5 @@ public class ApplicationsRessource {
         Application application = applicationsDAO.findById(id);
         applicationsDAO.delete(application);
         return Response.ok().build();
-    }
-
-    private void populateDTOFromEntity(Application application, ApplicationDTO dto) {
-        dto.setId(application.getId());
-        dto.setCreatedDate(application.getCreatedDate());
-        dto.setName(application.getName());
-        dto.setDescription(application.getDescription());
-        dto.setApiKey(application.getApiKey());
-        dto.setApiSecret(application.getApiSecret());
     }
 }

@@ -1,14 +1,18 @@
 package ch.heigvd.amt.wp1.rest.resources;
 
 
+import ch.heigvd.amt.wp1.model.entities.Administrator;
 import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
 import ch.heigvd.amt.wp1.model.entities.User;
+import ch.heigvd.amt.wp1.rest.dto.AdministratorDTO;
 import ch.heigvd.amt.wp1.rest.dto.ApplicationDTO;
 import ch.heigvd.amt.wp1.rest.dto.ApplicationDeveloperDTO;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.ApplicationDeveloperDataTablesDTO;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.DataTablesDTO;
+import ch.heigvd.amt.wp1.rest.dto.DataTables.UserDataTablesDTO;
 import ch.heigvd.amt.wp1.rest.dto.UserDTO;
+import ch.heigvd.amt.wp1.services.dao.AdministratorsDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.ApplicationDevelopersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 
@@ -37,72 +41,38 @@ public class UsersRessource {
     @EJB
     private ApplicationDevelopersDAOLocal appDevsDAO;
 
+    @EJB
+    private AdministratorsDAOLocal adminDAO;
+
     @GET
     @Produces("application/json")
     public DataTablesDTO getUsers(@QueryParam("length") int length, @QueryParam("start") int start, @QueryParam("draw") int draw) {
 
-        List<ApplicationDeveloperDTO> data = new ArrayList<>();
+        List<UserDTO> data = new ArrayList<>();
 
-        List<ApplicationDeveloper> devs = null;
+        List<User> users = new ArrayList<>();
 
-        devs = appDevsDAO.findAll();
+        users.addAll(appDevsDAO.findAll());
+        users.addAll(adminDAO.findAll());
 
-        for (ApplicationDeveloper dev : devs) {
-            ApplicationDeveloperDTO dto = new ApplicationDeveloperDTO();
-            populateDTOFromEntity(dev, dto);
+
+
+        for (User u : users) {
+            UserDTO dto;
+            if(u instanceof ApplicationDeveloper){
+                dto = new ApplicationDeveloperDTO();
+            }
+            else {
+                dto = new AdministratorDTO();
+            }
+            dto.fromEntity(u);
             data.add(dto);
         }
 
-        long recordsTotal = appDevsDAO.count();
+        long recordsTotal = appDevsDAO.count() + adminDAO.count();
 
-        DataTablesDTO result = new ApplicationDeveloperDataTablesDTO(draw, recordsTotal, data);
-
-        return result;
-    }
-
-    private void populateDTOFromEntity(ApplicationDeveloper dev, ApplicationDeveloperDTO dto) {
-        dto.setId(dev.getId());
-        dto.setOwnedApplications(appToAppDTO(dev.getOwnedApplications()));
-        dto.setEmail(dev.getEmail());
-        dto.setFirstName(dev.getFirstName());
-        dto.setLastName(dev.getLastName());
-        dto.setRole(convertRole((dev.getRole())));
-        dto.setState(convertState(dev.getState()));
-    }
-
-    private List<ApplicationDTO> appToAppDTO(List<Application> appList) {
-        List<ApplicationDTO> result = new ArrayList<>();
-
-        for (Application app : appList) {
-            ApplicationDTO dto = new ApplicationDTO();
-            dto.setId(app.getId());
-            dto.setCreatedDate(app.getCreatedDate());
-            dto.setName(app.getName());
-            dto.setDescription(app.getDescription());
-            dto.setApiKey(app.getApiKey());
-            dto.setApiSecret(app.getApiSecret());
-
-            result.add(dto);
-        }
+        DataTablesDTO result = new UserDataTablesDTO(draw, recordsTotal, data);
 
         return result;
-    }
-
-    private UserDTO.Role convertRole(User.Role uRole) {
-        if (uRole == User.Role.ADMINISTRATOR) {
-            return UserDTO.Role.ADMINISTRATOR;
-        } else {
-            return UserDTO.Role.APPLICATION_DEVELOPER;
-        }
-    }
-
-    private UserDTO.State convertState(User.State uState) {
-        if (uState == User.State.DISABLED) {
-            return UserDTO.State.DISABLED;
-        } else if (uState == User.State.ENABLED) {
-            return UserDTO.State.ENABLED;
-        } else {
-            return UserDTO.State.RESET;
-        }
     }
 }

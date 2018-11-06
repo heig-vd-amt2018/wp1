@@ -40,13 +40,8 @@ public class ApplicationsServlet extends HttpServlet {
         if (application != null) {
             ApplicationDTO dto = new ApplicationDTO();
 
-            dto.setId(application.getId());
-            dto.setCreatedDate(application.getCreatedDate());
-            dto.setName(application.getName());
-            dto.setDescription(application.getDescription());
-            dto.setApiKey(application.getApiKey());
-            dto.setApiSecret(application.getApiSecret());
-
+            dto.fromEntity(application);
+            
             request.setAttribute("application", dto);
 
             request.getRequestDispatcher("/WEB-INF/pages/application.jsp").forward(request, response);

@@ -73,7 +73,7 @@
             "serverSide": true,
             "ajax": {
                 "url": "api/applications",
-                "method": "GET",
+                "method": "GET"
             },
             "columns": [
                 { "data": "name" },

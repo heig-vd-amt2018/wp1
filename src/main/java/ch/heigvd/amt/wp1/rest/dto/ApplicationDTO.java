@@ -1,5 +1,7 @@
 package ch.heigvd.amt.wp1.rest.dto;
 
+import ch.heigvd.amt.wp1.model.entities.Application;
+
 import java.sql.Timestamp;
 
 public class ApplicationDTO extends AbstractDTO<Long> {
@@ -69,5 +71,14 @@ public class ApplicationDTO extends AbstractDTO<Long> {
 
     public void setApiSecret(String apiSecret) {
         this.apiSecret = apiSecret;
+    }
+
+    public void fromEntity(Application app) {
+        this.setId(app.getId());
+        this.setCreatedDate(app.getCreatedDate());
+        this.setName(app.getName());
+        this.setDescription(app.getDescription());
+        this.setApiKey(app.getApiKey());
+        this.setApiSecret(app.getApiSecret());
     }
 }
