@@ -49,10 +49,15 @@ public class RegistrationServlet extends HttpServlet {
         if (user != null) {
             request.setAttribute("error", new ErrorAlert("User already registered. Please login with its password."));
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-        } else if (!password.equals(passwordConfirmation)) {
+        }else if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirmation.isEmpty()){
+            request.setAttribute("error", new ErrorAlert("Missing value for required field(s)"));
+            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+        }
+        else if (!password.equals(passwordConfirmation)) {
             request.setAttribute("error", new ErrorAlert("Passwords do not match."));
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-        } else {
+        }
+        else {
             ApplicationDeveloper newUser = new ApplicationDeveloper(firstName, lastName, email, password, User.State.ENABLED, null);
 
             applicationDevelopersDAO.create(newUser);
