@@ -20,7 +20,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Stateless
 @Path("/applications")
 public class ApplicationsRessource {

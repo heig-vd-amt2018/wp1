@@ -1,5 +1,6 @@
 package ch.heigvd.amt.wp1.services.dao;
 
+import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.User;
 
 import javax.ejb.Stateless;

@@ -1,6 +1,5 @@
 package ch.heigvd.amt.wp1.rest.resources;
 
-
 import ch.heigvd.amt.wp1.model.entities.User;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.DataTablesDTO;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.UserDataTablesDTO;

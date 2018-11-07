@@ -48,25 +48,37 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Please Sign In</h3>
+                    <h3 class="panel-title">Register</h3>
                 </div>
                 <div class="panel-body">
-                    <p class="text-center">Don't have an account yet ? Register <a href="register">here</a> !</p>
+                    <p class="text-center">Already an account ? Please <a href="login">login</a> !</p>
                     <c:if test="${alert != null}">
-                        <div class="alert alert-dismissable ${alert.cssClass}">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                ${alert.message}
-                        </div>
+                    <div class="alert alert-dismissable ${alert.cssClass}">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            ${alert.message}
+                    </div>
                     </c:if>
-                    <form id="form" role="form" action="auth?action=login" method="post">
+                    <form id="form" role="form" action="register" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email" value="${email}" autofocus>
+                                <input type="text" name="firstName" class="form-control" placeholder="First name"
+                                       value="${firstName}">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" value="${password}">
+                                <input type="text" name="lastName" class="form-control" placeholder="Last name"
+                                       value="${lastName}">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="Email" value="${email}">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="passwordConfirmation" class="form-control"
+                                       placeholder="Confirm password">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
                         </fieldset>
                     </form>
                 </div>

@@ -85,13 +85,7 @@ public class AuthenticationServlet extends HttpServlet {
             try {
                 user = usersDAO.findByEmail(email);
             } catch (BusinessDomainEntityNotFoundException e) {
-                // The user has not been found as a regular user.
-                // Will try to find the user as an administrator user.
-                try {
-                    user = usersDAO.findByEmail(email);
-                } catch (BusinessDomainEntityNotFoundException e1) {
-                    // Continue
-                }
+                // Continue
             }
 
             if (user == null || !user.getPassword().equals(password)) {
@@ -99,9 +93,6 @@ public class AuthenticationServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
             } else if (user.getState().equals(User.State.DISABLED)) {
                 request.setAttribute("alert", new ErrorAlert("This account has been disabled."));
-                request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-            } else if (user.getState().equals(User.State.RESET)) {
-                request.setAttribute("alert", new ErrorAlert("You must reset your password."));
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
             } else {
                 // Save the user in the session
