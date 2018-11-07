@@ -9,20 +9,45 @@
     </div>
     <!-- /.row -->
     <div class="row">
-        <form role="form">
-            <div class="form-group">
-                <label>First name</label>
-                <p class="form-control-static">${principal.firstName}</p>
+        <c:if test="${alert != null}">
+            <div class="col-lg-12">
+                <div class="alert alert-dismissable ${alert.cssClass}">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        ${alert.message}
+                </div>
             </div>
-            <div class="form-group">
-                <label>Last name</label>
-                <p class="form-control-static">${principal.lastName}</p>
+        </c:if>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <form id="form" role="form" action="pages/profile" method="post">
+                        <div class="form-group">
+                            <input type="text" name="firstName" class="form-control" placeholder="First name"
+                                   value="${principal.firstName}">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="lastName" class="form-control" placeholder="Last name"
+                                   value="${principal.lastName}">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" placeholder="Email" value="${principal.email}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" class="form-control" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="passwordConfirmation" class="form-control"
+                                   placeholder="Confirm password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    </form>
+                </div>
+                <!-- /.panel-body -->
             </div>
-            <div class="form-group">
-                <label>Email</label>
-                <p class="form-control-static">${principal.email}</p>
-            </div>
-        </form>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
 </div>

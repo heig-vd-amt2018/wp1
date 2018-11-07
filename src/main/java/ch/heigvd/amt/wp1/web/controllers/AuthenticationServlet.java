@@ -94,9 +94,6 @@ public class AuthenticationServlet extends HttpServlet {
             } else if (user.getState().equals(User.State.DISABLED)) {
                 request.setAttribute("alert", new ErrorAlert("This account has been disabled."));
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-            } else if (user.getState().equals(User.State.RESET)) {
-                request.setAttribute("alert", new ErrorAlert("You must reset your password."));
-                request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
             } else {
                 // Save the user in the session
                 request.getSession().setAttribute("principal", user);
