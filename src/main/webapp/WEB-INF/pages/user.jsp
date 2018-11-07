@@ -16,19 +16,19 @@
                     <form id="form" role="form">
                         <div class="form-group">
                             <label>ID</label>
-                            <input name="userId" value="${user.id}" class="form-control" readonly="">
+                            <input name="userId" value="${principal.id}" class="form-control" readonly="">
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input name="firstName" value="${user.firstName}" class="form-control" placeholder="Enter first name">
+                            <input name="firstName" value="${principal.firstName}" class="form-control" placeholder="Enter first name">
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input name="lastName" value="${user.lastName}" class="form-control" placeholder="Enter last name">
+                            <input name="lastName" value="${principal.lastName}" class="form-control" placeholder="Enter last name">
                         </div>
                         <div class="form-group">
                             <label>email</label>
-                            <input name="email" value="${user.email}" class="form-control" placeholder="Enter email">
+                            <input name="email" value="${principal.email}" class="form-control" placeholder="Enter email">
                         </div>
                         <div class="form-group">
                             <label>Role</label>

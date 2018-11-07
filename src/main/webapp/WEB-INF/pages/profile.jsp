@@ -12,15 +12,15 @@
         <form role="form">
             <div class="form-group">
                 <label>First name</label>
-                <p class="form-control-static">${user.firstName}</p>
+                <p class="form-control-static">${principal.firstName}</p>
             </div>
             <div class="form-group">
                 <label>Last name</label>
-                <p class="form-control-static">${user.lastName}</p>
+                <p class="form-control-static">${principal.lastName}</p>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <p class="form-control-static">${user.email}</p>
+                <p class="form-control-static">${principal.email}</p>
             </div>
         </form>
     </div>

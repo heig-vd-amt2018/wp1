@@ -9,6 +9,14 @@
     </div>
     <!-- /.row -->
     <div class="row">
+        <c:if test="${alert != null}">
+        <div class="col-lg-12">
+            <div class="alert alert-dismissable ${alert.cssClass}">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    ${alert.message}
+            </div>
+        </div>
+        </c:if>
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">

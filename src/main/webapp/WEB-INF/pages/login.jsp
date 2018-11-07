@@ -34,8 +34,8 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-login">
-                <c:if test="${error != null}">
-                <p>${error}<p>
+                <c:if test="${alert != null}">
+                <p>${alert}<p>
                 </c:if>
                 <div class="panel-heading">
                     <div class="row">

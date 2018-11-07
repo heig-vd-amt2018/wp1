@@ -31,11 +31,6 @@ public class ProfileServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        User user = (User) request.getSession().getAttribute("principal");
-
-        request.setAttribute("user", user);
-
         request.getRequestDispatcher("/WEB-INF/pages/profile.jsp").forward(request, response);
     }
 

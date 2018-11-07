@@ -3,6 +3,7 @@ package ch.heigvd.amt.wp1.web.controllers;
 import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
 import ch.heigvd.amt.wp1.model.entities.User;
 import ch.heigvd.amt.wp1.services.business.errors.ErrorAlert;
+import ch.heigvd.amt.wp1.services.business.errors.WarningAlert;
 import ch.heigvd.amt.wp1.services.dao.AdministratorsDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.ApplicationDevelopersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
@@ -47,17 +48,18 @@ public class RegistrationServlet extends HttpServlet {
         }
 
         if (user != null) {
-            request.setAttribute("error", new ErrorAlert("User already registered. Please login with its password."));
+            request.setAttribute("alert", new WarningAlert("User already registered. Please login with its password."));
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-        }else if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirmation.isEmpty()){
-            request.setAttribute("error", new ErrorAlert("Missing value for required field(s)"));
+        } else if (password.isEmpty()) {
+            request.setAttribute("alert", new ErrorAlert("Password can't be empty."));
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-        }
-        else if (!password.equals(passwordConfirmation)) {
-            request.setAttribute("error", new ErrorAlert("Passwords do not match."));
+        } else if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            request.setAttribute("alert", new ErrorAlert("Missing value for required field(s)"));
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-        }
-        else {
+        } else if (!password.equals(passwordConfirmation)) {
+            request.setAttribute("alert", new ErrorAlert("Passwords do not match."));
+            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+        } else {
             ApplicationDeveloper newUser = new ApplicationDeveloper(firstName, lastName, email, password, User.State.ENABLED, null);
 
             applicationDevelopersDAO.create(newUser);

@@ -85,11 +85,18 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="pages/users"><i class="fa fa-user fa-fw"></i> Users</a>
+                        <a href="pages/home"><i class="fa fa-home fa-fw"></i> Home</a>
                     </li>
-                    <li>
-                        <a href="pages/applications"><i class="fa fa-list fa-fw"></i> Applications</a>
-                    </li>
+                    <c:if test="${principal.role == 'ADMINISTRATOR'}">
+                        <li>
+                            <a href="pages/users"><i class="fa fa-user fa-fw"></i> Users</a>
+                        </li>
+                    </c:if>
+                    <c:if test="${principal.role == 'APPLICATION_DEVELOPER'}">
+                        <li>
+                            <a href="pages/applications"><i class="fa fa-list fa-fw"></i> Applications</a>
+                        </li>
+                    </c:if>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

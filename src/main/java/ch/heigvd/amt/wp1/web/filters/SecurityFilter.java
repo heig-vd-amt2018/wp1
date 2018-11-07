@@ -81,25 +81,21 @@ public class SecurityFilter implements Filter {
              */
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
         } else {
-            /*
-             * We authorize the access, so we can tell the request processing pipeline to
-             * continue its work.
-             */
+            request.setAttribute("principal", principal);
+
             chain.doFilter(request, response);
-            /*
-             * Here, we could inspect and manipulate the response and its way back to the
-             * client. In this case, we don't have anything to do.
-             */
         }
 
     }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+
     }
 
     @Override
     public void destroy() {
+
     }
 
 }

@@ -100,13 +100,13 @@ public class AuthenticationServlet extends HttpServlet {
             }
 
             if (user == null || !user.getPassword().equals(password)) {
-                request.setAttribute("error", new ErrorAlert("Username of password incorrect."));
+                request.setAttribute("alert", new ErrorAlert("Username of password incorrect."));
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
             } else if (user.getState().equals(User.State.DISABLED)) {
-                request.setAttribute("error", new ErrorAlert("This account has been disabled."));
+                request.setAttribute("alert", new ErrorAlert("This account has been disabled."));
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
             } else if (user.getState().equals(User.State.RESET)) {
-                request.setAttribute("error", new ErrorAlert("You must reset your password."));
+                request.setAttribute("alert", new ErrorAlert("You must reset your password."));
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
             } else {
                 // Save the user in the session

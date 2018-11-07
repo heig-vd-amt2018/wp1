@@ -9,11 +9,19 @@
     </div>
     <!-- /.row -->
     <div class="row">
+        <c:if test="${alert != null}">
+            <div class="col-lg-12">
+                <div class="alert alert-dismissable ${alert.cssClass}">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        ${alert.message}
+                </div>
+            </div>
+        </c:if>
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <form id="form" role="form">
+                    <form id="form" role="form" method="post">
                         <div class="form-group">
                             <label>ID</label>
                             <input name="appId" value="${application.id}" class="form-control" readonly="">
@@ -38,7 +46,7 @@
                             <label><code>API_SECRET</code></label>
                             <input name="appApiSecret" value="${application.apiSecret}" class="form-control" readonly="">
                         </div>
-                        <button name="save" class="btn btn-default btn-block">Save</button>
+                        <button name="update" type="submit" class="btn btn-default btn-block">Save</button>
                         <button name="delete" class="btn btn-default btn-block">Delete</button>
                     </form>
                 </div>
@@ -53,30 +61,14 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        $("button[name=save]").click(function (e) {
-            $.ajax({
-                method: "POST",
-                url: "pages/applications?" + $("#form").serialize(),
-                complete: function () {
-                    window.location.href = "pages/applications";
-                }
-            });
-
-            e.preventDefault();
-            return false;
+        $("button[name=update]").click(function () {
+            $("#form").attr("action", "pages/applications?action=update");
+            $("#form").submit();
         });
 
-        $("button[name=delete]").click(function (e) {
-            $.ajax({
-                method: "DELETE",
-                url: "pages/applications?" + $("#form").serialize(),
-                complete: function () {
-                    window.location.href = "pages/applications";
-                }
-            });
-
-            e.preventDefault();
-            return false;
+        $("button[name=delete]").click(function () {
+            $("#form").attr("action", "pages/applications?action=delete");
+            $("#form").submit();
         });
     });
 </script>
