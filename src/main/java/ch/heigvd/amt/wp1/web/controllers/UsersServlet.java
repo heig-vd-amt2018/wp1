@@ -75,9 +75,7 @@ public class UsersServlet extends HttpServlet {
         }
 
         if (user != null) {
-            UserDTO dto = new UserDTO();
-
-            dto.fromEntity(user);
+            UserDTO dto = new UserDTO(user);
 
             request.setAttribute("user", dto);
 
