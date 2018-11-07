@@ -36,18 +36,21 @@ public class RegistrationServlet extends HttpServlet {
             // Continue
         }
 
+        request.setAttribute("firstName", firstName);
+        request.setAttribute("lastName", lastName);
+
         if (user != null) {
-            request.setAttribute("alert", new WarningAlert("User already registered. Please login with its password."));
-            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+            request.setAttribute("alert", new WarningAlert("Email already registered."));
+            request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
         } else if (password.isEmpty()) {
             request.setAttribute("alert", new ErrorAlert("Password can't be empty."));
-            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
         } else if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
             request.setAttribute("alert", new ErrorAlert("Missing value for required field(s)"));
-            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
         } else if (!password.equals(passwordConfirmation)) {
             request.setAttribute("alert", new ErrorAlert("Passwords do not match."));
-            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
         } else {
             User newUser = new User(firstName, lastName, email, password, User.Role.APPLICATION_DEVELOPER, User.State.ENABLED, null);
 
@@ -62,6 +65,6 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
     }
 }
