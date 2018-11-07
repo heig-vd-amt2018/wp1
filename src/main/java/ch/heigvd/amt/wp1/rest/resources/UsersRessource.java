@@ -44,8 +44,7 @@ public class UsersRessource {
             users = usersDAO.findAll(length, start);
 
             for (User user: users) {
-                UserDTO dto = new UserDTO();
-                dto.fromEntity(user);
+                UserDTO dto = new UserDTO(user);
                 data.add(dto);
             }
         } catch (BusinessDomainEntityNotFoundException e) {

@@ -21,16 +21,13 @@ public class ApplicationDTO extends AbstractDTO<Long> {
     //! ApplicationDTO secret unique ID.
     private String apiSecret;
 
-    public ApplicationDTO() {
-
-    }
-
-    public ApplicationDTO(
-            String name,
-            String description
-    ) {
-        this.name = name;
-        this.description = description;
+    public ApplicationDTO(Application app) {
+        super(app.getId());
+        this.createdDate = app.getCreatedDate();
+        this.name = app.getName();
+        this.description = app.getDescription();
+        this.apiKey = app.getApiKey();
+        this.apiSecret = app.getApiSecret();
     }
 
     public Timestamp getCreatedDate() {
@@ -71,14 +68,5 @@ public class ApplicationDTO extends AbstractDTO<Long> {
 
     public void setApiSecret(String apiSecret) {
         this.apiSecret = apiSecret;
-    }
-
-    public void fromEntity(Application app) {
-        this.setId(app.getId());
-        this.setCreatedDate(app.getCreatedDate());
-        this.setName(app.getName());
-        this.setDescription(app.getDescription());
-        this.setApiKey(app.getApiKey());
-        this.setApiSecret(app.getApiSecret());
     }
 }
