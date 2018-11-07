@@ -67,7 +67,7 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
 
         try {
             result = (List<T>) em
-                    .createNamedQuery("Select t from " + jpaEntityClass.getSimpleName() + " t")
+                    .createNamedQuery("SELECT t FROM " + jpaEntityClass.getSimpleName() + " t")
                     .getResultList();
         } catch (NoResultException e) {
             throw new BusinessDomainEntityNotFoundException();
@@ -82,7 +82,7 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
 
         try {
             result = (List<T>) em
-                    .createNamedQuery("Select t from " + jpaEntityClass.getSimpleName() + " t")
+                    .createNamedQuery("SELECT t FROM " + jpaEntityClass.getSimpleName() + " t")
                     .setMaxResults(length)
                     .setFirstResult(start)
                     .getResultList();

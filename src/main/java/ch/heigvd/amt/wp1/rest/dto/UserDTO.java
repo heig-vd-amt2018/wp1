@@ -99,22 +99,21 @@ public class UserDTO extends AbstractDTO<Long> {
         this.state = state;
     }
 
-    private UserDTO.Role convertRole(User.Role role){
-        if(role == User.Role.ADMINISTRATOR){
+    private UserDTO.Role convertRole(User.Role role) {
+        if (role == User.Role.ADMINISTRATOR) {
             return Role.ADMINISTRATOR;
         } else {
             return Role.APPLICATION_DEVELOPER;
         }
     }
 
-    private UserDTO.State convertState(User.State state){
-        if(state == User.State.DISABLED){
+    private UserDTO.State convertState(User.State state) {
+        if (state == User.State.DISABLED) {
             return State.DISABLED;
-        }
-        else if(state == User.State.ENABLED){
+        } else if (state == User.State.ENABLED) {
             return State.ENABLED;
         } else {
-            return  State.RESET;
+            return State.RESET;
         }
     }
 }
