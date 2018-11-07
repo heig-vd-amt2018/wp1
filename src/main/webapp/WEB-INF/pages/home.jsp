@@ -18,54 +18,51 @@
         </div>
         </c:if>
         <c:if test="${principal.role == 'ADMINISTRATOR'}">
-            <div class="col-lg-3 col-md-6">
-                <div class="panel panel-green">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-users fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge">${userNumbers}</div>
-                                <div>users</div>
-                            </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">${userNumbers}</div>
+                            <div>users</div>
                         </div>
                     </div>
-                    <a href="pages/users">
-                        <div class="panel-footer">
-                            <span class="pull-left">View users</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
                 </div>
+                <a href="pages/users">
+                    <div class="panel-footer">
+                        <span class="pull-left">View users</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
             </div>
+        </div>
         </c:if>
-        <c:if test="${principal.role == 'APPLICATION_DEVELOPER'}">
-            <div class="col-lg-3 col-md-6">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-gamepad fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge">${appNumbers}</div>
-                                <div>applications</div>
-                            </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-gamepad fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">${appNumbers}</div>
+                            <div>applications</div>
                         </div>
                     </div>
-                    <a href="pages/applications">
-                        <div class="panel-footer">
-                            <span class="pull-left">View my applications</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
                 </div>
+                <a href="pages/applications">
+                    <div class="panel-footer">
+                        <span class="pull-left">View my applications</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
             </div>
-        </c:if>
-
+        </div>
     </div>
     <!-- /.row -->
 </div>

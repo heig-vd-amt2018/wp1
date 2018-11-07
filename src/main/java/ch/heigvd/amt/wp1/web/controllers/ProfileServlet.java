@@ -1,9 +1,5 @@
 package ch.heigvd.amt.wp1.web.controllers;
 
-import ch.heigvd.amt.wp1.model.entities.User;
-import ch.heigvd.amt.wp1.services.dao.ApplicationDevelopersDAOLocal;
-
-import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

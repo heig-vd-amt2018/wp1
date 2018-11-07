@@ -1,20 +1,12 @@
 package ch.heigvd.amt.wp1.rest.resources;
 
 
-import ch.heigvd.amt.wp1.model.entities.Administrator;
-import ch.heigvd.amt.wp1.model.entities.Application;
-import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
 import ch.heigvd.amt.wp1.model.entities.User;
-import ch.heigvd.amt.wp1.rest.dto.AdministratorDTO;
-import ch.heigvd.amt.wp1.rest.dto.ApplicationDTO;
-import ch.heigvd.amt.wp1.rest.dto.ApplicationDeveloperDTO;
-import ch.heigvd.amt.wp1.rest.dto.DataTables.ApplicationDeveloperDataTablesDTO;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.DataTablesDTO;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.UserDataTablesDTO;
 import ch.heigvd.amt.wp1.rest.dto.UserDTO;
-import ch.heigvd.amt.wp1.services.dao.AdministratorsDAOLocal;
-import ch.heigvd.amt.wp1.services.dao.ApplicationDevelopersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
+import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -39,10 +31,7 @@ public class UsersRessource {
     private HttpServletRequest request;
 
     @EJB
-    private ApplicationDevelopersDAOLocal appDevsDAO;
-
-    @EJB
-    private AdministratorsDAOLocal adminDAO;
+    private UsersDAOLocal usersDAO;
 
     @GET
     @Produces("application/json")
@@ -50,26 +39,20 @@ public class UsersRessource {
 
         List<UserDTO> data = new ArrayList<>();
 
-        List<User> users = new ArrayList<>();
+        List<User> users = null;
+        try {
+            users = usersDAO.findAll(length, start);
 
-        users.addAll(appDevsDAO.findAll());
-        users.addAll(adminDAO.findAll());
-
-
-
-        for (User u : users) {
-            UserDTO dto;
-            if(u instanceof ApplicationDeveloper){
-                dto = new ApplicationDeveloperDTO();
+            for (User user: users) {
+                UserDTO dto = new UserDTO();
+                dto.fromEntity(user);
+                data.add(dto);
             }
-            else {
-                dto = new AdministratorDTO();
-            }
-            dto.fromEntity(u);
-            data.add(dto);
+        } catch (BusinessDomainEntityNotFoundException e) {
+            // Continue
         }
 
-        long recordsTotal = appDevsDAO.count() + adminDAO.count();
+        long recordsTotal = usersDAO.count();
 
         DataTablesDTO result = new UserDataTablesDTO(draw, recordsTotal, data);
 

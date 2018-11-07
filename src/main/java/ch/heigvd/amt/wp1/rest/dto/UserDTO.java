@@ -1,8 +1,12 @@
 package ch.heigvd.amt.wp1.rest.dto;
 
+import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.User;
 
-public abstract class UserDTO extends AbstractDTO<Long> {
+import java.util.LinkedList;
+import java.util.List;
+
+public class UserDTO extends AbstractDTO<Long> {
 
     public enum Role {
         ADMINISTRATOR,
@@ -33,6 +37,9 @@ public abstract class UserDTO extends AbstractDTO<Long> {
     //! State of the user's account.
     private State state;
 
+    //! User's owned applications.
+    private List<Application> ownedApplications = new LinkedList<>();
+
     public UserDTO() {
 
     }
@@ -43,7 +50,8 @@ public abstract class UserDTO extends AbstractDTO<Long> {
             String email,
             String password,
             Role role,
-            State state
+            State state,
+            List<Application> ownedApplications
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -51,6 +59,7 @@ public abstract class UserDTO extends AbstractDTO<Long> {
         this.password = password;
         this.role = role;
         this.state = state;
+        this.ownedApplications = ownedApplications;
     }
 
     public String getFirstName() {
@@ -101,23 +110,7 @@ public abstract class UserDTO extends AbstractDTO<Long> {
         this.state = state;
     }
 
-    public abstract void fromEntity(User user);
+    public void fromEntity(User user) {
 
-    protected UserDTO.Role convertRole(User.Role uRole) {
-        if (uRole == User.Role.ADMINISTRATOR) {
-            return UserDTO.Role.ADMINISTRATOR;
-        } else {
-            return UserDTO.Role.APPLICATION_DEVELOPER;
-        }
-    }
-
-    protected UserDTO.State convertState(User.State uState) {
-        if (uState == User.State.DISABLED) {
-            return UserDTO.State.DISABLED;
-        } else if (uState == User.State.ENABLED) {
-            return UserDTO.State.ENABLED;
-        } else {
-            return UserDTO.State.RESET;
-        }
     }
 }

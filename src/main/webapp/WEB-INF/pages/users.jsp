@@ -27,36 +27,36 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                 <div class="panel-body">
-                        <form role="form" method="post">
+                        <form id="form" role="form" action="pages/users?action=save" method="post">
                             <div class="form-group">
                                 <label>First name</label>
-                                <input class="form-control" placeholder="Enter text" name="firstName">
+                                <input class="form-control" placeholder="Enter text" name="userFirstName">
                             </div>
                             <div class="form-group">
                                 <label>Last name</label>
-                                <input class="form-control" placeholder="Enter text" name="lastName">
+                                <input class="form-control" placeholder="Enter text" name="userLastName">
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" class="form-control" placeholder="Enter text" name="email">
+                                <input type="email" class="form-control" placeholder="Enter text" name="userEmail">
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
-                                <input class="form-control" placeholder="Enter text" name="password">
+                                <input type="password" class="form-control" placeholder="Enter text" name="userPassword">
                             </div>
                             <div class="form-group">
                                 <label>Role</label>
-                                <select class="form-control" name="role">
-                                    <option>Administrator</option>
-                                    <option>Application developer</option>
+                                <select class="form-control" name="userRole">
+                                    <option value="APPLICATION_DEVELOPER">Application developer</option>
+                                    <option value="ADMINISTRATOR">Administrator</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>State</label>
-                                <select class="form-control" name="state">
-                                    <option>Enable</option>
-                                    <option>Disable</option>
-                                    <option>Reset</option>
+                                <select class="form-control" name="userState">
+                                    <option value="ENABLED">Enabled</option>
+                                    <option value="DISABLED">Disabled</option>
+                                    <option value="RESET">Reset</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-default btn-block">Add</button>

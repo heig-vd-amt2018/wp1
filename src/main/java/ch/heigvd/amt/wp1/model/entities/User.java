@@ -1,12 +1,18 @@
 package ch.heigvd.amt.wp1.model.entities;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
 
-@MappedSuperclass
-public abstract class User extends AbstractDomainModelEntity<Long> {
+@Entity
+@Table(name = "user")
+@NamedQueries({
+        @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
+        @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+        @NamedQuery(name = "User.findAllOwnedApplications", query = "SELECT a FROM Application a WHERE a.owner = :owner"),
+})
+public class User extends AbstractDomainModelEntity<Long> {
 
     public enum Role {
         ADMINISTRATOR,
@@ -45,6 +51,14 @@ public abstract class User extends AbstractDomainModelEntity<Long> {
     @Enumerated(EnumType.STRING)
     private State state;
 
+    //! User's owned applications.
+    @OneToMany(
+            mappedBy = "owner",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Application> ownedApplications = new LinkedList<>();
+
     public User() {
         // Only here for JPA
     }
@@ -55,7 +69,8 @@ public abstract class User extends AbstractDomainModelEntity<Long> {
             String email,
             String password,
             Role role,
-            State state
+            State state,
+            List<Application> ownedApplications
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,6 +78,7 @@ public abstract class User extends AbstractDomainModelEntity<Long> {
         this.password = password;
         this.role = role;
         this.state = state;
+        this.ownedApplications = ownedApplications;
     }
 
     public String getFirstName() {
@@ -111,5 +127,17 @@ public abstract class User extends AbstractDomainModelEntity<Long> {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public List<Application> getOwnedApplications() {
+        return ownedApplications;
+    }
+
+    public void setOwnedApplications(List<Application> ownedApplications) {
+        this.ownedApplications = ownedApplications;
+    }
+
+    public void addOwnedApplication(Application application) {
+        ownedApplications.add(application);
     }
 }

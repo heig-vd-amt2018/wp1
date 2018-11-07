@@ -3,6 +3,7 @@ package ch.heigvd.amt.wp1.services.dao;
 import ch.heigvd.amt.wp1.model.entities.AbstractDomainModelEntity;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -61,12 +62,34 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
     }
 
     @Override
-    public List<T> findAll() {
-        return em.createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t").getResultList();
+    public List<T> findAll() throws BusinessDomainEntityNotFoundException {
+        List<T> result = null;
+
+        try {
+            result = (List<T>) em
+                    .createNamedQuery("Select t from " + jpaEntityClass.getSimpleName() + " t")
+                    .getResultList();
+        } catch (NoResultException e) {
+            throw new BusinessDomainEntityNotFoundException();
+        }
+
+        return result;
     }
 
     @Override
-    public List<T> findAllByPage(int pageSize, int pageIndex) {
-        return em.createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t").setMaxResults(pageSize).setFirstResult(pageIndex * pageSize).getResultList();
+    public List<T> findAll(int length, int start) throws BusinessDomainEntityNotFoundException {
+        List<T> result = null;
+
+        try {
+            result = (List<T>) em
+                    .createNamedQuery("Select t from " + jpaEntityClass.getSimpleName() + " t")
+                    .setMaxResults(length)
+                    .setFirstResult(start)
+                    .getResultList();
+        } catch (NoResultException e) {
+            throw new BusinessDomainEntityNotFoundException();
+        }
+
+        return result;
     }
 }

@@ -8,15 +8,15 @@ import java.util.UUID;
 @Entity
 @Table(name = "application")
 @NamedQueries({
-        @NamedQuery(name = "Application.findByIdByDeveloper", query = "SELECT a FROM Application a WHERE a.id = :id AND a.applicationDeveloper = :applicationDeveloper"),
-        @NamedQuery(name = "Application.findByNameByDeveloper", query = "SELECT a FROM Application a WHERE a.name = :name AND a.applicationDeveloper = :applicationDeveloper"),
-        @NamedQuery(name = "Application.findAllByDeveloper", query = "SELECT a FROM Application a WHERE a.applicationDeveloper = :applicationDeveloper"),
+        @NamedQuery(name = "Application.findByIdByUser", query = "SELECT a FROM Application a WHERE a.id = :id AND a.owner = :owner"),
+        @NamedQuery(name = "Application.findByNameByUser", query = "SELECT a FROM Application a WHERE a.name = :name AND a.owner = :owner"),
+        @NamedQuery(name = "Application.findAllByUser", query = "SELECT a FROM Application a WHERE a.owner = :owner"),
 })
 public class Application extends AbstractDomainModelEntity<Long> {
     //! The developer who made the application.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "application_developer_id", nullable = false)
-    private ApplicationDeveloper applicationDeveloper;
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     //! Creation date of the application.
     @Column(name = "created_date", updatable = false, nullable = false)
@@ -43,18 +43,18 @@ public class Application extends AbstractDomainModelEntity<Long> {
     }
 
     public Application(
-            ApplicationDeveloper applicationDeveloper,
+            User owner,
             String name,
             String description
     ) {
-        this.applicationDeveloper = applicationDeveloper;
+        this.owner = owner;
         this.createdDate = new Timestamp((new Date()).getTime());
         this.name = name;
         this.description = description;
         this.apiKey = UUID.randomUUID().toString();
         this.apiSecret = UUID.randomUUID().toString();
 
-        applicationDeveloper.addOwnedApplication(this);
+        owner.addOwnedApplication(this);
     }
 
     public Timestamp getCreatedDate() {

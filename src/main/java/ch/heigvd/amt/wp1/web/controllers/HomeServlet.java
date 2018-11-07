@@ -1,8 +1,7 @@
 package ch.heigvd.amt.wp1.web.controllers;
 
 import ch.heigvd.amt.wp1.model.entities.User;
-import ch.heigvd.amt.wp1.services.dao.AdministratorsDAOLocal;
-import ch.heigvd.amt.wp1.services.dao.ApplicationDevelopersDAOLocal;
+import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.ApplicationsDAOLocal;
 
 import javax.ejb.EJB;
@@ -23,10 +22,7 @@ public class HomeServlet extends HttpServlet {
     ApplicationsDAOLocal applicationsDAO;
 
     @EJB
-    ApplicationDevelopersDAOLocal applicationDevelopersDAO;
-
-    @EJB
-    AdministratorsDAOLocal administratorsDAO;
+    UsersDAOLocal usersDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,16 +30,13 @@ public class HomeServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("principal");
 
         if (user.getRole() == User.Role.ADMINISTRATOR) {
-            long userNumbers = 0;
-
-            userNumbers += applicationDevelopersDAO.count();
-            userNumbers += administratorsDAO.count();
+            long userNumbers = usersDAO.count();
 
             request.setAttribute("userNumbers", userNumbers);
-        } else if (user.getRole() == User.Role.APPLICATION_DEVELOPER) {
-            long appNumbers = applicationsDAO.count();
-            request.setAttribute("appNumbers", appNumbers);
         }
+
+        long appNumbers = applicationsDAO.count();
+        request.setAttribute("appNumbers", appNumbers);
 
         request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
     }

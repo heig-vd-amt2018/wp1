@@ -1,7 +1,7 @@
 package ch.heigvd.amt.wp1.rest.resources;
 
 import ch.heigvd.amt.wp1.model.entities.Application;
-import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
+import ch.heigvd.amt.wp1.model.entities.User;
 import ch.heigvd.amt.wp1.rest.dto.ApplicationDTO;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.ApplicationDataTablesDTO;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.DataTablesDTO;
@@ -38,14 +38,13 @@ public class ApplicationsRessource {
     @Produces("application/json")
     public DataTablesDTO getApplications(@QueryParam("length") int length, @QueryParam("start") int start, @QueryParam("draw") int draw) {
 
-        ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
+        User user = (User) request.getSession().getAttribute("principal");
 
         List<ApplicationDTO> data = new ArrayList<>();
 
         List<Application> applications = null;
         try {
-
-            applications = applicationsDAO.findAllByDeveloper(user, length, start);
+            applications = applicationsDAO.findAllByUser(user, length, start);
 
             for (Application application : applications) {
                 ApplicationDTO dto = new ApplicationDTO();
@@ -61,69 +60,5 @@ public class ApplicationsRessource {
         DataTablesDTO result = new ApplicationDataTablesDTO(draw, recordsTotal, data);
 
         return result;
-    }
-
-    @POST
-    @Consumes("application/json")
-    public Response createApplication(ApplicationDTO applicationDTO) {
-
-        ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
-
-        boolean alreadyBeenCreated = true;
-        long applicationId;
-
-        try {
-            applicationId = applicationsDAO.findByNameByDeveloper(applicationDTO.getName(), user).getId();
-        } catch (BusinessDomainEntityNotFoundException ex) {
-            alreadyBeenCreated = false;
-
-            applicationId = applicationsDAO.create(
-                    new Application(
-                            user,
-                            applicationDTO.getName(),
-                            applicationDTO.getDescription()
-                    )
-            );
-        }
-
-        URI applicationUri = uriInfo
-                .getBaseUriBuilder()
-                .path(ApplicationsRessource.class)
-                .path(ApplicationsRessource.class, "getApplication")
-                .build(applicationId);
-
-        ResponseBuilder builder;
-        if (alreadyBeenCreated) {
-            builder = Response.created(applicationUri);
-        } else {
-            builder = Response.ok().location(applicationUri);
-        }
-
-        return builder.build();
-    }
-
-    @GET
-    @Path("/{id}")
-    @Produces("application/json")
-    public Application getApplication(@PathParam(value = "id") long id) throws BusinessDomainEntityNotFoundException {
-        return applicationsDAO.findById(id);
-    }
-
-    @PUT
-    @Path("/{id}")
-    @Consumes("application/json")
-    public Response updateApplication(ApplicationDTO applicationDTO, @PathParam(value = "id") long id) throws BusinessDomainEntityNotFoundException {
-        Application application = applicationsDAO.findById(id);
-        application.setName(applicationDTO.getName());
-        application.setDescription(applicationDTO.getDescription());
-        return Response.ok().build();
-    }
-
-    @DELETE
-    @Path("/{id}")
-    public Response deleteApplication(@PathParam(value = "id") long id) throws BusinessDomainEntityNotFoundException {
-        Application application = applicationsDAO.findById(id);
-        applicationsDAO.delete(application);
-        return Response.ok().build();
     }
 }

@@ -1,10 +1,8 @@
 package ch.heigvd.amt.wp1.web.controllers;
 
-import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
 import ch.heigvd.amt.wp1.model.entities.User;
 import ch.heigvd.amt.wp1.services.business.errors.ErrorAlert;
-import ch.heigvd.amt.wp1.services.dao.AdministratorsDAOLocal;
-import ch.heigvd.amt.wp1.services.dao.ApplicationDevelopersDAOLocal;
+import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 
 import javax.ejb.EJB;
@@ -47,10 +45,7 @@ import java.io.IOException;
 public class AuthenticationServlet extends HttpServlet {
 
     @EJB
-    private AdministratorsDAOLocal administratorsDAO;
-
-    @EJB
-    private ApplicationDevelopersDAOLocal applicationDevelopersDAO;
+    private UsersDAOLocal usersDAO;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -88,12 +83,12 @@ public class AuthenticationServlet extends HttpServlet {
             User user = null;
 
             try {
-                user = applicationDevelopersDAO.findByEmail(email);
+                user = usersDAO.findByEmail(email);
             } catch (BusinessDomainEntityNotFoundException e) {
                 // The user has not been found as a regular user.
                 // Will try to find the user as an administrator user.
                 try {
-                    user = administratorsDAO.findByEmail(email);
+                    user = usersDAO.findByEmail(email);
                 } catch (BusinessDomainEntityNotFoundException e1) {
                     // Continue
                 }

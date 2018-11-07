@@ -1,7 +1,7 @@
 package ch.heigvd.amt.wp1.services.dao;
 
 import ch.heigvd.amt.wp1.model.entities.Application;
-import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
+import ch.heigvd.amt.wp1.model.entities.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
@@ -11,14 +11,14 @@ import java.util.List;
 public class ApplicationsDAO extends GenericDAO<Application, Long> implements ApplicationsDAOLocal {
 
     @Override
-    public Application findByIdByDeveloper(Long id, ApplicationDeveloper applicationDeveloper) throws BusinessDomainEntityNotFoundException {
+    public Application findByIdByDeveloper(Long id, User user) throws BusinessDomainEntityNotFoundException {
         Application result = null;
 
         try {
             result = (Application) em
-                    .createNamedQuery("Application.findByIdByDeveloper")
+                    .createNamedQuery("Application.findByIdByUser")
                     .setParameter("id", id)
-                    .setParameter("applicationDeveloper", applicationDeveloper)
+                    .setParameter("owner", user)
                     .getSingleResult();
         } catch (NoResultException e) {
             throw new BusinessDomainEntityNotFoundException();
@@ -28,14 +28,14 @@ public class ApplicationsDAO extends GenericDAO<Application, Long> implements Ap
     }
 
     @Override
-    public Application findByNameByDeveloper(String name, ApplicationDeveloper applicationDeveloper) throws BusinessDomainEntityNotFoundException {
+    public Application findByNameByDeveloper(String name, User user) throws BusinessDomainEntityNotFoundException {
         Application result = null;
 
         try {
             result = (Application) em
-                    .createNamedQuery("Application.findByNameByDeveloper")
+                    .createNamedQuery("Application.findByNameByUser")
                     .setParameter("name", name)
-                    .setParameter("applicationDeveloper", applicationDeveloper)
+                    .setParameter("owner", user)
                     .getSingleResult();
         } catch (NoResultException e) {
             throw new BusinessDomainEntityNotFoundException();
@@ -45,11 +45,15 @@ public class ApplicationsDAO extends GenericDAO<Application, Long> implements Ap
     }
 
     @Override
-    public List<Application> findAllByDeveloper(ApplicationDeveloper applicationDeveloper, int length, int start) throws BusinessDomainEntityNotFoundException {
+    public List<Application> findAllByUser(User user, int length, int start) throws BusinessDomainEntityNotFoundException {
         List<Application> result = null;
 
         try {
-            result = (List<Application>) em.createNamedQuery("Application.findAllByDeveloper").setParameter("applicationDeveloper", applicationDeveloper).setMaxResults(length).setFirstResult(start).getResultList();
+            result = (List<Application>) em
+                    .createNamedQuery("Application.findAllByUser")
+                    .setParameter("owner", user)
+                    .setMaxResults(length)
+                    .setFirstResult(start).getResultList();
         } catch (NoResultException e) {
             throw new BusinessDomainEntityNotFoundException();
         }

@@ -1,7 +1,6 @@
 package ch.heigvd.amt.wp1.web.controllers;
 
 import ch.heigvd.amt.wp1.model.entities.Application;
-import ch.heigvd.amt.wp1.model.entities.ApplicationDeveloper;
 import ch.heigvd.amt.wp1.model.entities.User;
 import ch.heigvd.amt.wp1.rest.dto.ApplicationDTO;
 import ch.heigvd.amt.wp1.services.business.errors.ErrorAlert;
@@ -27,7 +26,7 @@ public class ApplicationsServlet extends HttpServlet {
     private void create(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
+        User user = (User) request.getSession().getAttribute("principal");
         Application application = null;
 
         String appName = request.getParameter("appName");
@@ -57,7 +56,7 @@ public class ApplicationsServlet extends HttpServlet {
     private void read(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
+        User user = (User) request.getSession().getAttribute("principal");
         Application application = null;
 
         long appId = Long.parseLong(request.getParameter("appId"));
@@ -87,7 +86,7 @@ public class ApplicationsServlet extends HttpServlet {
     private void update(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
+        User user = (User) request.getSession().getAttribute("principal");
         Application application = null;
 
         long appId = Long.parseLong(request.getParameter("appId"));
@@ -134,7 +133,7 @@ public class ApplicationsServlet extends HttpServlet {
     private void delete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ApplicationDeveloper user = (ApplicationDeveloper) request.getSession().getAttribute("principal");
+        User user = (User) request.getSession().getAttribute("principal");
         Application application = null;
 
         long appId = Long.parseLong(request.getParameter("appId"));
@@ -156,7 +155,7 @@ public class ApplicationsServlet extends HttpServlet {
             } catch (BusinessDomainEntityNotFoundException e) {
                 request.setAttribute("alert", new ErrorAlert("Application has not been successfully deleted."));
 
-                request.getRequestDispatcher("/WEB-INF/pages/application.jsp").forward(request, response);
+                read(request, response);
             }
         }
     }
