@@ -47,8 +47,7 @@ public class ApplicationsRessource {
             applications = applicationsDAO.findAllByUser(user, length, start);
 
             for (Application application : applications) {
-                ApplicationDTO dto = new ApplicationDTO();
-                dto.fromEntity(application);
+                ApplicationDTO dto = new ApplicationDTO(application);
                 data.add(dto);
             }
         } catch (BusinessDomainEntityNotFoundException e) {

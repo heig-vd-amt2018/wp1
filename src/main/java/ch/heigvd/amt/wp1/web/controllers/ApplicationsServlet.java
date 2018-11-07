@@ -69,9 +69,7 @@ public class ApplicationsServlet extends HttpServlet {
         }
 
         if (application != null) {
-            ApplicationDTO dto = new ApplicationDTO();
-
-            dto.fromEntity(application);
+            ApplicationDTO dto = new ApplicationDTO(application);
 
             request.setAttribute("application", dto);
 

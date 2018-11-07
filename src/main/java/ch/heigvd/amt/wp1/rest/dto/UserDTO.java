@@ -40,26 +40,15 @@ public class UserDTO extends AbstractDTO<Long> {
     //! User's owned applications.
     private List<Application> ownedApplications = new LinkedList<>();
 
-    public UserDTO() {
-
-    }
-
-    public UserDTO(
-            String firstName,
-            String lastName,
-            String email,
-            String password,
-            Role role,
-            State state,
-            List<Application> ownedApplications
-    ) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.state = state;
-        this.ownedApplications = ownedApplications;
+    public UserDTO(User user) {
+        super(user.getId());
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.role = convertRole(user.getRole());
+        this.state = convertState(user.getState());
+        this.ownedApplications = user.getOwnedApplications();
     }
 
     public String getFirstName() {
@@ -110,7 +99,22 @@ public class UserDTO extends AbstractDTO<Long> {
         this.state = state;
     }
 
-    public void fromEntity(User user) {
+    private UserDTO.Role convertRole(User.Role role){
+        if(role == User.Role.ADMINISTRATOR){
+            return Role.ADMINISTRATOR;
+        } else {
+            return Role.APPLICATION_DEVELOPER;
+        }
+    }
 
+    private UserDTO.State convertState(User.State state){
+        if(state == User.State.DISABLED){
+            return State.DISABLED;
+        }
+        else if(state == User.State.ENABLED){
+            return State.ENABLED;
+        } else {
+            return  State.RESET;
+        }
     }
 }
