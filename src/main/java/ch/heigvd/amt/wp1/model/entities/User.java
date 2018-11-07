@@ -11,6 +11,7 @@ import java.util.List;
         @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
         @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
         @NamedQuery(name = "User.findAllOwnedApplications", query = "SELECT a FROM Application a WHERE a.owner = :owner"),
+        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
 })
 public class User extends AbstractDomainModelEntity<Long> {
 

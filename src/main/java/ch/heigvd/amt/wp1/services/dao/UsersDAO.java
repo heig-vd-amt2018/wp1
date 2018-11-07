@@ -1,5 +1,6 @@
 package ch.heigvd.amt.wp1.services.dao;
 
+import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.User;
 
 import javax.ejb.Stateless;
@@ -40,6 +41,22 @@ public class UsersDAO extends GenericDAO<User, Long> implements UsersDAOLocal {
 
         try {
             result = (User) em.createNamedQuery("User.findByEmail").setParameter("email", email).getSingleResult();
+        } catch (NoResultException e) {
+            throw new BusinessDomainEntityNotFoundException();
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<User> findAll(int length, int start) throws BusinessDomainEntityNotFoundException {
+        List<User> result = null;
+
+        try {
+            result = (List<User>) em
+                    .createNamedQuery("User.findAll")
+                    .setMaxResults(length)
+                    .setFirstResult(start).getResultList();
         } catch (NoResultException e) {
             throw new BusinessDomainEntityNotFoundException();
         }
