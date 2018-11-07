@@ -47,20 +47,4 @@ public class UsersDAO extends GenericDAO<User, Long> implements UsersDAOLocal {
 
         return result;
     }
-
-    @Override
-    public List<User> findAll(int length, int start) throws BusinessDomainEntityNotFoundException {
-        List<User> result = null;
-
-        try {
-            result = (List<User>) em
-                    .createNamedQuery("User.findAll")
-                    .setMaxResults(length)
-                    .setFirstResult(start).getResultList();
-        } catch (NoResultException e) {
-            throw new BusinessDomainEntityNotFoundException();
-        }
-
-        return result;
-    }
 }

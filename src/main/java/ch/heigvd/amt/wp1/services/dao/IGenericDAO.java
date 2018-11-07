@@ -23,6 +23,8 @@ public interface IGenericDAO<T extends AbstractDomainModelEntity, PK> {
 
     public T findById(PK id) throws BusinessDomainEntityNotFoundException;
 
-    //public List<T> findAll(int length, int start) throws BusinessDomainEntityNotFoundException;
+    public List<T> findAll() throws BusinessDomainEntityNotFoundException;
+
+    public List<T> findAll(int length, int start) throws BusinessDomainEntityNotFoundException;
 
 }

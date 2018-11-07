@@ -61,11 +61,35 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
         return em.find(jpaEntityClass, id);
     }
 
-    /*
+    @Override
+    public List<T> findAll() throws BusinessDomainEntityNotFoundException {
+        List<T> result = null;
+
+        try {
+            result = (List<T>) em
+                    .createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t")
+                    .getResultList();
+        } catch (NoResultException e) {
+            throw new BusinessDomainEntityNotFoundException();
+        }
+
+        return result;
+    }
+
     @Override
     public List<T> findAll(int length, int start) throws BusinessDomainEntityNotFoundException {
-        return em.createNamedQuery("Select t from " + jpaEntityClass.getSimpleName() + " t")
+        List<T> result = null;
+
+        try {
+            result = (List<T>) em
+                    .createQuery("Select t from " + jpaEntityClass.getSimpleName() + " t")
+                    .setMaxResults(length)
+                    .setFirstResult(start)
                     .getResultList();
+        } catch (NoResultException e) {
+            throw new BusinessDomainEntityNotFoundException();
+        }
+
+        return result;
     }
-    */
 }

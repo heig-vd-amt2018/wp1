@@ -12,6 +12,4 @@ public interface UsersDAOLocal extends IGenericDAO<User, Long> {
     User findByLastName(String lastName) throws BusinessDomainEntityNotFoundException;
 
     User findByEmail(String email) throws BusinessDomainEntityNotFoundException;
-
-    List<User> findAll(int length, int start) throws BusinessDomainEntityNotFoundException;
 }
