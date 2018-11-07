@@ -22,7 +22,6 @@ public class UsersServlet extends HttpServlet {
     @EJB
     private UsersDAOLocal usersDAO;
 
-    /*
     private void create(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -35,8 +34,28 @@ public class UsersServlet extends HttpServlet {
         String userRole = request.getParameter("userRole");
         String userState = request.getParameter("userState");
 
+        User.State state = null;
+        User.Role role = null;
 
-        usersDAO.create(new User(userFirstName, userLastName, userEmail, userRole, user, appDescription));
+        if (userState.equals(User.State.ENABLED)) {
+            state = User.State.ENABLED;
+        } else if (userState.equals(User.State.DISABLED)) {
+            state = User.State.DISABLED;
+        } else if (userState.equals(User.State.RESET)) {
+            state = User.State.RESET;
+        }
+
+        if (userRole.equals(User.Role.ADMINISTRATOR)) {
+            role = User.Role.ADMINISTRATOR;
+        } else if (userRole.equals(User.Role.ADMINISTRATOR)) {
+            role = User.Role.APPLICATION_DEVELOPER;
+        }
+
+        // TODO: NEED TO CHECK IF USER ALREADY EXISTS !!!
+
+        user = new User(userFirstName, userLastName, userEmail, userPassword, role, state, null);
+
+        usersDAO.create(user);
         request.setAttribute("alert", new SuccessAlert("User has been successfully created."));
         request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
     }
@@ -76,8 +95,30 @@ public class UsersServlet extends HttpServlet {
         User user = null;
 
         long userId = Long.parseLong(request.getParameter("userId"));
-        String appName = request.getParameter("appName");
-        String appDescription = request.getParameter("appDescription");
+
+        String userFirstName = request.getParameter("userFirstName");
+        String userLastName = request.getParameter("userLastName");
+        String userEmail = request.getParameter("userEmail");
+        String userPassword = request.getParameter("userPassword");
+        String userRole = request.getParameter("userRole");
+        String userState = request.getParameter("userState");
+
+        User.State state = null;
+        User.Role role = null;
+
+        if (userState.equals(User.State.ENABLED)) {
+            state = User.State.ENABLED;
+        } else if (userState.equals(User.State.DISABLED)) {
+            state = User.State.DISABLED;
+        } else if (userState.equals(User.State.RESET)) {
+            state = User.State.RESET;
+        }
+
+        if (userRole.equals(User.Role.ADMINISTRATOR)) {
+            role = User.Role.ADMINISTRATOR;
+        } else if (userRole.equals(User.Role.ADMINISTRATOR)) {
+            role = User.Role.APPLICATION_DEVELOPER;
+        }
 
         try {
             // Check if the user owns the user
@@ -86,7 +127,20 @@ public class UsersServlet extends HttpServlet {
             // Continue
         }
 
-        if (user != null && appName != null && appDescription != null && !appName.isEmpty()) {
+        /*
+        if (
+                user != null &&
+                        userFirstName != null &&
+                        userLastName != null &&
+                        userEmail != null &&
+                        userPassword != null &&
+                        role != null &&
+                        state &&
+                        !userFirstName.isEmpty() &&
+                        !userLastName.isEmpty() &&
+                        !userPassword.isEmpty()
+
+        ) {
 
             user.setName(appName);
             user.setDescription(appDescription);
@@ -114,6 +168,7 @@ public class UsersServlet extends HttpServlet {
         }
 
         request.getRequestDispatcher("/WEB-INF/pages/user.jsp").forward(request, response);
+        */
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response)
@@ -173,5 +228,4 @@ public class UsersServlet extends HttpServlet {
             throws ServletException, IOException {
         doGet(request, response);
     }
-    */
 }
