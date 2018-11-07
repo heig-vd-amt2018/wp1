@@ -9,6 +9,14 @@
     </div>
     <!-- /.row -->
     <div class="row">
+        <c:if test="${alert != null}">
+            <div class="col-lg-12">
+                <div class="alert alert-dismissable ${alert.cssClass}">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        ${alert.message}
+                </div>
+            </div>
+        </c:if>
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <!-- /.panel-heading -->
@@ -20,29 +28,30 @@
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input name="firstName" value="${user.firstName}" class="form-control" placeholder="Enter first name">
+                            <input name="userFirstName" value="${user.firstName}" class="form-control" placeholder="Enter first name">
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input name="lastName" value="${user.lastName}" class="form-control" placeholder="Enter last name">
+                            <input name="userLastName" value="${user.lastName}" class="form-control" placeholder="Enter last name">
                         </div>
                         <div class="form-group">
                             <label>email</label>
-                            <input name="email" value="${user.email}" class="form-control" placeholder="Enter email">
+                            <input name="userEmail" value="${user.email}" class="form-control" placeholder="Enter email">
                         </div>
                         <div class="form-group">
                             <label>Role</label>
-                            <select class="form-control" name="role">
-                                <option value="APPLICATION_DEVELOPER">Application developer</option>
-                                <option value="ADMINISTRATOR">Administrator</option>
+                            <select class="form-control" name="userRole">
+                                <c:forTokens items="APPLICATION_DEVELOPER/ADMINISTRATOR" delims="/" var="role" >
+                                    <option value="${role}" ${role == user.role ? 'selected' : ''}>${role}</option>
+                                </c:forTokens>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>State</label>
-                            <select class="form-control" name="state">
-                                <option value="ENABLED">Enabled</option>
-                                <option value="DISABLED">Disabled</option>
-                                <option value="RESET">Reset</option>
+                            <select class="form-control" name="userState">
+                                <c:forTokens items="ENABLED/DISABLED/RESET" delims="/" var="role" >
+                                    <option value="${role}" ${role == user.state ? 'selected' : ''}>${role}</option>
+                                </c:forTokens>
                             </select>
                         </div>
                         <button name="update" class="btn btn-default btn-block">Save</button>
@@ -59,6 +68,7 @@
 </div>
 
 <script>
+
     document.addEventListener("DOMContentLoaded", function() {
         $("button[name=update]").click(function () {
             $("#form").attr("action", "pages/users?action=update");

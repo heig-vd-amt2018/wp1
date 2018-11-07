@@ -67,6 +67,21 @@ public class User extends AbstractDomainModelEntity<Long> {
             String firstName,
             String lastName,
             String email,
+            Role role,
+            List<Application> ownedApplications
+    ) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+        this.state = State.RESET;
+        this.ownedApplications = ownedApplications;
+    }
+
+    public User(
+            String firstName,
+            String lastName,
+            String email,
             String password,
             Role role,
             State state,

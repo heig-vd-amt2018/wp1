@@ -41,22 +41,10 @@
                                 <input type="email" class="form-control" placeholder="Enter text" name="userEmail">
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" placeholder="Enter text" name="userPassword">
-                            </div>
-                            <div class="form-group">
                                 <label>Role</label>
                                 <select class="form-control" name="userRole">
                                     <option value="APPLICATION_DEVELOPER">Application developer</option>
                                     <option value="ADMINISTRATOR">Administrator</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>State</label>
-                                <select class="form-control" name="userState">
-                                    <option value="ENABLED">Enabled</option>
-                                    <option value="DISABLED">Disabled</option>
-                                    <option value="RESET">Reset</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-default btn-block">Add</button>
