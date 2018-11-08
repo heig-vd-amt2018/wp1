@@ -4,10 +4,12 @@ import ch.heigvd.amt.wp1.model.entities.User;
 import ch.heigvd.amt.wp1.rest.dto.UserDTO;
 import ch.heigvd.amt.wp1.services.business.errors.ErrorAlert;
 import ch.heigvd.amt.wp1.services.business.errors.SuccessAlert;
+import ch.heigvd.amt.wp1.services.business.mail.EmailSender;
 import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 
 import javax.ejb.EJB;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +25,9 @@ public class UsersServlet extends HttpServlet {
 
     @EJB
     private UsersDAOLocal usersDAO;
+
+    @EJB
+    private EmailSender emailSender;
 
     private void create(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -48,9 +53,18 @@ public class UsersServlet extends HttpServlet {
 
                 user = new User(userFirstName, userLastName, userEmail, newPassword ,role, null);
 
-                usersDAO.create(user);
+                try {
+                    // Send the mail
+                    emailSender.sendEmail(user.getEmail(),user.getFirstName(),user.getLastName(),user.getPassword());
 
-                /* TODO : envoyer Email ICI */
+                    // Create the user only if the mail is send.
+                    usersDAO.create(user);
+
+                } catch (MessagingException e) {
+                    request.setAttribute("alert", new ErrorAlert("User not created because mail not send."));
+                    e.printStackTrace();
+                }
+
 
                 request.setAttribute("alert", new SuccessAlert("User has been successfully created."));
                 request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
@@ -221,9 +235,17 @@ public class UsersServlet extends HttpServlet {
 
                 try {
 
-                    usersDAO.update(user);
+                    try {
+                        // Send the mail
+                        emailSender.sendEmail(user.getEmail(),user.getFirstName(),user.getLastName(),user.getPassword());
 
-                    //TODO : SEND EMAIL HERE I GUESS something like <Boolean sendEmailPassword(user.getEmail(), newPassword)>
+                        // Update the user only if the mail is send.
+                        usersDAO.update(user);
+
+                    } catch (MessagingException e) {
+                        request.setAttribute("alert", new ErrorAlert("User not updated because mail not send."));
+                        e.printStackTrace();
+                    }
 
                     request.setAttribute("alert", new SuccessAlert("Password reset, email sent."));
                 } catch (BusinessDomainEntityNotFoundException e2) {
