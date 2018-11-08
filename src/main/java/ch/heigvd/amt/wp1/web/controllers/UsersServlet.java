@@ -46,10 +46,19 @@ public class UsersServlet extends HttpServlet {
         } else if (userRole.equals(User.Role.APPLICATION_DEVELOPER.toString())) {
             role = User.Role.APPLICATION_DEVELOPER;
         }
-        try {
-            if (usersDAO.findByEmail(userEmail) == null) {
 
-                String newPassword = UUID.randomUUID().toString();
+        User tmpUser = null;
+
+        try {
+            tmpUser = usersDAO.findByEmail(userEmail);
+
+        }catch (BusinessDomainEntityNotFoundException e) {
+            //continue
+        }
+
+        if (tmpUser == null) {
+
+            String newPassword = UUID.randomUUID().toString();
 
                 user = new User(userFirstName, userLastName, userEmail, newPassword ,role, null);
 
@@ -65,16 +74,12 @@ public class UsersServlet extends HttpServlet {
                     e.printStackTrace();
                 }
 
-
                 request.setAttribute("alert", new SuccessAlert("User has been successfully created."));
                 request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
             } else {
                 request.setAttribute("alert", new ErrorAlert("Email address already exist."));
                 request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
             }
-        } catch (BusinessDomainEntityNotFoundException e) {
-            //continue
-        }
     }
 
     private void read(HttpServletRequest request, HttpServletResponse response)

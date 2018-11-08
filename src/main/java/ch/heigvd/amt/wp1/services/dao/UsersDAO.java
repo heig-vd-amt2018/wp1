@@ -42,7 +42,7 @@ public class UsersDAO extends GenericDAO<User, Long> implements UsersDAOLocal {
         try {
             result = (User) em.createNamedQuery("User.findByEmail").setParameter("email", email).getSingleResult();
         } catch (NoResultException e) {
-            //throw new BusinessDomainEntityNotFoundException();
+            throw new BusinessDomainEntityNotFoundException();
         }
 
         return result;
