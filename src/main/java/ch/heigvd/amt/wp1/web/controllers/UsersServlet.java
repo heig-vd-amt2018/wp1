@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet(name = "UsersServlet", urlPatterns = {"/pages/users"})
 public class UsersServlet extends HttpServlet {
@@ -42,9 +43,14 @@ public class UsersServlet extends HttpServlet {
         }
         try {
             if (usersDAO.findByEmail(userEmail) == null) {
-                user = new User(userFirstName, userLastName, userEmail, role, null);
+
+                String newPassword = UUID.randomUUID().toString();
+
+                user = new User(userFirstName, userLastName, userEmail, newPassword ,role, null);
 
                 usersDAO.create(user);
+
+                /* TODO : envoyer Email ICI */
 
                 request.setAttribute("alert", new SuccessAlert("User has been successfully created."));
                 request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
@@ -52,9 +58,6 @@ public class UsersServlet extends HttpServlet {
                 request.setAttribute("alert", new ErrorAlert("Email address already exist."));
                 request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
             }
-
-            /* TODO : envoyer Email ICI */
-
         } catch (BusinessDomainEntityNotFoundException e) {
             //continue
         }
@@ -213,11 +216,14 @@ public class UsersServlet extends HttpServlet {
 
                 user.setState(User.State.RESET);
 
+                String newPassword = UUID.randomUUID().toString();
+                user.setPassword(newPassword);
+
                 try {
 
-                    //TODO : SEND EMAIL HERE I GUESS somthing like <User sendEmailPassword(User user)>
-
                     usersDAO.update(user);
+
+                    //TODO : SEND EMAIL HERE I GUESS something like <Boolean sendEmailPassword(user.getEmail(), newPassword)>
 
                     request.setAttribute("alert", new SuccessAlert("Password reset, email sent."));
                 } catch (BusinessDomainEntityNotFoundException e2) {
