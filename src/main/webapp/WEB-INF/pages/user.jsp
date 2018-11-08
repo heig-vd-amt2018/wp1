@@ -48,14 +48,23 @@
                         </div>
                         <div class="form-group">
                             <label>State</label>
-                            <select class="form-control" name="userState">
-                                <c:forTokens items="ENABLED/DISABLED/RESET" delims="/" var="role" >
-                                    <option value="${role}" ${role == user.state ? 'selected' : ''}>${role}</option>
-                                </c:forTokens>
-                            </select>
+                            <c:set var="resetState" value="RESET"/>
+                            <c:choose>
+                                <c:when test="${user.state == resetState}">
+                                    <input name="reset" value="${user.state}" class="form-control" readonly="">
+                                </c:when>
+                                <c:otherwise>
+                                    <select class="form-control" name="userState">
+                                        <c:forTokens items="ENABLED/DISABLED" delims="/" var="role" >
+                                            <option value="${role}" ${role == user.state ? 'selected' : ''}>${role}</option>
+                                        </c:forTokens>
+                                    </select>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <button name="update" class="btn btn-default btn-block">Save</button>
                         <button name="delete" class="btn btn-default btn-block">Delete</button>
+                        <button name="resetPassword" class="btn btn-default btn-block">Reset password</button>
                     </form>
                 </div>
                 <!-- /.panel-body -->
@@ -79,6 +88,12 @@
             $("#form").attr("action", "pages/users?action=delete");
             $("#form").submit();
         });
+
+        $("button[name=resetPassword]").click(function () {
+            $("#form").attr("action", "pages/users?action=resetPassword");
+            $("#form").submit();
+        });
+
     });
 </script>
 

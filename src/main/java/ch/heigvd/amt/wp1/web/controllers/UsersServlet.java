@@ -195,6 +195,44 @@ public class UsersServlet extends HttpServlet {
         }
     }
 
+    private void resetPassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        User user = null;
+
+        long userId = Long.parseLong(request.getParameter("userId"));
+
+        try {
+            user = usersDAO.findById(userId);
+        } catch (BusinessDomainEntityNotFoundException e) {
+            //continue
+        }
+        if (user != null) {
+
+            if (user.getState() != User.State.RESET) {
+
+
+                user.setState(User.State.RESET);
+
+                try {
+
+                    //TODO : SEND EMAIL HERE I GUESS somthing like <User sendEmailPassword(User user)>
+
+                    usersDAO.update(user);
+
+                    request.setAttribute("alert", new SuccessAlert("Password reset, email sent."));
+                } catch (BusinessDomainEntityNotFoundException e2) {
+                    request.setAttribute("alert", new ErrorAlert("Error when updating user."));
+                }
+            }else{
+                request.setAttribute("alert", new ErrorAlert("Password already reset."));
+            }
+        } else {
+            request.setAttribute("alert", new ErrorAlert("Error when resetting password."));
+        }
+
+        request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -211,6 +249,8 @@ public class UsersServlet extends HttpServlet {
             update(request, response);
         } else if (action.equals("delete") && !userId.isEmpty()) {
             delete(request, response);
+        } else if (action.equals("resetPassword") && !userId.isEmpty()) {
+            resetPassword(request,response);
         } else if (action.isEmpty() && !userId.isEmpty()) {
             read(request, response);
         } else {
