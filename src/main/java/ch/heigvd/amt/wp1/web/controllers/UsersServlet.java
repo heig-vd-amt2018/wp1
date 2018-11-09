@@ -52,7 +52,7 @@ public class UsersServlet extends HttpServlet {
             boolean emailValid = true;
 
             try {
-                InternetAddress emailAddress = new InternetAddress(email);
+                InternetAddress emailAddress = new InternetAddress(userEmail);
                 emailAddress.validate();
             } catch (AddressException ex) {
                 emailValid = false;
@@ -163,11 +163,13 @@ public class UsersServlet extends HttpServlet {
         String userIdParam = request.getParameter("userId");
         String userFirstName = request.getParameter("userFirstName");
         String userLastName = request.getParameter("userLastName");
+        String userEmail = request.getParameter("userEmail");
         String userRole = request.getParameter("userRole");
         String userState = request.getParameter("userState");
 
         if (userFirstName != null
                 && userLastName != null
+                && userEmail != null
                 && userRole != null
                 && userState != null
                 && userIdParam != null
@@ -214,6 +216,7 @@ public class UsersServlet extends HttpServlet {
 
                 if (!userFirstName.isEmpty()
                         && !userLastName.isEmpty()
+                        && !userEmail.isEmpty()
                         && !userRole.isEmpty()
                         && !userState.isEmpty()
                 ) {
@@ -248,7 +251,7 @@ public class UsersServlet extends HttpServlet {
 
         String userIdParam = request.getParameter("userId");
 
-        if (userIdParam != null) {
+        if(userIdParam != null) {
             long userId = Long.parseLong(userIdParam);
 
             try {
@@ -284,7 +287,7 @@ public class UsersServlet extends HttpServlet {
 
         String userIdParam = request.getParameter("userId");
 
-        if (userIdParam != null) {
+        if(userIdParam != null) {
             long userId = Long.parseLong(userIdParam);
             try {
                 user = usersDAO.findById(userId);
