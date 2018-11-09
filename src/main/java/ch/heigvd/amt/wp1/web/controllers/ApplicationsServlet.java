@@ -26,32 +26,36 @@ public class ApplicationsServlet extends HttpServlet {
     private void create(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        User user = (User) request.getSession().getAttribute("principal");
-        Application application = null;
-
         String appName = request.getParameter("appName");
         String appDescription = request.getParameter("appDescription");
 
-        try {
-            // Check if the user already has an app with the same name
-            application = applicationsDAO.findByNameByDeveloper(appName, user);
-        } catch (BusinessDomainEntityNotFoundException e) {
-            // Continue
-        }
-        if (application == null && !appName.isEmpty()) {
-            applicationsDAO.create(new Application(user, appName, appDescription));
+        if (appName != null && appDescription != null) {
+            User user = (User) request.getSession().getAttribute("principal");
+            Application application = null;
 
-            request.setAttribute("alert", new SuccessAlert("Application has been successfully created."));
-        } else {
-            request.setAttribute("appName", appName);
-            request.setAttribute("appDescription", appDescription);
-            request.setAttribute("error", true);
-
-            if (appName.isEmpty()){
-                request.setAttribute("alert", new WarningAlert("Application name is required."));
-            } else {
-                request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
+            try {
+                // Check if the user already has an app with the same name
+                application = applicationsDAO.findByNameByDeveloper(appName, user);
+            } catch (BusinessDomainEntityNotFoundException e) {
+                // Continue
             }
+            if (application == null && !appName.isEmpty()) {
+                applicationsDAO.create(new Application(user, appName, appDescription));
+
+                request.setAttribute("alert", new SuccessAlert("Application has been successfully created."));
+            } else {
+                request.setAttribute("appName", appName);
+                request.setAttribute("appDescription", appDescription);
+                request.setAttribute("error", true);
+
+                if (appName.isEmpty()) {
+                    request.setAttribute("alert", new WarningAlert("Application name is required."));
+                } else {
+                    request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
+                }
+            }
+        } else {
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
         }
 
         request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
@@ -60,27 +64,35 @@ public class ApplicationsServlet extends HttpServlet {
     private void read(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        User user = (User) request.getSession().getAttribute("principal");
-        Application application = null;
+        String appIdParam = request.getParameter("appId");
 
-        long appId = Long.parseLong(request.getParameter("appId"));
+        if (appIdParam != null) {
 
-        try {
-            // Check if the user owns the application
-            application = applicationsDAO.findByIdByDeveloper(appId, user);
-        } catch (BusinessDomainEntityNotFoundException e) {
-            // Continue
-        }
+            User user = (User) request.getSession().getAttribute("principal");
+            Application application = null;
 
-        if (application != null) {
-            ApplicationDTO dto = new ApplicationDTO(application);
+            long appId = Long.parseLong(appIdParam);
 
-            request.setAttribute("application", dto);
+            try {
+                // Check if the user owns the application
+                application = applicationsDAO.findByIdByDeveloper(appId, user);
+            } catch (BusinessDomainEntityNotFoundException e) {
+                // Continue
+            }
 
-            request.getRequestDispatcher("/WEB-INF/pages/application.jsp").forward(request, response);
+            if (application != null) {
+                ApplicationDTO dto = new ApplicationDTO(application);
+
+                request.setAttribute("application", dto);
+
+                request.getRequestDispatcher("/WEB-INF/pages/application.jsp").forward(request, response);
+            } else {
+                request.setAttribute("alert", new ErrorAlert("Application not found."));
+
+                request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
+            }
         } else {
-            request.setAttribute("alert", new ErrorAlert("Application not found."));
-
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
             request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
         }
     }
@@ -88,82 +100,96 @@ public class ApplicationsServlet extends HttpServlet {
     private void update(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        User user = (User) request.getSession().getAttribute("principal");
-        Application application = null;
-
-        long appId = Long.parseLong(request.getParameter("appId"));
+        String appIdParam = request.getParameter("appId");
         String appName = request.getParameter("appName");
         String appDescription = request.getParameter("appDescription");
 
-        try {
-            // Check if the user owns the application
-            application = applicationsDAO.findByIdByDeveloper(appId, user);
-        } catch (NumberFormatException | BusinessDomainEntityNotFoundException e) {
-            // Continue
-        }
+        if (appIdParam != null && appName != null && appDescription != null) {
+            User user = (User) request.getSession().getAttribute("principal");
+            Application application = null;
 
-        if (application != null && appName != null && appDescription != null && !appName.isEmpty()) {
-
-            application.setName(appName);
-            application.setDescription(appDescription);
+            long appId = Long.parseLong(appIdParam);
 
             try {
-                applicationsDAO.findByNameByDeveloper(appName, user);
-                request.setAttribute("appDescription",appDescription);
-                request.setAttribute("error", true);
-                request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
-            } catch (BusinessDomainEntityNotFoundException e1) {
+                // Check if the user owns the application
+                application = applicationsDAO.findByIdByDeveloper(appId, user);
+            } catch (NumberFormatException | BusinessDomainEntityNotFoundException e) {
+                // Continue
+            }
+
+            if (application != null && !appName.isEmpty()) {
+
+                application.setName(appName);
+                application.setDescription(appDescription);
+
                 try {
-                    applicationsDAO.update(application);
-                    request.setAttribute("alert", new SuccessAlert("Application has been successfully updated."));
-                } catch (BusinessDomainEntityNotFoundException e2) {
-                    request.setAttribute("alert", new ErrorAlert("Application has not been successfully updated."));
+                    applicationsDAO.findByNameByDeveloper(appName, user);
+                    request.setAttribute("appDescription", appDescription);
+                    request.setAttribute("error", true);
+                    request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
+                } catch (BusinessDomainEntityNotFoundException e1) {
+                    try {
+                        applicationsDAO.update(application);
+                        request.setAttribute("alert", new SuccessAlert("Application has been successfully updated."));
+                    } catch (BusinessDomainEntityNotFoundException e2) {
+                        request.setAttribute("alert", new ErrorAlert("Application has not been successfully updated."));
+                    }
+                }
+
+                request.setAttribute("application", application);
+
+            } else {
+                request.setAttribute("appName", appName);
+                request.setAttribute("appDescription", appDescription);
+
+                if (appName.isEmpty()) {
+                    request.setAttribute("alert", new WarningAlert("Application name is required."));
+                } else {
+                    request.setAttribute("alert", new ErrorAlert("Application not found."));
                 }
             }
 
-            request.setAttribute("application", application);
-
+            request.getRequestDispatcher("/WEB-INF/pages/application.jsp").forward(request, response);
         } else {
-            request.setAttribute("appName", appName);
-            request.setAttribute("appDescription", appDescription);
-
-            if(appName.isEmpty()){
-                request.setAttribute("alert", new WarningAlert("Application name is required."));
-            } else {
-                request.setAttribute("alert", new ErrorAlert("Application not found."));
-            }
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
+            request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/pages/application.jsp").forward(request, response);
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        User user = (User) request.getSession().getAttribute("principal");
-        Application application = null;
+        String appIdParam = request.getParameter("appId");
 
-        long appId = Long.parseLong(request.getParameter("appId"));
+        if (appIdParam == null) {
+            User user = (User) request.getSession().getAttribute("principal");
+            Application application = null;
 
-        try {
-            // Check if the user owns the application
-            application = applicationsDAO.findByIdByDeveloper(appId, user);
-        } catch (BusinessDomainEntityNotFoundException e) {
-            // Continue
-        }
+            long appId = Long.parseLong(appIdParam);
 
-        if (application != null) {
             try {
-                applicationsDAO.delete(application);
-
-                request.setAttribute("alert", new SuccessAlert("Application has been successfully deleted."));
-
-                request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
+                // Check if the user owns the application
+                application = applicationsDAO.findByIdByDeveloper(appId, user);
             } catch (BusinessDomainEntityNotFoundException e) {
-                request.setAttribute("alert", new ErrorAlert("Application has not been successfully deleted."));
-
-                read(request, response);
+                // Continue
             }
+
+            if (application != null) {
+                try {
+                    applicationsDAO.delete(application);
+
+                    request.setAttribute("alert", new SuccessAlert("Application has been successfully deleted."));
+
+                    request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
+                } catch (BusinessDomainEntityNotFoundException e) {
+                    request.setAttribute("alert", new ErrorAlert("Application has not been successfully deleted."));
+
+                    read(request, response);
+                }
+            }
+        } else {
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
+            request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
         }
     }
 

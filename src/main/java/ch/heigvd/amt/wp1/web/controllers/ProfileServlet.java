@@ -48,29 +48,34 @@ public class ProfileServlet extends HttpServlet {
         String password = request.getParameter("password");
         String passwordConfirmation = request.getParameter("passwordConfirmation");
 
-        User user = (User)request.getSession().getAttribute("principal");
+        if (firstName != null && lastName != null && password != null && passwordConfirmation != null) {
+            User user = (User) request.getSession().getAttribute("principal");
 
-        if (password.isEmpty()) {
-            request.setAttribute("alert", new ErrorAlert("Password can't be empty."));
-        } else if(firstName.isEmpty() || lastName.isEmpty()) {
-            request.setAttribute("alert", new ErrorAlert("Missing value for required field(s)"));
-        } else if (!password.equals(passwordConfirmation)) {
-            request.setAttribute("alert", new ErrorAlert("Passwords do not match."));
-        } else {
+            if (password.isEmpty()) {
+                request.setAttribute("alert", new ErrorAlert("Password can't be empty."));
+            } else if (firstName.isEmpty() || lastName.isEmpty()) {
+                request.setAttribute("alert", new ErrorAlert("Missing value for required field(s)"));
+            } else if (!password.equals(passwordConfirmation)) {
+                request.setAttribute("alert", new ErrorAlert("Passwords do not match."));
+            } else {
 
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setPassword(password);
-            user.setState(User.State.ENABLED);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setPassword(password);
+                user.setState(User.State.ENABLED);
 
-            try {
-                usersDAO.update(user);
-                request.setAttribute("alert", new SuccessAlert("Profile has been successfully updated."));
-            } catch (BusinessDomainEntityNotFoundException e) {
-                request.setAttribute("alert", new ErrorAlert("Profile has not been successfully updated."));
+                try {
+                    usersDAO.update(user);
+                    request.setAttribute("alert", new SuccessAlert("Profile has been successfully updated."));
+                } catch (BusinessDomainEntityNotFoundException e) {
+                    request.setAttribute("alert", new ErrorAlert("Profile has not been successfully updated."));
+                }
             }
-        }
 
-        request.getRequestDispatcher("/WEB-INF/pages/profile.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/profile.jsp").forward(request, response);
+        } else {
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
+            request.getRequestDispatcher("/WEB-INF/pages/profile.jsp").forward(request, response);
+        }
     }
 }

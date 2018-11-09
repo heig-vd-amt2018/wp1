@@ -11,6 +11,8 @@ import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,56 +49,68 @@ public class UsersServlet extends HttpServlet {
                 && userEmail != null
                 && userRole != null) {
 
-            User.Role role = null;
-
-            if (userRole.equals(User.Role.ADMINISTRATOR.toString())) {
-                role = User.Role.ADMINISTRATOR;
-            } else if (userRole.equals(User.Role.APPLICATION_DEVELOPER.toString())) {
-                role = User.Role.APPLICATION_DEVELOPER;
-            }
+            boolean emailValid = true;
 
             try {
-                userVerifEmail = usersDAO.findByEmail(userEmail);
-                emailOk = userVerifEmail == null;
-            } catch (BusinessDomainEntityNotFoundException e) {
-                //continue
+                InternetAddress emailAddress = new InternetAddress(email);
+                emailAddress.validate();
+            } catch (AddressException ex) {
+                emailValid = false;
             }
 
-            if (!userFirstName.isEmpty()
-                    && !userLastName.isEmpty()
-                    && !userEmail.isEmpty()
-                    && !userRole.isEmpty()
-            ) {
-                if (emailOk) {
-                    String newPassword = UUID.randomUUID().toString();
+            if (emailValid) {
+                User.Role role = null;
 
-                    user = new User(userFirstName, userLastName, userEmail, newPassword, role, null);
+                if (userRole.equals(User.Role.ADMINISTRATOR.toString())) {
+                    role = User.Role.ADMINISTRATOR;
+                } else if (userRole.equals(User.Role.APPLICATION_DEVELOPER.toString())) {
+                    role = User.Role.APPLICATION_DEVELOPER;
+                }
 
-                    try {
-                        // Send the mail
-                        emailSender.sendEmail(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
+                try {
+                    userVerifEmail = usersDAO.findByEmail(userEmail);
+                    emailOk = userVerifEmail == null;
+                } catch (BusinessDomainEntityNotFoundException e) {
+                    //continue
+                }
 
-                        // Create the user only if the mail is send.
-                        usersDAO.create(user);
-                        request.setAttribute("alert", new SuccessAlert("User created."));
-                    } catch (MessagingException e) {
-                        request.setAttribute("alert", new ErrorAlert("User not created, mail sending failed, try again later."));
-                        e.printStackTrace();
+                if (!userFirstName.isEmpty()
+                        && !userLastName.isEmpty()
+                        && !userEmail.isEmpty()
+                        && !userRole.isEmpty()
+                ) {
+                    if (emailOk) {
+                        String newPassword = UUID.randomUUID().toString();
+
+                        user = new User(userFirstName, userLastName, userEmail, newPassword, role, null);
+
+                        try {
+                            // Send the mail
+                            emailSender.sendEmail(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
+
+                            // Create the user only if the mail is send.
+                            usersDAO.create(user);
+                            request.setAttribute("alert", new SuccessAlert("User created."));
+                        } catch (MessagingException e) {
+                            request.setAttribute("alert", new ErrorAlert("User not created, mail sending failed, try again later."));
+                            e.printStackTrace();
+                        }
+                    } else {
+                        request.setAttribute("userFirstName", userFirstName);
+                        request.setAttribute("userLastName", userLastName);
+                        request.setAttribute("error", true);
+                        request.setAttribute("alert", new WarningAlert("This email address already exist."));
                     }
                 } else {
                     request.setAttribute("userFirstName", userFirstName);
                     request.setAttribute("userLastName", userLastName);
+                    request.setAttribute("userEmail", userEmail);
                     request.setAttribute("error", true);
-                    request.setAttribute("alert", new WarningAlert("This email address already exist."));
+                    request.setAttribute("alert", new WarningAlert("All field should be filled."));
                 }
             } else {
-                request.setAttribute("userFirstName", userFirstName);
-                request.setAttribute("userLastName", userLastName);
-                request.setAttribute("userEmail", userEmail);
-                request.setAttribute("error", true);
-                request.setAttribute("alert", new WarningAlert("All field should be filled."));
+                request.setAttribute("alert", new ErrorAlert("Email is not valid."));
             }
-
         } else {
             request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
         }
@@ -149,13 +163,11 @@ public class UsersServlet extends HttpServlet {
         String userIdParam = request.getParameter("userId");
         String userFirstName = request.getParameter("userFirstName");
         String userLastName = request.getParameter("userLastName");
-        String userEmail = request.getParameter("userEmail");
         String userRole = request.getParameter("userRole");
         String userState = request.getParameter("userState");
 
         if (userFirstName != null
                 && userLastName != null
-                && userEmail != null
                 && userRole != null
                 && userState != null
                 && userIdParam != null
@@ -195,7 +207,6 @@ public class UsersServlet extends HttpServlet {
             if (user != null) {
                 user.setFirstName(userFirstName);
                 user.setLastName(userLastName);
-                user.setEmail(userEmail);
                 user.setRole(role);
                 user.setState(state);
 
@@ -203,7 +214,6 @@ public class UsersServlet extends HttpServlet {
 
                 if (!userFirstName.isEmpty()
                         && !userLastName.isEmpty()
-                        && !userEmail.isEmpty()
                         && !userRole.isEmpty()
                         && !userState.isEmpty()
                 ) {
@@ -238,7 +248,7 @@ public class UsersServlet extends HttpServlet {
 
         String userIdParam = request.getParameter("userId");
 
-        if(userIdParam != null) {
+        if (userIdParam != null) {
             long userId = Long.parseLong(userIdParam);
 
             try {
@@ -274,7 +284,7 @@ public class UsersServlet extends HttpServlet {
 
         String userIdParam = request.getParameter("userId");
 
-        if(userIdParam != null) {
+        if (userIdParam != null) {
             long userId = Long.parseLong(userIdParam);
             try {
                 user = usersDAO.findById(userId);

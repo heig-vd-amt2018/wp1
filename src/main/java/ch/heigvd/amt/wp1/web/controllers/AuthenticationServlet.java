@@ -63,48 +63,54 @@ public class AuthenticationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // When the user is not logged in yet and tries to access /pages/xxx, then he
-        // is redirected to the login page by the security filter. The security filter
-        // stores the targer url (/pages/xxx) in the request context, so that we can
-        // send redirect the user to the desired location after successful authentication.
-        //
-        // If the user accessed /auth directly and there is no targetUrl, then we send him
-        // to the home page.
-        String targetUrl = (String) request.getAttribute("targetUrl");
+        if (action != null && email != null && password != null) {
 
-        if (targetUrl == null) {
-            targetUrl = "/pages/home";
-        }
+            // When the user is not logged in yet and tries to access /pages/xxx, then he
+            // is redirected to the login page by the security filter. The security filter
+            // stores the targer url (/pages/xxx) in the request context, so that we can
+            // send redirect the user to the desired location after successful authentication.
+            //
+            // If the user accessed /auth directly and there is no targetUrl, then we send him
+            // to the home page.
+            String targetUrl = (String) request.getAttribute("targetUrl");
 
-        targetUrl = request.getContextPath() + targetUrl;
-
-        if ("login".equals(action)) {
-
-            User user = null;
-
-            try {
-                user = usersDAO.findByEmail(email);
-            } catch (BusinessDomainEntityNotFoundException e) {
-                // Continue
+            if (targetUrl == null) {
+                targetUrl = "/pages/home";
             }
 
-            if (user == null || !user.getPassword().equals(password)) {
-                request.setAttribute("alert", new ErrorAlert("Username of password incorrect."));
-                request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-            } else if (user.getState().equals(User.State.DISABLED)) {
-                request.setAttribute("alert", new ErrorAlert("This account has been disabled."));
-                request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+            targetUrl = request.getContextPath() + targetUrl;
+
+            if ("login".equals(action)) {
+
+                User user = null;
+
+                try {
+                    user = usersDAO.findByEmail(email);
+                } catch (BusinessDomainEntityNotFoundException e) {
+                    // Continue
+                }
+
+                if (user == null || !user.getPassword().equals(password)) {
+                    request.setAttribute("alert", new ErrorAlert("Username of password incorrect."));
+                    request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+                } else if (user.getState().equals(User.State.DISABLED)) {
+                    request.setAttribute("alert", new ErrorAlert("This account has been disabled."));
+                    request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+                } else {
+                    // Save the user in the session
+                    request.getSession().setAttribute("principal", user);
+                    response.sendRedirect(targetUrl);
+                }
+
+            } else if ("logout".equals(action)) {
+                request.getSession().invalidate();
+                response.sendRedirect(request.getContextPath());
             } else {
-                // Save the user in the session
-                request.getSession().setAttribute("principal", user);
                 response.sendRedirect(targetUrl);
             }
-
-        } else if ("logout".equals(action)) {
-            request.getSession().invalidate();
-            response.sendRedirect(request.getContextPath());
         } else {
-            response.sendRedirect(targetUrl);
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
+            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
         }
     }
 
