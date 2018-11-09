@@ -4,6 +4,7 @@ import ch.heigvd.amt.wp1.model.entities.User;
 import ch.heigvd.amt.wp1.rest.dto.UserDTO;
 import ch.heigvd.amt.wp1.services.business.errors.ErrorAlert;
 import ch.heigvd.amt.wp1.services.business.errors.SuccessAlert;
+import ch.heigvd.amt.wp1.services.business.errors.WarningAlert;
 import ch.heigvd.amt.wp1.services.business.mail.EmailSender;
 import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
@@ -41,54 +42,63 @@ public class UsersServlet extends HttpServlet {
         String userEmail = request.getParameter("userEmail");
         String userRole = request.getParameter("userRole");
 
-        User.Role role = null;
+        if (userFirstName != null
+                && userLastName != null
+                && userEmail != null
+                && userRole != null) {
 
-        if (userRole.equals(User.Role.ADMINISTRATOR.toString())) {
-            role = User.Role.ADMINISTRATOR;
-        } else if (userRole.equals(User.Role.APPLICATION_DEVELOPER.toString())) {
-            role = User.Role.APPLICATION_DEVELOPER;
-        }
+            User.Role role = null;
 
-        try {
-            userVerifEmail = usersDAO.findByEmail(userEmail);
-            emailOk = userVerifEmail == null;
-        } catch (BusinessDomainEntityNotFoundException e) {
-            //continue
-        }
+            if (userRole.equals(User.Role.ADMINISTRATOR.toString())) {
+                role = User.Role.ADMINISTRATOR;
+            } else if (userRole.equals(User.Role.APPLICATION_DEVELOPER.toString())) {
+                role = User.Role.APPLICATION_DEVELOPER;
+            }
 
-        if (!userFirstName.isEmpty()
-                && !userLastName.isEmpty()
-                && !userEmail.isEmpty()
-                && !userRole.isEmpty()
-        ) {
-            if (emailOk) {
-                String newPassword = UUID.randomUUID().toString();
+            try {
+                userVerifEmail = usersDAO.findByEmail(userEmail);
+                emailOk = userVerifEmail == null;
+            } catch (BusinessDomainEntityNotFoundException e) {
+                //continue
+            }
 
-                user = new User(userFirstName, userLastName, userEmail, newPassword, role, null);
+            if (!userFirstName.isEmpty()
+                    && !userLastName.isEmpty()
+                    && !userEmail.isEmpty()
+                    && !userRole.isEmpty()
+            ) {
+                if (emailOk) {
+                    String newPassword = UUID.randomUUID().toString();
 
-                try {
-                    // Send the mail
-                    emailSender.sendEmail(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
+                    user = new User(userFirstName, userLastName, userEmail, newPassword, role, null);
 
-                    // Create the user only if the mail is send.
-                    usersDAO.create(user);
-                    request.setAttribute("alert", new SuccessAlert("User created."));
-                } catch (MessagingException e) {
-                    request.setAttribute("alert", new ErrorAlert("User not created, mail sending failed, try again later."));
-                    e.printStackTrace();
+                    try {
+                        // Send the mail
+                        emailSender.sendEmail(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
+
+                        // Create the user only if the mail is send.
+                        usersDAO.create(user);
+                        request.setAttribute("alert", new SuccessAlert("User created."));
+                    } catch (MessagingException e) {
+                        request.setAttribute("alert", new ErrorAlert("User not created, mail sending failed, try again later."));
+                        e.printStackTrace();
+                    }
+                } else {
+                    request.setAttribute("userFirstName", userFirstName);
+                    request.setAttribute("userLastName", userLastName);
+                    request.setAttribute("error", true);
+                    request.setAttribute("alert", new WarningAlert("This email address already exist."));
                 }
             } else {
                 request.setAttribute("userFirstName", userFirstName);
                 request.setAttribute("userLastName", userLastName);
+                request.setAttribute("userEmail", userEmail);
                 request.setAttribute("error", true);
-                request.setAttribute("alert", new ErrorAlert("This email address already exist."));
+                request.setAttribute("alert", new WarningAlert("All field should be filled."));
             }
+
         } else {
-            request.setAttribute("userFirstName", userFirstName);
-            request.setAttribute("userLastName", userLastName);
-            request.setAttribute("userEmail", userEmail);
-            request.setAttribute("error", true);
-            request.setAttribute("alert", new ErrorAlert("All field should be filled."));
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
         }
         request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
     }
@@ -97,25 +107,34 @@ public class UsersServlet extends HttpServlet {
             throws ServletException, IOException {
 
         User user = null;
+        long userId;
 
-        long userId = Long.parseLong(request.getParameter("userId"));
+        String userIdParam = request.getParameter("userId");
 
-        try {
-            // Check if the user owns the user
-            user = usersDAO.findById(userId);
-        } catch (BusinessDomainEntityNotFoundException e) {
-            // Continue
-        }
+        if (userIdParam != null) {
 
-        if (user != null) {
-            UserDTO dto = new UserDTO(user);
+            userId = Long.parseLong(userIdParam);
 
-            request.setAttribute("user", dto);
+            try {
+                // Check if the user owns the user
+                user = usersDAO.findById(userId);
+            } catch (BusinessDomainEntityNotFoundException e) {
+                // Continue
+            }
 
-            request.getRequestDispatcher("/WEB-INF/pages/user.jsp").forward(request, response);
+            if (user != null) {
+                UserDTO dto = new UserDTO(user);
+
+                request.setAttribute("user", dto);
+
+                request.getRequestDispatcher("/WEB-INF/pages/user.jsp").forward(request, response);
+            } else {
+                request.setAttribute("alert", new ErrorAlert("User not found."));
+
+                request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
+            }
         } else {
-            request.setAttribute("alert", new ErrorAlert("User not found."));
-
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
             request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
         }
     }
@@ -127,76 +146,89 @@ public class UsersServlet extends HttpServlet {
         User userVerifEmail;
         boolean emailOk = true;
 
-        long userId = Long.parseLong(request.getParameter("userId"));
-
+        String userIdParam = request.getParameter("userId");
         String userFirstName = request.getParameter("userFirstName");
         String userLastName = request.getParameter("userLastName");
         String userEmail = request.getParameter("userEmail");
         String userRole = request.getParameter("userRole");
         String userState = request.getParameter("userState");
 
-        User.State state = null;
-        User.Role role = null;
+        if (userFirstName != null
+                && userLastName != null
+                && userEmail != null
+                && userRole != null
+                && userState != null
+                && userIdParam != null
+        ) {
 
-        if (userState.equals(User.State.ENABLED.toString())) {
-            state = User.State.ENABLED;
-        } else if (userState.equals(User.State.DISABLED.toString())) {
-            state = User.State.DISABLED;
-        } else if (userState.equals(User.State.RESET.toString())) {
-            state = User.State.RESET;
-        }
+            long userId = Long.parseLong(userIdParam);
 
-        if (userRole.equals(User.Role.ADMINISTRATOR.toString())) {
-            role = User.Role.ADMINISTRATOR;
-        } else if (userRole.equals(User.Role.APPLICATION_DEVELOPER.toString())) {
-            role = User.Role.APPLICATION_DEVELOPER;
-        }
-        try {
-            user = usersDAO.findById(userId);
-        } catch (BusinessDomainEntityNotFoundException e) {
-            //Continue
-        }
+            User.State state = null;
+            User.Role role = null;
 
-        try {
-            userVerifEmail = usersDAO.findByEmail(userEmail);
-            emailOk = userVerifEmail == null || userVerifEmail.getId() == userId;
-        } catch (BusinessDomainEntityNotFoundException e) {
-            //continue
-        }
+            if (userState.equals(User.State.ENABLED.toString())) {
+                state = User.State.ENABLED;
+            } else if (userState.equals(User.State.DISABLED.toString())) {
+                state = User.State.DISABLED;
+            } else if (userState.equals(User.State.RESET.toString())) {
+                state = User.State.RESET;
+            }
 
-        if (user != null) {
-            user.setFirstName(userFirstName);
-            user.setLastName(userLastName);
-            user.setEmail(userEmail);
-            user.setRole(role);
-            user.setState(state);
+            if (userRole.equals(User.Role.ADMINISTRATOR.toString())) {
+                role = User.Role.ADMINISTRATOR;
+            } else if (userRole.equals(User.Role.APPLICATION_DEVELOPER.toString())) {
+                role = User.Role.APPLICATION_DEVELOPER;
+            }
+            try {
+                user = usersDAO.findById(userId);
+            } catch (BusinessDomainEntityNotFoundException e) {
+                //Continue
+            }
 
-            request.setAttribute("user", user);
+            try {
+                userVerifEmail = usersDAO.findByEmail(userEmail);
+                emailOk = userVerifEmail == null || userVerifEmail.getId() == userId;
+            } catch (BusinessDomainEntityNotFoundException e) {
+                //continue
+            }
 
-            if (!userFirstName.isEmpty()
-                    && !userLastName.isEmpty()
-                    && !userEmail.isEmpty()
-                    && !userRole.isEmpty()
-                    && !userState.isEmpty()
-            ) {
-                if (emailOk) {
-                    try {
-                        usersDAO.update(user);
-                        request.setAttribute("alert", new SuccessAlert("User has been successfully updated."));
-                    } catch (BusinessDomainEntityNotFoundException e2) {
-                        request.setAttribute("alert", new ErrorAlert("User has not been successfully updated."));
+            if (user != null) {
+                user.setFirstName(userFirstName);
+                user.setLastName(userLastName);
+                user.setEmail(userEmail);
+                user.setRole(role);
+                user.setState(state);
+
+                request.setAttribute("user", user);
+
+                if (!userFirstName.isEmpty()
+                        && !userLastName.isEmpty()
+                        && !userEmail.isEmpty()
+                        && !userRole.isEmpty()
+                        && !userState.isEmpty()
+                ) {
+                    if (emailOk) {
+                        try {
+                            usersDAO.update(user);
+                            request.setAttribute("alert", new SuccessAlert("User has been successfully updated."));
+                        } catch (BusinessDomainEntityNotFoundException e2) {
+                            request.setAttribute("alert", new ErrorAlert("User has not been successfully updated."));
+                        }
+                    } else {
+                        request.setAttribute("alert", new ErrorAlert("This email already used."));
                     }
                 } else {
-                    request.setAttribute("alert", new ErrorAlert("This email already used."));
+                    request.setAttribute("alert", new ErrorAlert("All field should be filled."));
                 }
             } else {
-                request.setAttribute("alert", new ErrorAlert("All field should be filled."));
+                request.setAttribute("alert", new ErrorAlert("User not found."));
             }
-        } else {
-            request.setAttribute("alert", new ErrorAlert("User not found."));
-        }
+            request.getRequestDispatcher("/WEB-INF/pages/user.jsp").forward(request, response);
 
-        request.getRequestDispatcher("/WEB-INF/pages/user.jsp").forward(request, response);
+        } else {
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
+            request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
+        }
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response)
@@ -204,27 +236,35 @@ public class UsersServlet extends HttpServlet {
 
         User user = null;
 
-        long userId = Long.parseLong(request.getParameter("userId"));
+        String userIdParam = request.getParameter("userId");
 
-        try {
-            // Check if the user owns the user
-            user = usersDAO.findById(userId);
-        } catch (BusinessDomainEntityNotFoundException e) {
-            // Continue
-        }
+        if(userIdParam != null) {
+            long userId = Long.parseLong(userIdParam);
 
-        if (user != null) {
             try {
-                usersDAO.delete(user);
-
-                request.setAttribute("alert", new SuccessAlert("User has been successfully deleted."));
-
-                request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
+                // Check if the user owns the user
+                user = usersDAO.findById(userId);
             } catch (BusinessDomainEntityNotFoundException e) {
-                request.setAttribute("alert", new ErrorAlert("User has not been successfully deleted."));
-
-                read(request, response);
+                // Continue
             }
+
+            if (user != null) {
+                try {
+                    usersDAO.delete(user);
+
+                    request.setAttribute("alert", new SuccessAlert("User has been successfully deleted."));
+                    request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
+
+                } catch (BusinessDomainEntityNotFoundException e) {
+                    request.setAttribute("alert", new ErrorAlert("User has not been successfully deleted."));
+
+                    read(request, response);
+                }
+            }
+
+        } else {
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
+            request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
         }
     }
 
@@ -232,49 +272,53 @@ public class UsersServlet extends HttpServlet {
             throws ServletException, IOException {
         User user = null;
 
-        long userId = Long.parseLong(request.getParameter("userId"));
+        String userIdParam = request.getParameter("userId");
 
-        try {
-            user = usersDAO.findById(userId);
-        } catch (BusinessDomainEntityNotFoundException e) {
-            //continue
-        }
-        if (user != null) {
+        if(userIdParam != null) {
+            long userId = Long.parseLong(userIdParam);
+            try {
+                user = usersDAO.findById(userId);
+            } catch (BusinessDomainEntityNotFoundException e) {
+                //continue
+            }
+            if (user != null) {
 
-            if (user.getState() != User.State.RESET) {
+                if (user.getState() != User.State.RESET) {
 
 
-                user.setState(User.State.RESET);
+                    user.setState(User.State.RESET);
 
-                String newPassword = UUID.randomUUID().toString();
-                user.setPassword(newPassword);
-
-                try {
+                    String newPassword = UUID.randomUUID().toString();
+                    user.setPassword(newPassword);
 
                     try {
-                        // Send the mail
-                        emailSender.sendEmail(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
 
-                        // Update the user only if the mail is send.
-                        usersDAO.update(user);
-                        request.setAttribute("alert", new SuccessAlert("Password reset."));
+                        try {
+                            // Send the mail
+                            emailSender.sendEmail(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
 
-                    } catch (MessagingException e) {
-                        request.setAttribute("alert", new ErrorAlert("User not updated because mail not send."));
-                        e.printStackTrace();
+                            // Update the user only if the mail is send.
+                            usersDAO.update(user);
+                            request.setAttribute("alert", new SuccessAlert("Password reset."));
+
+                        } catch (MessagingException e) {
+                            request.setAttribute("alert", new ErrorAlert("User not updated because mail not send."));
+                            e.printStackTrace();
+                        }
+
+                        request.setAttribute("alert", new SuccessAlert("Password reset, email sent."));
+                    } catch (BusinessDomainEntityNotFoundException e2) {
+                        request.setAttribute("alert", new ErrorAlert("Error when updating user."));
                     }
-
-                    request.setAttribute("alert", new SuccessAlert("Password reset, email sent."));
-                } catch (BusinessDomainEntityNotFoundException e2) {
-                    request.setAttribute("alert", new ErrorAlert("Error when updating user."));
+                } else {
+                    request.setAttribute("alert", new ErrorAlert("Password already reset."));
                 }
             } else {
-                request.setAttribute("alert", new ErrorAlert("Password already reset."));
+                request.setAttribute("alert", new ErrorAlert("Error when resetting password."));
             }
         } else {
-            request.setAttribute("alert", new ErrorAlert("Error when resetting password."));
+            request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
         }
-
         request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
     }
 
