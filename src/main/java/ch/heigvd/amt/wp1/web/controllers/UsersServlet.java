@@ -33,6 +33,8 @@ public class UsersServlet extends HttpServlet {
             throws ServletException, IOException {
 
         User user;
+        User userVerifEmail;
+        boolean emailOk = true;
 
         String userFirstName = request.getParameter("userFirstName");
         String userLastName = request.getParameter("userLastName");
@@ -47,39 +49,48 @@ public class UsersServlet extends HttpServlet {
             role = User.Role.APPLICATION_DEVELOPER;
         }
 
-        User tmpUser = null;
-
         try {
-            tmpUser = usersDAO.findByEmail(userEmail);
-
-        }catch (BusinessDomainEntityNotFoundException e) {
+            userVerifEmail = usersDAO.findByEmail(userEmail);
+            emailOk = userVerifEmail == null;
+        } catch (BusinessDomainEntityNotFoundException e) {
             //continue
         }
 
-        if (tmpUser == null) {
+        if (!userFirstName.isEmpty()
+                && !userLastName.isEmpty()
+                && !userEmail.isEmpty()
+                && !userRole.isEmpty()
+        ) {
+            if (emailOk) {
+                String newPassword = UUID.randomUUID().toString();
 
-            String newPassword = UUID.randomUUID().toString();
-
-                user = new User(userFirstName, userLastName, userEmail, newPassword ,role, null);
+                user = new User(userFirstName, userLastName, userEmail, newPassword, role, null);
 
                 try {
                     // Send the mail
-                    emailSender.sendEmail(user.getEmail(),user.getFirstName(),user.getLastName(),user.getPassword());
+                    emailSender.sendEmail(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
 
                     // Create the user only if the mail is send.
                     usersDAO.create(user);
-
+                    request.setAttribute("alert", new SuccessAlert("User created."));
                 } catch (MessagingException e) {
-                    request.setAttribute("alert", new ErrorAlert("User not created because mail not send."));
+                    request.setAttribute("alert", new ErrorAlert("User not created, mail sending failed, try again later."));
                     e.printStackTrace();
                 }
-
-                request.setAttribute("alert", new SuccessAlert("User has been successfully created."));
-                request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
             } else {
-                request.setAttribute("alert", new ErrorAlert("Email address already exist."));
-                request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
+                request.setAttribute("userFirstName", userFirstName);
+                request.setAttribute("userLastName", userLastName);
+                request.setAttribute("error", true);
+                request.setAttribute("alert", new ErrorAlert("This email address already exist."));
             }
+        } else {
+            request.setAttribute("userFirstName", userFirstName);
+            request.setAttribute("userLastName", userLastName);
+            request.setAttribute("userEmail", userEmail);
+            request.setAttribute("error", true);
+            request.setAttribute("alert", new ErrorAlert("All field should be filled."));
+        }
+        request.getRequestDispatcher("/WEB-INF/pages/users.jsp").forward(request, response);
     }
 
     private void read(HttpServletRequest request, HttpServletResponse response)
@@ -176,7 +187,7 @@ public class UsersServlet extends HttpServlet {
                         request.setAttribute("alert", new ErrorAlert("User has not been successfully updated."));
                     }
                 } else {
-                    request.setAttribute("alert", new ErrorAlert("Email already used."));
+                    request.setAttribute("alert", new ErrorAlert("This email already used."));
                 }
             } else {
                 request.setAttribute("alert", new ErrorAlert("All field should be filled."));
@@ -242,10 +253,11 @@ public class UsersServlet extends HttpServlet {
 
                     try {
                         // Send the mail
-                        emailSender.sendEmail(user.getEmail(),user.getFirstName(),user.getLastName(),user.getPassword());
+                        emailSender.sendEmail(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
 
                         // Update the user only if the mail is send.
                         usersDAO.update(user);
+                        request.setAttribute("alert", new SuccessAlert("Password reset."));
 
                     } catch (MessagingException e) {
                         request.setAttribute("alert", new ErrorAlert("User not updated because mail not send."));
@@ -256,7 +268,7 @@ public class UsersServlet extends HttpServlet {
                 } catch (BusinessDomainEntityNotFoundException e2) {
                     request.setAttribute("alert", new ErrorAlert("Error when updating user."));
                 }
-            }else{
+            } else {
                 request.setAttribute("alert", new ErrorAlert("Password already reset."));
             }
         } else {
@@ -283,7 +295,7 @@ public class UsersServlet extends HttpServlet {
         } else if (action.equals("delete") && !userId.isEmpty()) {
             delete(request, response);
         } else if (action.equals("resetPassword") && !userId.isEmpty()) {
-            resetPassword(request,response);
+            resetPassword(request, response);
         } else if (action.isEmpty() && !userId.isEmpty()) {
             read(request, response);
         } else {

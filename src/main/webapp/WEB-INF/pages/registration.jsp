@@ -53,23 +53,24 @@
                 <div class="panel-body">
                     <p class="text-center">Already an account ? Please <a href="login">login</a> !</p>
                     <c:if test="${alert != null}">
-                    <div class="alert alert-dismissable ${alert.cssClass}">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            ${alert.message}
-                    </div>
+                        <div class="alert alert-dismissable ${alert.cssClass}">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                ${alert.message}
+                        </div>
                     </c:if>
                     <form id="form" role="form" action="register" method="post">
                         <fieldset>
                             <div class="form-group">
                                 <input type="text" name="firstName" class="form-control" placeholder="First name"
-                                       value="${firstName}">
+                                       required value="<c:out value="${firstName}"/>">
                             </div>
                             <div class="form-group">
                                 <input type="text" name="lastName" class="form-control" placeholder="Last name"
-                                       value="${lastName}">
+                                       required value="<c:out value="${lastName}"/>">
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-control" placeholder="Email" value="${email}">
+                                <input type="email" name="email" class="form-control" placeholder="Email"
+                                       required value="<c:out value="${email}"/>">
                             </div>
                             <div class="form-group">
                                 <input type="password" name="password" class="form-control" placeholder="Password">

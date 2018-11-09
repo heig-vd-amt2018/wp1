@@ -38,16 +38,20 @@ public class ApplicationsServlet extends HttpServlet {
         } catch (BusinessDomainEntityNotFoundException e) {
             // Continue
         }
-
-        if (application == null) {
+        if (application == null && !appName.isEmpty()) {
             applicationsDAO.create(new Application(user, appName, appDescription));
 
             request.setAttribute("alert", new SuccessAlert("Application has been successfully created."));
         } else {
             request.setAttribute("appName", appName);
             request.setAttribute("appDescription", appDescription);
+            request.setAttribute("error", true);
 
-            request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
+            if (appName.isEmpty()){
+                request.setAttribute("alert", new WarningAlert("Application name is required."));
+            } else {
+                request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
+            }
         }
 
         request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
@@ -105,7 +109,8 @@ public class ApplicationsServlet extends HttpServlet {
 
             try {
                 applicationsDAO.findByNameByDeveloper(appName, user);
-
+                request.setAttribute("appDescription",appDescription);
+                request.setAttribute("error", true);
                 request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
             } catch (BusinessDomainEntityNotFoundException e1) {
                 try {
@@ -122,7 +127,11 @@ public class ApplicationsServlet extends HttpServlet {
             request.setAttribute("appName", appName);
             request.setAttribute("appDescription", appDescription);
 
-            request.setAttribute("alert", new ErrorAlert("Application not found."));
+            if(appName.isEmpty()){
+                request.setAttribute("alert", new WarningAlert("Application name is required."));
+            } else {
+                request.setAttribute("alert", new ErrorAlert("Application not found."));
+            }
         }
 
         request.getRequestDispatcher("/WEB-INF/pages/application.jsp").forward(request, response);

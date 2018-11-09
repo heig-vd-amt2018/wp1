@@ -28,15 +28,18 @@
                         </div>
                         <div class="form-group">
                             <label>Created date</label>
-                            <input name="appCreatedDate" value="${application.createdDate}" type="datetime-local" class="form-control" readonly="">
+                            <input name="appCreatedDate" value="${application.createdDate}" type="datetime-local"
+                                   class="form-control" readonly="">
                         </div>
                         <div class="form-group">
                             <label>Name</label>
-                            <input name="appName" value="${application.name}" class="form-control" placeholder="Enter name">
+                            <input name="appName" value="<c:out value="${application.name}"/>" class="form-control"
+                                   placeholder="Enter name" required>
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <input name="appDescription" value="${application.description}" class="form-control" placeholder="Enter description">
+                            <input name="appDescription" value="<c:out value="${application.description}"/>" class="form-control"
+                                   placeholder="Enter description">
                         </div>
                         <div class="form-group">
                             <label><code>API_KEY</code></label>
@@ -44,7 +47,8 @@
                         </div>
                         <div class="form-group">
                             <label><code>API_SECRET</code></label>
-                            <input name="appApiSecret" value="${application.apiSecret}" class="form-control" readonly="">
+                            <input name="appApiSecret" value="${application.apiSecret}" class="form-control"
+                                   readonly="">
                         </div>
                         <button name="update" type="submit" class="btn btn-default btn-block">Save</button>
                         <button name="delete" class="btn btn-default btn-block">Delete</button>
@@ -60,7 +64,7 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         $("button[name=update]").click(function () {
             $("#form").attr("action", "pages/applications?action=update");
             $("#form").submit();

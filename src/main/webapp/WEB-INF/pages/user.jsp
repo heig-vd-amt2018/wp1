@@ -24,24 +24,27 @@
                     <form id="form" role="form" method="post">
                         <div class="form-group">
                             <label>ID</label>
-                            <input name="userId" value="${user.id}" class="form-control" readonly="">
+                            <input name="userId" value="<c:out value="${user.id}"/>" class="form-control" readonly="">
                         </div>
                         <div class="form-group">
                             <label>First Name</label>
-                            <input name="userFirstName" value="${user.firstName}" class="form-control" placeholder="Enter first name">
+                            <input name="userFirstName" value="<c:out value="${user.firstName}"/>" class="form-control"
+                                   placeholder="Enter first name" required="required">
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input name="userLastName" value="${user.lastName}" class="form-control" placeholder="Enter last name">
+                            <input name="userLastName" value="<c:out value="${user.lastName}"/>" class="form-control"
+                                   placeholder="Enter last name" required="required">
                         </div>
                         <div class="form-group">
                             <label>email</label>
-                            <input name="userEmail" value="${user.email}" class="form-control" placeholder="Enter email">
+                            <input name="userEmail" value="<c:out value="${user.email}"/>" class="form-control"
+                                   placeholder="Enter email" required="required">
                         </div>
                         <div class="form-group">
                             <label>Role</label>
                             <select class="form-control" name="userRole">
-                                <c:forTokens items="APPLICATION_DEVELOPER/ADMINISTRATOR" delims="/" var="role" >
+                                <c:forTokens items="APPLICATION_DEVELOPER/ADMINISTRATOR" delims="/" var="role">
                                     <option value="${role}" ${role == user.role ? 'selected' : ''}>${role}</option>
                                 </c:forTokens>
                             </select>
@@ -55,7 +58,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <select class="form-control" name="userState">
-                                        <c:forTokens items="ENABLED/DISABLED" delims="/" var="role" >
+                                        <c:forTokens items="ENABLED/DISABLED" delims="/" var="role">
                                             <option value="${role}" ${role == user.state ? 'selected' : ''}>${role}</option>
                                         </c:forTokens>
                                     </select>
@@ -78,7 +81,7 @@
 
 <script>
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         $("button[name=update]").click(function () {
             $("#form").attr("action", "pages/users?action=update");
             $("#form").submit();

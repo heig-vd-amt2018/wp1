@@ -61,10 +61,12 @@
                     <form id="form" role="form" action="auth?action=login" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email" value="${email}" autofocus>
+                                <input class="form-control" placeholder="E-mail" name="email" type="email"
+                                       required value="<c:out value="${email}"/>" autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" value="${password}">
+                                <input class="form-control" placeholder="Password" name="password" type="password"
+                                       required value="<c:out value="${password}"/>">
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </fieldset>

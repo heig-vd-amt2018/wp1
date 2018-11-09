@@ -24,14 +24,15 @@
                     <form id="form" role="form" action="pages/profile" method="post">
                         <div class="form-group">
                             <input type="text" name="firstName" class="form-control" placeholder="First name"
-                                   value="${principal.firstName}">
+                                   required value="<c:out value="${principal.firstName}"/>">
                         </div>
                         <div class="form-group">
                             <input type="text" name="lastName" class="form-control" placeholder="Last name"
-                                   value="${principal.lastName}">
+                                   required value="<c:out value="${principal.lastName}"/>">
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" class="form-control" placeholder="Email" value="${principal.email}" readonly>
+                            <input type="email" name="email" class="form-control" placeholder="Email"
+                                   required value="<c:out value="${principal.email}"/>" readonly>
                         </div>
                         <div class="form-group">
                             <input type="password" name="password" class="form-control" placeholder="Password">
