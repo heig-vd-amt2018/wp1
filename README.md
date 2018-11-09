@@ -10,8 +10,9 @@ Follow the steps to deploy the application locally:
 1. Clone the repository: `git clone git@github.com:heig-vd-amt2018/wp1.git amt-wp1`.
 2. Move to the cloned directory: `mv amt-wp1/`.
 3. Compile the project: `mvn clean install`.
-4. Move the compiled `.war` to the `payara` directory: `cp target/WP1-1.0-SNAPSHOT.war images/payara/``
-6. Deploy the application with docker: `docker-compose up --build`
+4. Move the compiled `.war` to the `payara` directory: `cp target/WP1-1.0-SNAPSHOT.war images/payara/`.
+5. Move the file `.env_example` to `.env` and edit the file with the right elements.
+6. Deploy the application with docker: `docker-compose up --build`.
 7. Access to the application from [localhost:8080/WP1-1.0-SNAPSHOT](http://localhost:8080/WP1-1.0-SNAPSHOT).
 8. You are done !
 
