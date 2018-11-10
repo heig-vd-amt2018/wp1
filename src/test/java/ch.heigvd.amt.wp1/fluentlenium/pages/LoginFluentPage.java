@@ -12,8 +12,8 @@ public class LoginFluentPage extends AbstractMVCDemoFluentPage {
   private final static String inputEmail = "#email"; // id in the html code
   private final static String inputPassword = "#password"; // id in the html code
   private final static String buttonSignin = "#submit"; // id in the html code
+  private final static String linkRegistration = "#register"; // id in the html code
   private final static String idPage = "#page"; // id in the html code
-
 
   @Override
   public void isAt() {
@@ -29,6 +29,8 @@ public class LoginFluentPage extends AbstractMVCDemoFluentPage {
   public void clickSignin() {
     $(buttonSignin).click();
   }
+
+  public void clickRegister(){$(linkRegistration).click();}
 
   public String getUrl() {
     return "/";

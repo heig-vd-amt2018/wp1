@@ -2,6 +2,7 @@ package ch.heigvd.amt.wp1.fluentlenium;
 
 import ch.heigvd.amt.wp1.fluentlenium.pages.HomeFluentPage;
 import ch.heigvd.amt.wp1.fluentlenium.pages.LoginFluentPage;
+import ch.heigvd.amt.wp1.fluentlenium.pages.RegistrationFluentPage;
 import io.probedock.client.annotations.ProbeTest;
 import org.fluentlenium.adapter.junit.FluentTest;
 import org.junit.Test;
@@ -20,6 +21,9 @@ public class MVCDemoFluentTest extends FluentTest {
 
   @Page
   public LoginFluentPage loginPage;
+
+  @Page
+  public RegistrationFluentPage registrationFluentPage;
 
   @Page
   public HomeFluentPage homePage;
@@ -44,6 +48,76 @@ public class MVCDemoFluentTest extends FluentTest {
     loginPage.typePassword("adminadmin");
     loginPage.clickSignin();
     homePage.isAt();
+  }
+
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void successfulRegistrationShouldBringUserToHomePage() {
+    goTo(baseUrl);
+    loginPage.isAt();
+    loginPage.clickRegister();
+    registrationFluentPage.isAt();
+    registrationFluentPage.typeFirstName("Jean");
+    registrationFluentPage.typeLastName("Paul");
+    registrationFluentPage.typeEmailAddress("jeanpaul@test.ch");
+    registrationFluentPage.typePassword("test");
+    registrationFluentPage.typeConfirmPassword("test");
+    registrationFluentPage.clickSignin();
+    homePage.isAt();
+  }
+
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToRegisterWithoutInformation(){
+    goTo(baseUrl);
+    loginPage.isAt();
+    loginPage.clickRegister();
+    registrationFluentPage.isAt();
+    registrationFluentPage.clickSignin();
+    registrationFluentPage.isAt();
+  }
+
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToRegisterWithTwoDifferentPassword(){
+    goTo(baseUrl);
+    loginPage.isAt();
+    loginPage.clickRegister();
+    registrationFluentPage.isAt();
+    registrationFluentPage.typeFirstName("Richard");
+    registrationFluentPage.typeLastName("Aldana");
+    registrationFluentPage.typeEmailAddress("Richard.Aldana@gmail.com");
+    registrationFluentPage.typePassword("password");
+    registrationFluentPage.typeConfirmPassword("wrong");
+    registrationFluentPage.clickSignin();
+    registrationFluentPage.isAt();
+  }
+
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldNotBePossibleToRegisterWithAnExistingEmail() {
+    goTo(baseUrl);
+    loginPage.isAt();
+    loginPage.clickRegister();
+    registrationFluentPage.isAt();
+    registrationFluentPage.typeFirstName("James");
+    registrationFluentPage.typeLastName("Bond");
+    registrationFluentPage.typeEmailAddress("user1@wp1.ch"); //Email that is created at each initialization
+    registrationFluentPage.typePassword("password");
+    registrationFluentPage.typeConfirmPassword("password");
+    registrationFluentPage.clickSignin();
+    registrationFluentPage.isAt();
+  }
+
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void itShouldbePossibleToNavigateBetweenLoginAndRegisterWithoutError() {
+    goTo(baseUrl);
+    loginPage.isAt();
+    loginPage.clickRegister();
+    registrationFluentPage.isAt();
+    registrationFluentPage.clickLogin();
+    loginPage.isAt();
   }
 
   @Override

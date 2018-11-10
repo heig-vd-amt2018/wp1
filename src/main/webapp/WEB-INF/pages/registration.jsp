@@ -43,6 +43,8 @@
 
 <body>
 
+<div id="page" value="registration"></div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -51,7 +53,7 @@
                     <h3 class="panel-title">Register</h3>
                 </div>
                 <div class="panel-body">
-                    <p class="text-center">Already an account ? Please <a href="login">login</a> !</p>
+                    <p class="text-center">Already an account ? Please <a id="login" href="login">login</a> !</p>
                     <c:if test="${alert != null}">
                         <div class="alert alert-dismissable ${alert.cssClass}">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -61,25 +63,25 @@
                     <form id="form" role="form" action="register" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input type="text" name="firstName" class="form-control" placeholder="First name"
+                                <input type="text" id="firstname" name="firstName" class="form-control" placeholder="First name"
                                        required value="<c:out value="${firstName}"/>">
                             </div>
                             <div class="form-group">
-                                <input type="text" name="lastName" class="form-control" placeholder="Last name"
+                                <input type="text" id="lastname" name="lastName" class="form-control" placeholder="Last name"
                                        required value="<c:out value="${lastName}"/>">
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-control" placeholder="Email"
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Email"
                                        required value="<c:out value="${email}"/>">
                             </div>
                             <div class="form-group">
-                                <input type="password" name="password" class="form-control" placeholder="Password">
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                             </div>
                             <div class="form-group">
-                                <input type="password" name="passwordConfirmation" class="form-control"
+                                <input type="password" id="confirmPassword" name="passwordConfirmation" class="form-control"
                                        placeholder="Confirm password">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <button id="submit" type="submit" class="btn btn-primary btn-block">Register</button>
                         </fieldset>
                     </form>
                 </div>

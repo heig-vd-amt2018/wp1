@@ -53,7 +53,7 @@
                     <h3 class="panel-title">Please Sign In</h3>
                 </div>
                 <div class="panel-body">
-                    <p class="text-center">Don't have an account yet ? Register <a href="register">here</a> !</p>
+                    <p class="text-center">Don't have an account yet ? Register <a id="register" href="register">here</a> !</p>
                     <c:if test="${alert != null}">
                         <div class="alert alert-dismissable ${alert.cssClass}">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
