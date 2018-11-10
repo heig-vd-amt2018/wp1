@@ -1,5 +1,7 @@
 <%@include file="includes/header.jsp" %>
 
+<div id="page" value="users"></div>
+
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -21,7 +23,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true"
+                        <a id="addUser" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true"
                            class="">Add User</a>
                     </h4>
                 </div>
@@ -37,27 +39,27 @@
                             <form id="form" role="form" action="pages/users?action=save" method="post">
                                 <div class="form-group">
                                     <label>First name</label>
-                                    <input class="form-control" placeholder="Enter text" name="userFirstName"
+                                    <input id="firstname" class="form-control" placeholder="Enter text" name="userFirstName"
                                            value="<c:out value="${userFirstName}"/>">
                                 </div>
                                 <div class="form-group">
                                     <label>Last name</label>
-                                    <input class="form-control" placeholder="Enter text" name="userLastName"
+                                    <input id="lastname" class="form-control" placeholder="Enter text" name="userLastName"
                                            required value="<c:out value="${userLastName}"/>">
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" placeholder="Enter text" name="userEmail"
+                                    <input id="email" type="email" class="form-control" placeholder="Enter text" name="userEmail"
                                            required value="<c:out value="${userEmail}"/>">
                                 </div>
                                 <div class="form-group">
                                     <label>Role</label>
-                                    <select class="form-control" name="userRole">
+                                    <select  id="role" class="form-control" name="userRole">
                                         <option value="APPLICATION_DEVELOPER">Application developer</option>
                                         <option value="ADMINISTRATOR">Administrator</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Add</button>
+                                <button id="submit" type="submit" class="btn btn-default btn-block">Add</button>
                             </form>
                         </div>
                     </div>

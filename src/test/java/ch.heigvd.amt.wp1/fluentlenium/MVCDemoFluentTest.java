@@ -3,6 +3,7 @@ package ch.heigvd.amt.wp1.fluentlenium;
 import ch.heigvd.amt.wp1.fluentlenium.pages.HomeFluentPage;
 import ch.heigvd.amt.wp1.fluentlenium.pages.LoginFluentPage;
 import ch.heigvd.amt.wp1.fluentlenium.pages.RegistrationFluentPage;
+import ch.heigvd.amt.wp1.fluentlenium.pages.UsersFluentPage;
 import io.probedock.client.annotations.ProbeTest;
 import org.fluentlenium.adapter.junit.FluentTest;
 import org.junit.Test;
@@ -27,6 +28,9 @@ public class MVCDemoFluentTest extends FluentTest {
 
   @Page
   public HomeFluentPage homePage;
+
+  @Page
+  public UsersFluentPage usersFluentPage;
 
   @Test
   @ProbeTest(tags = "WebUI")
@@ -108,6 +112,29 @@ public class MVCDemoFluentTest extends FluentTest {
     registrationFluentPage.clickSignin();
     registrationFluentPage.isAt();
   }
+
+  @Test
+  @ProbeTest(tags = "WebUI")
+  public void adminShouldBeCapableOfCreateAUser() {
+    goTo(baseUrl);
+    loginPage.isAt();
+    loginPage.typeEmailAddress("admin@wp1.ch");
+    loginPage.typePassword("adminadmin");
+    loginPage.clickSignin();
+    homePage.isAt();
+    homePage.goToUsersPage();
+    usersFluentPage.isAt();
+    usersFluentPage.clickAddUser();
+    usersFluentPage.typeFirstName("Bruce");
+    usersFluentPage.typeLastName("Wayne");
+    usersFluentPage.typeEmailAddress("bruce.wayne@gmail.com");
+    usersFluentPage.selectRole("APPLICATION_DEVELOPER");
+    usersFluentPage.clickSignin();
+    usersFluentPage.isAt();
+    usersFluentPage.isCreated();
+  }
+
+
 
   @Test
   @ProbeTest(tags = "WebUI")

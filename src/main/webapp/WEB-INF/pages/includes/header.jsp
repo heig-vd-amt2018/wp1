@@ -89,7 +89,7 @@
                     </li>
                     <c:if test="${principal.role == 'ADMINISTRATOR'}">
                     <li>
-                        <a href="pages/users"><i class="fa fa-user fa-fw"></i> Users</a>
+                        <a id="goUsers" href="pages/users"><i class="fa fa-user fa-fw"></i> Users</a>
                     </li>
                     </c:if>
                     <li>

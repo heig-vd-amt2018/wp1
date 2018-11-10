@@ -1,5 +1,7 @@
 package ch.heigvd.amt.wp1.fluentlenium.pages;
 
+import org.fluentlenium.core.FluentPage;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -7,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Olivier Liechti
  */
-public class LoginFluentPage extends AbstractMVCDemoFluentPage {
+public class LoginFluentPage extends FluentPage {
 
   private final static String inputEmail = "#email"; // id in the html code
   private final static String inputPassword = "#password"; // id in the html code
