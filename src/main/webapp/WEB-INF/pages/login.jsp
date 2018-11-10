@@ -43,6 +43,8 @@
 
 <body>
 
+<div id="page" value="login"></div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -61,14 +63,12 @@
                     <form id="form" role="form" action="auth?action=login" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email"
-                                       required value="<c:out value="${email}"/>" autofocus>
+                                <input id="email" class="form-control" placeholder="E-mail" name="email" type="email" value="${email}" autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password"
-                                       required value="<c:out value="${password}"/>">
+                                <input id="password" class="form-control" placeholder="Password" name="password" type="password" value="${password}">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            <button id="submit" type="submit" class="btn btn-primary btn-block">Login</button>
                         </fieldset>
                     </form>
                 </div>
