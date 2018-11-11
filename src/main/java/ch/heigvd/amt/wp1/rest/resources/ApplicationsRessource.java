@@ -7,6 +7,7 @@ import ch.heigvd.amt.wp1.rest.dto.DataTables.ApplicationDataTablesDTO;
 import ch.heigvd.amt.wp1.rest.dto.DataTables.DataTablesDTO;
 import ch.heigvd.amt.wp1.services.dao.ApplicationsDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
+import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.PathParam;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,9 @@ public class ApplicationsRessource {
     @EJB
     private ApplicationsDAOLocal applicationsDAO;
 
+    @EJB
+    private UsersDAOLocal usersDAO;
+
     @GET
     @Produces("application/json")
     public DataTablesDTO getApplications(@QueryParam("length") int length, @QueryParam("start") int start, @QueryParam("draw") int draw) {
@@ -42,6 +47,41 @@ public class ApplicationsRessource {
         List<ApplicationDTO> data = new ArrayList<>();
 
         List<Application> applications = null;
+        try {
+            applications = applicationsDAO.findAllByUser(user, length, start);
+
+            for (Application application : applications) {
+                ApplicationDTO dto = new ApplicationDTO(application);
+                data.add(dto);
+            }
+        } catch (BusinessDomainEntityNotFoundException e) {
+            // Continue
+        }
+
+        long recordsTotal = applicationsDAO.count();
+
+        DataTablesDTO result = new ApplicationDataTablesDTO(draw, recordsTotal, data);
+
+        return result;
+    }
+
+    @GET
+    @Path("/{userId}")
+    @Produces("application/json")
+    public DataTablesDTO getApplicationsByUser(@PathParam(value = "userId") long userId, @QueryParam("length") int length, @QueryParam("start") int start, @QueryParam("draw") int draw) {
+
+        User user = null;
+
+        try {
+           user = usersDAO.findById(userId);
+        } catch (BusinessDomainEntityNotFoundException e) {
+            //continue
+        }
+
+        List<ApplicationDTO> data = new ArrayList<>();
+
+        List<Application> applications = null;
+
         try {
             applications = applicationsDAO.findAllByUser(user, length, start);
 

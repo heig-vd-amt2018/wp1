@@ -63,7 +63,7 @@ public class AuthenticationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        if (action != null && email != null && password != null) {
+        if (action != null) {
 
             // When the user is not logged in yet and tries to access /pages/xxx, then he
             // is redirected to the login page by the security filter. The security filter
@@ -82,24 +82,31 @@ public class AuthenticationServlet extends HttpServlet {
 
             if ("login".equals(action)) {
 
-                User user = null;
+                if (email != null && password != null){
+                    User user = null;
 
-                try {
-                    user = usersDAO.findByEmail(email);
-                } catch (BusinessDomainEntityNotFoundException e) {
-                    // Continue
-                }
+                    try {
+                        user = usersDAO.findByEmail(email);
+                    } catch (BusinessDomainEntityNotFoundException e) {
+                        // Continue
+                    }
 
-                if (user == null || !user.getPassword().equals(password)) {
-                    request.setAttribute("alert", new ErrorAlert("Username of password incorrect."));
-                    request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-                } else if (user.getState().equals(User.State.DISABLED)) {
-                    request.setAttribute("alert", new ErrorAlert("This account has been disabled."));
-                    request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+                    if (user == null || !user.getPassword().equals(password)) {
+                        request.setAttribute("alert", new ErrorAlert("Username of password incorrect."));
+                        request.setAttribute("email", email);
+                        request.setAttribute("password", password);
+                        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+                    } else if (user.getState().equals(User.State.DISABLED)) {
+                        request.setAttribute("alert", new ErrorAlert("This account has been disabled."));
+                        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+                    } else {
+                        // Save the user in the session
+                        request.getSession().setAttribute("principal", user);
+                        response.sendRedirect(targetUrl);
+                    }
                 } else {
-                    // Save the user in the session
-                    request.getSession().setAttribute("principal", user);
-                    response.sendRedirect(targetUrl);
+                    request.setAttribute("alert", new ErrorAlert("Missing parameters. Please verify your inputs."));
+                    request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
                 }
 
             } else if ("logout".equals(action)) {
