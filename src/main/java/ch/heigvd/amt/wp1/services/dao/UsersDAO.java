@@ -1,13 +1,13 @@
 package ch.heigvd.amt.wp1.services.dao;
-
-import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.User;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
-import java.util.List;
 
 @Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class UsersDAO extends GenericDAO<User, Long> implements UsersDAOLocal {
     @Override
     public User findByFirstName(String firstName) throws BusinessDomainEntityNotFoundException {

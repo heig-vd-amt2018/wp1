@@ -4,10 +4,17 @@ import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.User;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class ApplicationsDAO extends GenericDAO<Application, Long> implements ApplicationsDAOLocal {
 
     @Override
@@ -60,4 +67,5 @@ public class ApplicationsDAO extends GenericDAO<Application, Long> implements Ap
 
         return result;
     }
+
 }
