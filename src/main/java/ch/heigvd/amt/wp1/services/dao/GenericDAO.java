@@ -3,6 +3,7 @@ package ch.heigvd.amt.wp1.services.dao;
 import ch.heigvd.amt.wp1.model.entities.AbstractDomainModelEntity;
 import ch.heigvd.amt.wp1.model.entities.Application;
 
+import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
@@ -30,11 +31,8 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
         if(t instanceof Application){
 
             // If the title is Title7, throw un exception
-            if(((Application)t).getName().equals("Title7") )
-            try{
-                throw new RuntimeException("boum");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            if(((Application)t).getName().equals("Title7") ) {
+                //throw new RuntimeException("boum");
             }
         }
         return id;

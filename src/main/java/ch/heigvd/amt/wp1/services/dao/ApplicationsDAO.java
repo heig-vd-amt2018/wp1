@@ -34,6 +34,15 @@ public class ApplicationsDAO extends GenericDAO<Application, Long> implements Ap
         return result;
     }
 
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public Long create(Application application) {
+        System.out.println("Create application " + application.getName());
+        return super.create(application);
+    }
+
+
     @Override
     public Application findByNameByDeveloper(String name, User user) throws BusinessDomainEntityNotFoundException {
         Application result = null;
