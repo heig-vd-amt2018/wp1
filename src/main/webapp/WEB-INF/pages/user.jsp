@@ -33,12 +33,12 @@
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input name="userLastName" value="<c:out value="${user.lastName}"/>" class="form-control"
+                            <input id="lastname" name="userLastName" value="<c:out value="${user.lastName}"/>" class="form-control"
                                    placeholder="Enter last name" required="required">
                         </div>
                         <div class="form-group">
                             <label>email</label>
-                            <input name="userEmail" value="<c:out value="${user.email}"/>" class="form-control"
+                            <input id="email" name="userEmail" value="<c:out value="${user.email}"/>" class="form-control"
                                    placeholder="Enter email" required="required">
                         </div>
                         <div class="form-group">
@@ -65,9 +65,9 @@
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        <button name="update" class="btn btn-default btn-block">Save</button>
-                        <button name="delete" class="btn btn-default btn-block">Delete</button>
-                        <button name="resetPassword" class="btn btn-default btn-block">Reset password</button>
+                        <button id="user-update-btn" name="update" class="btn btn-default btn-block">Save</button>
+                        <button id="user-delete-btn" name="delete" class="btn btn-default btn-block">Delete</button>
+                        <button id="user-reset-btn" name="resetPassword" class="btn btn-default btn-block">Reset password</button>
                     </form>
                 </div>
                 <!-- /.panel-body -->

@@ -13,7 +13,7 @@
     <div class="row">
         <c:if test="${alert != null}">
         <div class="col-lg-12">
-            <div class="alert alert-dismissable ${alert.cssClass}">
+            <div id="alert" class="alert alert-dismissable ${alert.cssClass}">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     ${alert.message}
             </div>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="pages/users">
+                <a id="users-page" href="pages/users">
                     <div class="panel-footer">
                         <span class="pull-left">View users</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

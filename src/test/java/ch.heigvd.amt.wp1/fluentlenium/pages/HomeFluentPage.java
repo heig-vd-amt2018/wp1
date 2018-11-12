@@ -1,6 +1,8 @@
 
 package ch.heigvd.amt.wp1.fluentlenium.pages;
 
+import ch.heigvd.amt.wp1.fluentlenium.MVCDemoFluentTest;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -12,15 +14,33 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Olivier Liechti
  */
-public class HomeFluentPage extends AbstractMVCDemoFluentPage {
+public class HomeFluentPage extends AbstractWp1FluentPage {
 
-  private final static String idPage = "#page"; // id in the html code
+  private final static String idPage = "#page";               // id in the html code
+  private final static String fieldViewUsers = "#users-page"; // id in the html code
+  private final static String alert = "#alert"; // id in the html code
+  private static final String appNumber = ".huge";
 
   @Override
   public void isAt() { assertThat($(idPage).first().value()).isEqualTo("home");}
 
+  public void clickViewUsers() {
+      $(fieldViewUsers).click();
+  }
+
+  public void isRedirectedOnRightsError() {
+      String value = $(alert).first().text();
+      boolean result =  value.contains("You do not have the rights to access this page.");
+      assertThat(result).isEqualTo(true);
+  }
+
+  public void amountOfAppsMatches(int appsAmount) {
+      String value = $(appNumber).first().text();
+      assertThat(value).isEqualTo(appsAmount + "");
+  }
+
   public String getUrl() {
-    return "/";
+    return MVCDemoFluentTest.baseUrl + "pages/home";
   }
 
 }

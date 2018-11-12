@@ -131,7 +131,7 @@
                     {
                         "targets": -1,
                         "render": function (data) {
-                            actions = '<a href="pages/users?userId=' + data + '" class="btn btn-default"><i class="fa fa-eye"></a>';
+                            actions = '<a href="pages/users?userId=' + data + '" class="btn btn-default"><i id="modifyAt' + data +'" class="fa fa-eye"></a>';
 
                             return actions;
                         }

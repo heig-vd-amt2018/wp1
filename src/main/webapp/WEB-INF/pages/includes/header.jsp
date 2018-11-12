@@ -64,7 +64,7 @@
 
         <ul class="nav navbar-top-links navbar-right">
             <!-- /.dropdown -->
-            <li class="dropdown">
+            <li id="dropdown-settings" class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
@@ -72,7 +72,7 @@
                     <li><a href="./pages/profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="./auth?action=logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="./auth?action=logout"><i id="logOut" class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -85,7 +85,7 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="pages/home"><i class="fa fa-home fa-fw"></i> Home</a>
+                        <a id="goHome" href="pages/home"><i class="fa fa-home fa-fw"></i> Home</a>
                     </li>
                     <c:if test="${principal.role == 'ADMINISTRATOR'}">
                     <li>
@@ -93,7 +93,7 @@
                     </li>
                     </c:if>
                     <li>
-                        <a href="pages/applications"><i class="fa fa-list fa-fw"></i> Applications</a>
+                        <a id="goApps" href="pages/applications"><i class="fa fa-list fa-fw"></i> Applications</a>
                     </li>
                 </ul>
             </div>

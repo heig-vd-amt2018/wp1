@@ -2,7 +2,7 @@ package ch.heigvd.amt.wp1.fluentlenium.pages;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RegistrationFluentPage extends AbstractMVCDemoFluentPage {
+public class RegistrationFluentPage extends AbstractWp1FluentPage {
 
     private final static String inputFirstname = "#firstname";
     private final static String inputLastname = "#lastname";
