@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label>email</label>
                             <input name="userEmail" value="<c:out value="${user.email}"/>" class="form-control"
-                                   placeholder="Enter email" required="required">
+                                   placeholder="Enter email" required="required" readonly="">
                         </div>
                         <div class="form-group">
                             <label>Role</label>

@@ -11,6 +11,7 @@ import java.util.UUID;
         @NamedQuery(name = "Application.findByIdByUser", query = "SELECT a FROM Application a WHERE a.id = :id AND a.owner = :owner"),
         @NamedQuery(name = "Application.findByNameByUser", query = "SELECT a FROM Application a WHERE a.name = :name AND a.owner = :owner"),
         @NamedQuery(name = "Application.findAllByUser", query = "SELECT a FROM Application a WHERE a.owner = :owner"),
+        @NamedQuery(name = "Application.countByUser", query = "SELECT count(a) FROM Application a WHERE a.owner = :owner"),
 })
 public class Application extends AbstractDomainModelEntity<Long> {
     //! The developer who made the application.
@@ -95,5 +96,13 @@ public class Application extends AbstractDomainModelEntity<Long> {
 
     public void setApiSecret(String apiSecret) {
         this.apiSecret = apiSecret;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

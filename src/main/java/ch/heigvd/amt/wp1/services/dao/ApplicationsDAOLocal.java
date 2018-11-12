@@ -14,4 +14,6 @@ public interface ApplicationsDAOLocal extends IGenericDAO<Application, Long> {
     Application findByNameByDeveloper(String name, User user) throws BusinessDomainEntityNotFoundException;
 
     List<Application> findAllByUser(User user, int length, int start) throws BusinessDomainEntityNotFoundException;
+
+    long countByUser(User user) throws BusinessDomainEntityNotFoundException;
 }

@@ -231,7 +231,7 @@ public class UsersServlet extends HttpServlet {
                         request.setAttribute("alert", new ErrorAlert("This email already used."));
                     }
                 } else {
-                    request.setAttribute("alert", new ErrorAlert("All field should be filled."));
+                    request.setAttribute("alert", new ErrorAlert("All fields should be filled."));
                 }
             } else {
                 request.setAttribute("alert", new ErrorAlert("User not found."));

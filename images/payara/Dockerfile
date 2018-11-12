@@ -30,4 +30,4 @@ RUN echo "AS_ADMIN_PASSWORD=admin" > /tmp/gfpwd.txt && \
     ./bin/asadmin --interactive=false --user admin --passwordfile=/tmp/gfpwd.txt create-jdbc-connection-pool --restype javax.sql.DataSource --datasourceclassname com.mysql.jdbc.jdbc2.optional.MysqlDataSource --property user=root:password=adminpw:DatabaseName=wp1:ServerName=db:port=3306 pool_wp1 && \
     ./bin/asadmin --interactive=false --user admin --passwordfile=/tmp/gfpwd.txt create-jdbc-resource --connectionpoolid pool_wp1 jdbc/wp1 && \
     ./bin/asadmin --interactive=false --user admin --passwordfile=/tmp/gfpwd.txt create-javamail-resource --mailhost ${HOST_NAME} --mailuser ${HOST_USER} --fromaddress ${MAIL_USERNAME} --storeprotocol=imap --storeprotocolclass=com.sun.mail.imap.IMAPStore --transprotocol=smtp --transprotocolclass=com.sun.mail.smtp.SMTPTransport --password $MAIL_PASSWORD --auth true --property mail.smtp.user=$MAIL_USERNAME:mail.smtp.password=$MAIL_PASSWORD:mail.smtp.auth=true:mail.smtp.port=465:mail.smtp.socketFactory.port=465:mail.smtp.socketFactory.class=javax.net.ssl.SSLSocketFactory java/mail/swhp && \
-	./bin/asadmin stop-domain domain1 
+	./bin/asadmin stop-domain domain1
