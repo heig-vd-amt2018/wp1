@@ -178,7 +178,7 @@ public class ApplicationsServlet extends HttpServlet {
 
         String appIdParam = request.getParameter("appId");
 
-        if (appIdParam == null) {
+        if (appIdParam != null) {
             User user = (User) request.getSession().getAttribute("principal");
             Application application = null;
 
