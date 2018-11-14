@@ -2,6 +2,7 @@ package ch.heigvd.amt.wp1.web.controllers;
 
 import ch.heigvd.amt.wp1.model.entities.User;
 import ch.heigvd.amt.wp1.services.business.errors.ErrorAlert;
+import ch.heigvd.amt.wp1.services.business.errors.WarningAlert;
 import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 
@@ -63,8 +64,7 @@ public class AuthenticationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        if (action != null && email != null && password != null) {
-
+        if (action != null && (action.equals("logout") || (email != null && password != null))) {
             // When the user is not logged in yet and tries to access /pages/xxx, then he
             // is redirected to the login page by the security filter. The security filter
             // stores the targer url (/pages/xxx) in the request context, so that we can
@@ -81,7 +81,6 @@ public class AuthenticationServlet extends HttpServlet {
             targetUrl = request.getContextPath() + targetUrl;
 
             if ("login".equals(action)) {
-
                 User user = null;
 
                 try {
@@ -91,17 +90,18 @@ public class AuthenticationServlet extends HttpServlet {
                 }
 
                 if (user == null || !user.getPassword().equals(password)) {
-                    request.setAttribute("alert", new ErrorAlert("Username of password incorrect."));
+                    request.setAttribute("alert", new ErrorAlert("Username or password incorrect."));
+                    request.setAttribute("email", email);
+                    request.setAttribute("password", password);
                     request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
                 } else if (user.getState().equals(User.State.DISABLED)) {
-                    request.setAttribute("alert", new ErrorAlert("This account has been disabled."));
+                    request.setAttribute("alert", new WarningAlert("This account has been disabled."));
                     request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
                 } else {
                     // Save the user in the session
                     request.getSession().setAttribute("principal", user);
                     response.sendRedirect(targetUrl);
                 }
-
             } else if ("logout".equals(action)) {
                 request.getSession().invalidate();
                 response.sendRedirect(request.getContextPath());

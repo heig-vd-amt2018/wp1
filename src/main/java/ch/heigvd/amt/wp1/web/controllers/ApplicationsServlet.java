@@ -73,9 +73,14 @@ public class ApplicationsServlet extends HttpServlet {
 
             long appId = Long.parseLong(appIdParam);
 
+
             try {
                 // Check if the user owns the application
-                application = applicationsDAO.findByIdByDeveloper(appId, user);
+                if (user.getRole() == User.Role.ADMINISTRATOR) {
+                    application = applicationsDAO.findById(appId);
+                } else {
+                    application = applicationsDAO.findByIdByDeveloper(appId, user);
+                }
             } catch (BusinessDomainEntityNotFoundException e) {
                 // Continue
             }
@@ -112,7 +117,11 @@ public class ApplicationsServlet extends HttpServlet {
 
             try {
                 // Check if the user owns the application
-                application = applicationsDAO.findByIdByDeveloper(appId, user);
+                if (user.getRole() == User.Role.ADMINISTRATOR) {
+                    application = applicationsDAO.findById(appId);
+                } else {
+                    application = applicationsDAO.findByIdByDeveloper(appId, user);
+                }
             } catch (NumberFormatException | BusinessDomainEntityNotFoundException e) {
                 // Continue
             }
@@ -122,18 +131,26 @@ public class ApplicationsServlet extends HttpServlet {
                 application.setName(appName);
                 application.setDescription(appDescription);
 
+                Application updatedApplication = null;
                 try {
-                    applicationsDAO.findByNameByDeveloper(appName, user);
-                    request.setAttribute("appDescription", appDescription);
-                    request.setAttribute("error", true);
-                    request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
-                } catch (BusinessDomainEntityNotFoundException e1) {
+                    if (user.getRole() == User.Role.ADMINISTRATOR) {
+                        updatedApplication = applicationsDAO.findByNameByDeveloper(appName, application.getOwner());
+                    } else {
+                        updatedApplication = applicationsDAO.findByNameByDeveloper(appName, user);
+                    }
+                } catch (BusinessDomainEntityNotFoundException e) {
+                    request.setAttribute("alert", new ErrorAlert("Application not found."));
+                }
+
+                if (updatedApplication == null || application.equals(updatedApplication)) {
                     try {
                         applicationsDAO.update(application);
                         request.setAttribute("alert", new SuccessAlert("Application has been successfully updated."));
-                    } catch (BusinessDomainEntityNotFoundException e2) {
-                        request.setAttribute("alert", new ErrorAlert("Application has not been successfully updated."));
+                    } catch (BusinessDomainEntityNotFoundException e) {
+                        request.setAttribute("alert", new SuccessAlert("Application has not been successfully updated."));
                     }
+                } else {
+                    request.setAttribute("alert", new WarningAlert("Another application has the same name. Please change."));
                 }
 
                 request.setAttribute("application", application);
@@ -161,7 +178,7 @@ public class ApplicationsServlet extends HttpServlet {
 
         String appIdParam = request.getParameter("appId");
 
-        if (appIdParam == null) {
+        if (appIdParam != null) {
             User user = (User) request.getSession().getAttribute("principal");
             Application application = null;
 
@@ -169,7 +186,11 @@ public class ApplicationsServlet extends HttpServlet {
 
             try {
                 // Check if the user owns the application
-                application = applicationsDAO.findByIdByDeveloper(appId, user);
+                if (user.getRole() == User.Role.ADMINISTRATOR) {
+                    application = applicationsDAO.findById(appId);
+                } else {
+                    application = applicationsDAO.findByIdByDeveloper(appId, user);
+                }
             } catch (BusinessDomainEntityNotFoundException e) {
                 // Continue
             }
