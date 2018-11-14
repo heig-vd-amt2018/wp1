@@ -1,16 +1,14 @@
 package ch.heigvd.amt.wp1.services;
 import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.User;
-import ch.heigvd.amt.wp1.services.dao.ApplicationsDAO;
 import ch.heigvd.amt.wp1.services.dao.ApplicationsDAOLocal;
-import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 @Stateless
-public class OrderService implements OrderServiceLocal {
+public class CheckTransactions implements CheckTransactionsLocal {
 
   @EJB
   UsersDAOLocal usersDAO;
@@ -18,9 +16,9 @@ public class OrderService implements OrderServiceLocal {
   @EJB
   ApplicationsDAOLocal applicationsDAO;
 
-  private int cpt = 0;
+  private static int cpt = 0;
 
-  public OrderService() {}
+  public CheckTransactions() {}
 
   public void start() {
 
@@ -28,6 +26,7 @@ public class OrderService implements OrderServiceLocal {
     cpt++;
 
     try {
+
       //Create a user
       usersDAO.create(user);
 
@@ -42,7 +41,7 @@ public class OrderService implements OrderServiceLocal {
 
     } catch (Exception e) {
       System.out.println("EJB Facade has swallowed exception");
-      throw(e);
+      throw new RuntimeException("boum");
     }
   }
 }

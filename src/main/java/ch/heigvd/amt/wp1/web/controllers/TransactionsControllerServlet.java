@@ -1,6 +1,6 @@
 package ch.heigvd.amt.wp1.web.controllers;
 
-import ch.heigvd.amt.wp1.services.OrderServiceLocal;
+import ch.heigvd.amt.wp1.services.CheckTransactionsLocal;
 import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 
 import javax.ejb.EJB;
@@ -9,13 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
-@WebServlet(name = "FrontControllerServlet", urlPatterns = "/pages/front")
-public class FrontControllerServlet extends javax.servlet.http.HttpServlet {
+@WebServlet(name = "TransactionsControllerServlet", urlPatterns = "/pages/transactions")
+public class TransactionsControllerServlet extends javax.servlet.http.HttpServlet {
 
     @EJB
-    OrderServiceLocal orderService;
+    CheckTransactionsLocal orderService;
 
     @EJB
     UsersDAOLocal user;

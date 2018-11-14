@@ -1,4 +1,5 @@
 package ch.heigvd.amt.wp1.services.dao;
+import ch.heigvd.amt.wp1.model.entities.Application;
 import ch.heigvd.amt.wp1.model.entities.User;
 
 import javax.ejb.Stateless;
@@ -7,7 +8,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 
 @Stateless
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class UsersDAO extends GenericDAO<User, Long> implements UsersDAOLocal {
     @Override
     public User findByFirstName(String firstName) throws BusinessDomainEntityNotFoundException {
@@ -33,6 +33,13 @@ public class UsersDAO extends GenericDAO<User, Long> implements UsersDAOLocal {
         }
 
         return result;
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public Long create(User user) {
+        System.out.println("Create User " + user.getEmail());
+        return super.create(user);
     }
 
     @Override
