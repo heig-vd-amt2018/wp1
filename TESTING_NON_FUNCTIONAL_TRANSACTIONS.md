@@ -1,10 +1,10 @@
-#Transactions 
+# Transactions 
 
 Ludovic Delafontaine Théo Gallandat Joël Kaufmann Xavier Vaz Afonso
 
 ## Experiances
 
-###First Experiance
+### First Experiance
 
 Create a user (First transaction).
 
@@ -14,7 +14,7 @@ When an application generate a error. The **user** and **all of the application*
 
 If no exception is thrown, the user and the applications are saved on the database.
 
-###Second Experiance
+### Second Experiance
 
 Create a user (First transaction).
 
