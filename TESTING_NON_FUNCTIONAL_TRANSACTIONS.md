@@ -162,7 +162,7 @@ public class CheckTransactions implements CheckTransactionsLocal {
       applicationsDAO.create(new Application(user,"Title4","Des4"));
       applicationsDAO.create(new Application(user,"Title5","Des5"));
       applicationsDAO.create(new Application(user,"Title6","Des6"));
-      applicationsDAO.create(new Application(user,"Title7","Des7")); //This line create 	a error*/
+      applicationsDAO.create(new Application(user,"Title7","Des7")); //This line create a error
 
     } catch (Exception e) {
       System.out.println("EJB Facade has swallowed exception");
