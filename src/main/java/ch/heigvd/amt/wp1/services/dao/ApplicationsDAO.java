@@ -68,4 +68,19 @@ public class ApplicationsDAO extends GenericDAO<Application, Long> implements Ap
         return result;
     }
 
+    @Override
+    public long countByUser(User user) throws BusinessDomainEntityNotFoundException {
+        long result;
+
+        try {
+            result = (long) em
+                    .createNamedQuery("Application.countByUser")
+                    .setParameter("owner", user)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            throw new BusinessDomainEntityNotFoundException();
+        }
+
+        return result;
+    }
 }

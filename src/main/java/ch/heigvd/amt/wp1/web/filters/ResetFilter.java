@@ -1,7 +1,7 @@
 package ch.heigvd.amt.wp1.web.filters;
 
 import ch.heigvd.amt.wp1.model.entities.User;
-import ch.heigvd.amt.wp1.services.business.errors.ErrorAlert;
+import ch.heigvd.amt.wp1.services.business.errors.WarningAlert;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -30,7 +30,7 @@ public class ResetFilter implements Filter {
         User principal = (User) httpRequest.getSession().getAttribute("principal");
 
         if (principal != null && principal.getState() == User.State.RESET && !path.startsWith("/pages/profile")) {
-            request.setAttribute("alert", new ErrorAlert("You must reset your password."));
+            request.setAttribute("alert", new WarningAlert("You must reset your password."));
             request.getRequestDispatcher("/WEB-INF/pages/profile.jsp").forward(request, response);
         } else if (principal != null && principal.getState() == User.State.RESET && path.startsWith("/pages/profile")) {
             chain.doFilter(request, response);

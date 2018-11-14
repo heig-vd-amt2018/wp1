@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label>email</label>
                             <input name="userEmail" value="<c:out value="${user.email}"/>" class="form-control"
-                                   placeholder="Enter email" required="required">
+                                   placeholder="Enter email" required="required" readonly="">
                         </div>
                         <div class="form-group">
                             <label>Role</label>
@@ -72,6 +72,30 @@
                 </div>
                 <!-- /.panel-body -->
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    User's applications
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="applications">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th><code>API_KEY</code></th>
+                            <th><code>API_SECRET</code></th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
             <!-- /.panel -->
         </div>
         <!-- /.col-lg-12 -->
@@ -95,6 +119,54 @@
         $("button[name=resetPassword]").click(function () {
             $("#form").attr("action", "pages/users?action=resetPassword");
             $("#form").submit();
+        });
+
+        $('#applications').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "api/applications/${user.id}",
+                "method": "GET"
+            },
+            "columns": [
+                {"data": "name"},
+                {"data": "description"},
+                {"data": "apiKey"},
+                {"data": "apiSecret"},
+                {"data": "id"}
+            ],
+            "columnDefs": [
+                {
+                    "targets": 2,
+                    "data": "id",
+                    "render": function (data) {
+                        return '<code>' + data + '</code>';
+                    }
+                },
+                {
+                    "targets": 3,
+                    "data": "id",
+                    "render": function (data) {
+                        return '<code>' + data + '</code>';
+                    }
+                },
+                {
+                    "targets": -1,
+                    "render": function (data) {
+                        actions = '<a href="pages/applications?appId=' + data + '" class="btn btn-default"><i class="fa fa-eye"></a>';
+
+                        return actions;
+                    }
+                }
+            ],
+            "language": {
+                "emptyTable": "No application in table.",
+                "zeroRecords": "There were no matching applications found."
+            },
+            "searching": false,
+            "ordering": false,
+            "paging": true,
+            "responsive": true
         });
 
     });

@@ -1,6 +1,7 @@
 package ch.heigvd.amt.wp1.web.controllers;
 
 import ch.heigvd.amt.wp1.model.entities.User;
+import ch.heigvd.amt.wp1.services.dao.BusinessDomainEntityNotFoundException;
 import ch.heigvd.amt.wp1.services.dao.UsersDAOLocal;
 import ch.heigvd.amt.wp1.services.dao.ApplicationsDAOLocal;
 
@@ -35,7 +36,13 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("userNumbers", userNumbers);
         }
 
-        long appNumbers = applicationsDAO.count();
+        long appNumbers = 0;
+
+        try {
+            appNumbers = applicationsDAO.countByUser(user);
+        } catch (BusinessDomainEntityNotFoundException e) {
+            // Continue
+        }
         request.setAttribute("appNumbers", appNumbers);
 
         request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
