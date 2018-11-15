@@ -106,9 +106,9 @@ Generate the error after the creation of the application
 
 *UserDAO*
 
-Create the user and the applications
+The create methode must be override and implement @TransactionAttribute to enable the transaction.
 
-To execute the first experiance, disable the line TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+To execute the first experiance, disable the line @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 
 ```java
     @Override
