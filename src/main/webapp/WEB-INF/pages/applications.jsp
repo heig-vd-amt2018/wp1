@@ -118,7 +118,7 @@
                 {
                     "targets": -1,
                     "render": function (data) {
-                        actions = '<a href="pages/applications?appId=' + data + '" class="btn btn-default"><i id="modifyAppId' + data + '" class="fa fa-eye"></a>';
+                        actions = '<a href="pages/applications?appId=' + data + '" class="btn btn-default"><i id="modifyApp" class="fa fa-eye"></a>';
 
                         return actions;
                     }

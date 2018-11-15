@@ -1,5 +1,7 @@
 <%@include file="includes/header.jsp" %>
 
+<div id="page" value="profile"></div>
+
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -35,13 +37,13 @@
                                    required value="<c:out value="${principal.email}"/>" readonly>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="password" class="form-control" placeholder="Password">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                         </div>
                         <div class="form-group">
-                            <input type="password" name="passwordConfirmation" class="form-control"
+                            <input type="password" id="confirmPassword" name="passwordConfirmation" class="form-control"
                                    placeholder="Confirm password">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Save</button>
+                        <button type="submit" id="save" class="btn btn-primary btn-block">Save</button>
                     </form>
                 </div>
                 <!-- /.panel-body -->
