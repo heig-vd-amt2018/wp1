@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group">
                             <label>Created date</label>
-                            <input name="appCreatedDate" value="${application.createdDate}" type="datetime-local"
+                            <input name="appCreatedDate" value="${application.createdDate}"
                                    class="form-control" readonly="">
                         </div>
                         <div class="form-group">
