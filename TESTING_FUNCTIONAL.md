@@ -92,15 +92,15 @@ Hence :
 * App developer browses to the last application table page
   * user bowses by clicking "Next" button under the table
   
-  *assertion : there are 10 applications in the table before clicking "Next" button*
-  *assertion : there are 10 applications in the table  before clicking "Next" for the second time*
+  *assertion : there are 10 applications in the table before clicking "Next" button*<br>
+  *assertion : there are 10 applications in the table  before clicking "Next" for the second time*<br>
   *assertion : there are 5 applications in the table*
 
 * App developer logs out
   * user clicks "Home" before logging out and sees the amount of applications owned
   ![logout](md_img/logout.png)
   
-  *assertion : number of application displayed is 25*
+  *assertion : number of application displayed is 25*<br>
   *assertion : after clicking logout, current page is login*
 
 * App developer tries to go back to the applications page but is redirected to login page
@@ -117,8 +117,8 @@ Hence :
 * go to login and hit "here" to register
 * click "Register" without filling information
 
-*assertion : current page is login before clicking "here" link*
-*assertion : current page is register after clicking "here" link*
+*assertion : current page is login before clicking "here" link*<br>
+*assertion : current page is register after clicking "here" link*<br>
 *assertion : current page is still register after clicking "Register" button*<br><br>
 
 
@@ -127,8 +127,8 @@ Hence :
 * go to login and hit "here" to register
 * enter non-existing, valid information
 
-*assertion : current page is login before clicking "here" link*
-*assertion : current page is register after clicking "here" link*
+*assertion : current page is login before clicking "here" link*<br>
+*assertion : current page is register after clicking "here" link*<br>
 *assertion : current page is home after filling information and clicking "Register" button*<br><br>
 
 
@@ -137,8 +137,8 @@ Hence :
 * go to login and hit "here" to register
 * enter non-existing, information but 2 different passwords
 
-*assertion : current page is login before clicking "here" link*
-*assertion : current page is register after clicking "here" link*
+*assertion : current page is login before clicking "here" link*<br>
+*assertion : current page is register after clicking "here" link*<br>
 *assertion : current page is still register after filling information and clicking "Register" button*<br><br>
 
 
@@ -147,8 +147,8 @@ Hence :
 - go to login and hit "here" to register
 - enter valid information but an existing e-mail  (default in database)
 
-*assertion : current page is login before clicking "here" link*
-*assertion : current page is register after clicking "here" link*
+*assertion : current page is login before clicking "here" link*<br>
+*assertion : current page is register after clicking "here" link*<br>
 *assertion : current page is still register after filling information and clicking "Register" button*<br><br><br><br>
 
 
@@ -156,7 +156,7 @@ Hence :
 `itShouldNotBePossibleToSigninWithAnInvalidEmail`
 - go to login and enter bad credentials
 
-  *assertion : current page is login before clicking "Login" button*
+  *assertion : current page is login before clicking "Login" button*<br>
   *assertion : current page is login after clicking "Login" button*<br><br>
 
 
@@ -164,7 +164,7 @@ Hence :
 `successfulSigninShouldBringUserToHomePage`
 - go to login and enter valid credentials (default admin in database)
 
-*assertion : current page is login before clicking "Login" button*
+*assertion : current page is login before clicking "Login" button*<br>
 *assertion : current page is home after clicking "Login" button*<br><br>
 
 
@@ -190,7 +190,7 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 `adminShouldNotBeAbleToCreateDuplicateUser`
 * fill add user form with an existing email address
 
-*assertion : alert message "This email address already exist." shown*
+*assertion : alert message "This email address already exist." shown*<br>
 *assertion : the user appears only once in the table*<br><br>
 
 
@@ -198,7 +198,7 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 `adminShouldBeAbleToModifyUser`
 * modify second user last name (default user) and presses "Save"
 
-*assertion : alert message "User has been successfully updated." shown*
+*assertion : alert message "User has been successfully updated." shown*<br>
 *assertion : the user appears once in the table*<br><br>
 
 
@@ -213,7 +213,7 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 `adminShouldBeAbleToDeleteUser`
 * delete 4th user (default user)
 
-*assertion : alert message "User has been successfully deleted." shown*
+*assertion : alert message "User has been successfully deleted." shown*<br>
 *assertion : default user 4 not in the users table*<br><br>
 
 
@@ -224,7 +224,7 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 `adminShouldBeAbleToCreateApplication`
 * create an app
 
-*assertion :  alert message "Application has been successfully created." shown*
+*assertion :  alert message "Application has been successfully created." shown*<br>
 *assertion :  app name found once in the apps table*<br><br>
 
 
@@ -233,7 +233,7 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 * create an app
 * create a second app with same fields
 
-*assertion :  alert message "Another application has the same name. Please change." shown*
+*assertion :  alert message "Another application has the same name. Please change." shown*<br>
 *assertion :  app name found only once in the apps table*<br><br>
 
 
@@ -242,8 +242,8 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 * create an app
 * modify the previously created app name and description
 
-*assertion :  alert message "Application has been successfully updated." shown*
-*assertion :  old app name doesn't appear in the table*
+*assertion :  alert message "Application has been successfully updated." shown*<br>
+*assertion :  old app name doesn't appear in the table*<br>
 *assertion :  newapp name appears  once in the table*<br><br>
 
 
@@ -252,7 +252,7 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 - create an app if necessary
 - delete first app in the table
 
-*assertion :  alert message "Application has been successfully deleted." shown*
+*assertion :  alert message "Application has been successfully deleted." shown*<br>
 *assertion :  there is one app less at the end*<br><br>
 
 
@@ -265,10 +265,10 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 - change for valid password
 - try reaching applications page
 
-*assertion : first page after login is profile page*
-*assertion : page stays profile while password not set*
-*assertion : danger message "Password can't be empty." shown when trying to set with empty string*
-*assertion : success message "Profile has been successfully updated." shown when setting with valid string*
+*assertion : first page after login is profile page*<br>
+*assertion : page stays profile while password not set*<br>
+*assertion : danger message "Password can't be empty." shown when trying to set with empty string*<br>
+*assertion : success message "Profile has been successfully updated." shown when setting with valid string*<br>
 *assertion : user is on apps page after clicking "Applications" (and password)*<br><br>
 
 
@@ -277,7 +277,7 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 * login as default app developer
 * try reaching users page
 
-*assertion : page stays the home page*
+*assertion : page stays the home page*<br>
 *assertion :  alert message "You do not have the rights to access this page." shown*<br><br>
 
 
@@ -288,10 +288,10 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 * modify app name and description
 * delete app
 
-*assertion : correct alert message after each action*
-*assertion :  new app appears in the table*
-*assertion :  modified app name appears in the table*
-*assertion :  old app name doesn't appear in the table anymore*
+*assertion : correct alert message after each action*<br>
+*assertion :  new app appears in the table*<br>
+*assertion :  modified app name appears in the table*<br>
+*assertion :  old app name doesn't appear in the table anymore*<br>
 *assertion :  deleted app doesn't appear in the table anymore*<br><br>
 
 
@@ -302,8 +302,8 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 * go to login
 * move to register
 
-*assertion : first page is login*
-*assertion : second page is register*
+*assertion : first page is login*<br>
+*assertion : second page is register*<br>
 *assertion : third page is login again*<br><br>
 
 
@@ -313,7 +313,7 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 * go back to home page
 * go to users by clicking on the side panel
 
-*assertion : page is users after clicking in the card*
+*assertion : page is users after clicking in the card*<br>
 *assertion : page is also users after clicking on the panel*<br><br>
 
 
@@ -323,6 +323,6 @@ The following tests use `successfulSigninShouldBringUserToHomePage` code to logi
 * log out
 * try reaching home page
 
-*assertion : current page is home after logging in*
-*assertion : current page is login after logging out*
+*assertion : current page is home after logging in*<br>
+*assertion : current page is login after logging out*<br>
 *assertion : current page remains login when trying to reach home page*
