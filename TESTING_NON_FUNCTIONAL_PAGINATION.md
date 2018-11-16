@@ -1,25 +1,54 @@
 # Pagination test
 
-#### Testing tools used
+## Notes
+After the demonstration, we understood what was the question about. We won't implement and discuss the experiment but
+here is what we should have done instead of the primary discussion we had.
+
+We have implemented the pagination as followed:
+
+- JPA manages the records in the database.
+- JPA retrieves the records from the database in `GenericDAO` and sub-classes.
+- JPA asks to retrieve from the database a only certain amount of data (using `.setMaxResults(length)`, `.setFirstResult(start)`).
+- The resource (`ApplicationsResource`, `UsersResource`) returns the data to the users, already filtered.
+    
+Another approach - that we didn't do - is the following:
+
+- The database manages the records in the database.
+- The database retrieves the *ALL* records from the database in `GenericDAO` and sub-classes.
+- The database returns all the data to the servlet.
+- The servlet is in charge to filter the wanted data from the user.
+- The resource (`ApplicationsResource`, `UsersResource`) returns the filtered data to the users.
+
+So, what's the differences ?
+
+The first approach is - indeed - optimized. We ask the database to only retrieve the wanted data, without anything useless.
+We don't have to store unwanted data in the servlet, don't have to process them and we only use relevant records from the
+database.
+
+The second approach store *ALL* the records in memory, has to process them and then, return wanted and relevant records
+which is unoptimized.
+
+How should have we tested that ?
+
+We should have implemented the two approaches and compare them using adequate tools (JMeter for instance ) to measure
+the CPU load, memory consumption, the throughput and simultaneous connections.
+
+We didn't understand the question at the beginning so the following discussion might not be relevant.
+
+## Testing tools used
 
 * [Postman](https://www.getpostman.com/) : this tool is used to capture the queries between the web browser and the web application
 * [JMeter](https://jmeter.apache.org/) :  this tool is used to script a sequence of requests to send to the web application
 
-
-
-#### Pagination manager
+## Pagination manager
 
 * [JPA](https://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html) : Java Persistence API
 
-
-
-#### Test scenario 1 - no pagination
+## Test scenario 1 - no pagination
 
  JMeter script can be found under *wp1/jmeter-scripts/no_pagination.jmx*
 
-
-
-##### Description
+### Description
 
 * an app developer registers
 * he creates 100 applications
@@ -29,7 +58,7 @@
 
 API url GET : `http://localhost:8080/WP1-1.0-SNAPSHOT/api/applications`
 
-##### JSON Result
+### JSON Result
 
 ```Json
 {
@@ -78,15 +107,11 @@ API url GET : `http://localhost:8080/WP1-1.0-SNAPSHOT/api/applications`
 
 This files contains all applications of registered  app developper
 
-
-
-##### Problems
+### Problems
 
 * The user might have thousands of applications and won't be able to display them on the same page
 * Useless network load
 * Useless Browser task load
-
-
 
 ### Solution : Pagination
 
@@ -104,7 +129,7 @@ This is done in the app by using  Java Persistence API in the users and applicat
 
 *ApplicationsDAO.java* :
 
-```Java
+```java
 @Override
 public List<Application> findAllByUser(User user, int length, int start) throws BusinessDomainEntityNotFoundException {
     List<Application> result = null;
@@ -128,13 +153,13 @@ public List<Application> findAllByUser(User user, int length, int start) throws 
 
 
 
-#### Test scenario 2 - with pagination
+## Test scenario 2 - with pagination
 
  JMeter script can be found under *wp1/jmeter-scripts/pagination.jmx*
 
 
 
-##### Description
+### Description
 
 - an app developer registers
 - he creates 100 applications
@@ -144,9 +169,9 @@ The Jmeter script "architecture" is the same but "Requête HTTP browse apps" use
 
 
 
-##### JSON Result
+### JSON Result
 
-``` json
+```json
 {
     "recordsFiltered": 100,
     "data": [
@@ -191,7 +216,7 @@ The Jmeter script "architecture" is the same but "Requête HTTP browse apps" use
 }
 ```
 
-##### Analysis
+### Analysis
 
 - There are only 10 applications
 - `recordsTotal` is 100, to create index

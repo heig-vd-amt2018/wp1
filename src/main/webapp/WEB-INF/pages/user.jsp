@@ -125,7 +125,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": "api/applications/${user.id}",
+                "url": "api/applications?userId=${user.id}",
                 "method": "GET"
             },
             "columns": [

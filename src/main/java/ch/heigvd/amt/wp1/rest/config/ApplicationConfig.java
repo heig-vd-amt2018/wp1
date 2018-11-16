@@ -1,5 +1,8 @@
 package ch.heigvd.amt.wp1.rest.config;
 
+import ch.heigvd.amt.wp1.rest.resources.ApplicationsResource;
+import ch.heigvd.amt.wp1.rest.resources.UsersResource;
+
 import javax.ws.rs.core.Application;
 import java.util.Set;
 import java.util.logging.Level;
@@ -41,8 +44,8 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(ch.heigvd.amt.wp1.rest.resources.ApplicationsRessource.class);
-        resources.add(ch.heigvd.amt.wp1.rest.resources.UsersRessource.class);
+        resources.add(ApplicationsResource.class);
+        resources.add(UsersResource.class);
     }
 
 }

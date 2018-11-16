@@ -157,7 +157,7 @@ public class UsersServlet extends HttpServlet {
             throws ServletException, IOException {
 
         User user = null;
-        User userVerifEmail;
+        User userVerifEmail = null;
         boolean emailOk = true;
 
         String userIdParam = request.getParameter("userId");
@@ -167,7 +167,8 @@ public class UsersServlet extends HttpServlet {
         String userRole = request.getParameter("userRole");
         String userState = request.getParameter("userState");
 
-        if (userFirstName != null
+        if (
+                userFirstName != null
                 && userLastName != null
                 && userEmail != null
                 && userRole != null
@@ -297,7 +298,6 @@ public class UsersServlet extends HttpServlet {
             if (user != null) {
 
                 if (user.getState() != User.State.RESET) {
-
 
                     user.setState(User.State.RESET);
 
