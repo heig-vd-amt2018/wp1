@@ -275,7 +275,7 @@ public class Wp1FluentTest extends FluentTest {
     appsFluentPage.typeAppName(appName2);
     appsFluentPage.typeAppDescription("My best app");
     appsFluentPage.clickCreateAppBtn();
-    await().explicitlyFor(10000);
+    await().explicitlyFor(100);
     appsFluentPage.isCreated();             // alert message OK
     appsFluentPage.goToAppsPage();
     appsFluentPage.isOnceInTable(appName1); // counts once in table

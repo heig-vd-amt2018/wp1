@@ -81,6 +81,7 @@ public class Wp1FluentScenario1Test extends FluentTest {
     homeFluentPage.amountOfAppsMatches(25);       // total amount of apps OK
 
     // Logs out
+    homeFluentPage.toggleDropdown();
     homeFluentPage.logOut();
     loginFluentPage.isAt();       // redirected to login OK
 

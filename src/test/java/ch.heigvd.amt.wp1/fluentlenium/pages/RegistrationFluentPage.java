@@ -8,14 +8,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RegistrationFluentPage extends AbstractWp1FluentPage {
 
     // Find elements by id
-    private final static String inputFirstName        = "#firstname";
-    private final static String inputLastName         = "#lastname";
-    private final static String inputEmail            = "#email";
-    private final static String inputPassword         = "#password";
-    private final static String inputConfirmPassword  = "#confirmPassword";
-    private final static String linkLogin             = "#login";
-    private final static String buttonSignin          = "#submit";
-    private final static String idPage                = "#page";
+    private static final String inputFirstName        = "#firstname";
+    private static final String inputLastName         = "#lastname";
+    private static final String inputEmail            = "#email";
+    private static final String inputPassword         = "#password";
+    private static final String inputConfirmPassword  = "#confirmPassword";
+    private static final String linkLogin             = "#login";
+    private static final String buttonSignin          = "#submit";
+    private static final String idPage                = "#page";
 
     // Input Fields
     public void typeFirstName(String firstname) {
