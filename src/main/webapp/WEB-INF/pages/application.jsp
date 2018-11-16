@@ -3,7 +3,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"><a href="pages/applications">My applications</a> > ${application.name}</h1>
+            <h1 class="page-header"><a href="pages/applications">Applications</a> > ${application.name}</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>

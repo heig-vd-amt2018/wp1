@@ -200,7 +200,6 @@ public class ApplicationsServlet extends HttpServlet {
                     applicationsDAO.delete(application);
 
                     request.setAttribute("alert", new SuccessAlert("Application has been successfully deleted."));
-
                     request.getRequestDispatcher("/WEB-INF/pages/applications.jsp").forward(request, response);
                 } catch (BusinessDomainEntityNotFoundException e) {
                     request.setAttribute("alert", new ErrorAlert("Application has not been successfully deleted."));

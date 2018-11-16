@@ -108,10 +108,10 @@ public class Wp1PopulateDataBaseTest extends FluentTest {
     options.addArguments("--disable-gpu");
 
     DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability("chromeOptions", options);
+    //capabilities.setCapability("chromeOptions", options);
 
     ChromeDriver chromeDriver = new ChromeDriver(capabilities);
-    chromeDriver.manage().timeouts().pageLoadTimeout(500, TimeUnit.MILLISECONDS);
+    chromeDriver.manage().timeouts().pageLoadTimeout(1000, TimeUnit.MILLISECONDS);
 
     return new ChromeDriver(capabilities);
   }

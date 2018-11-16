@@ -62,6 +62,7 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<T> findAll() throws BusinessDomainEntityNotFoundException {
         List<T> result = null;
 
@@ -77,6 +78,7 @@ public class GenericDAO<T extends AbstractDomainModelEntity<PK>, PK> implements 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<T> findAll(int length, int start) throws BusinessDomainEntityNotFoundException {
         List<T> result = null;
 
