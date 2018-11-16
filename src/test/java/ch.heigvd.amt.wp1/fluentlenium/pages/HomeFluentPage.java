@@ -22,12 +22,14 @@ public class HomeFluentPage extends AbstractWp1FluentPage {
   }
 
   public void isRedirectedOnRightsError() {
+      await().until($(alert)).present();
       String value = $(alert).first().text();
       boolean result =  value.contains("You do not have the rights to access this page.");
       assertThat(result).isEqualTo(true);
   }
 
   public void amountOfAppsMatches(int appsAmount) {
+      await().until($(appNumber)).present();
       String value = $(appNumber).first().text();
       assertThat(value).isEqualTo(appsAmount + "");
   }
@@ -37,6 +39,9 @@ public class HomeFluentPage extends AbstractWp1FluentPage {
   }
 
   @Override
-  public void isAt() { assertThat($(idPage).first().value()).isEqualTo("home");}
+  public void isAt() {
+    await().until($(idPage)).present();
+    assertThat($(idPage).first().value()).isEqualTo("home");
+  }
 
 }

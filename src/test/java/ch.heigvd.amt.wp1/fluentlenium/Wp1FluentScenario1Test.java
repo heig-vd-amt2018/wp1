@@ -41,7 +41,7 @@ public class Wp1FluentScenario1Test extends FluentTest {
   @ProbeTest(tags = "WebUI")
   public void devAppShouldRegisterCreateAppsBrowseAndLogOut () {
     goTo(baseUrl);      // login page
-    await().untilPage().isLoaded();
+
     loginFluentPage.isAt();
 
     // Register

@@ -20,13 +20,19 @@ public class LoginFluentPage extends FluentPage {
     $(inputEmail).fill().with(email);
   }
 
-  public void typePassword(String password) { $(inputPassword).fill().with(password);}
+  public void typePassword(String password) {
+    await().until($(inputPassword)).present();
+    $(inputPassword).fill().with(password);}
 
   public void clickSignin() {
+    await().until($(buttonSignin)).present();
     $(buttonSignin).click();
   }
 
-  public void clickRegister(){$(linkRegistration).click();}
+  public void clickRegister(){
+    await().until($(linkRegistration)).present();
+    $(linkRegistration).click();
+  }
 
   public String getUrl() {
     return "/";
@@ -34,6 +40,7 @@ public class LoginFluentPage extends FluentPage {
 
   @Override
   public void isAt() {
+    await().until($(idPage)).present();
     assertThat($(idPage).first().value()).isEqualTo("login");
   }
 

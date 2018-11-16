@@ -36,15 +36,18 @@ public class RegistrationFluentPage extends AbstractWp1FluentPage {
 
     // Buttons click
     public void clickSignin() {
+      await().until($(buttonSignin)).present();
       $(buttonSignin).click();
     }
     public void clickLogin(){
+      await().until($(linkLogin)).present();
       $(linkLogin).click();
     }
 
 
     @Override
     public void isAt() {
+        await().until($(idPage)).present();
         assertThat($(idPage).first().value()).isEqualTo("registration");
     }
     public String getUrl() {

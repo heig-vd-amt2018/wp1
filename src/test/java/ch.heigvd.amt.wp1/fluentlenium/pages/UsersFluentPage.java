@@ -67,54 +67,65 @@ public class UsersFluentPage extends AbstractWp1FluentPage {
 
   // Assertions
   public void isCreated(){
+    await().until($(alert)).present();
     String value = $(alert).first().text();
     boolean result =  value.contains("User created.");
     assertThat(result).isEqualTo(true);
   }
   public void isUpdated(){
+    await().until($(alert)).present();
     String value = $(alert).first().text();
     boolean result =  value.contains("User has been successfully updated.");
     assertThat(result).isEqualTo(true);
   }
   public void isDeleted() {
+    await().until($(alert)).present();
     String value = $(alert).first().text();
     boolean result =  value.contains("User has been successfully deleted.");
     assertThat(result).isEqualTo(true);
   }
   public void notAllFilledError(){
+    await().until($(alertDanger)).present();
     String value = $(alertDanger).first().text();
     boolean result =  value.contains("All field should be filled.");
     assertThat(result).isEqualTo(true);
   }
   public void isNotInTable(String stringField) {
     // expand list to show 100 users
+    await().until($(entryDropdown)).present();
     $(entryDropdown).first().fillSelect().withValue("100");
 
     // try finding stringField
+    await().until($(usersTable)).present();
     String table = $(usersTable).first().text();
     boolean result = table.contains(stringField);
     assertThat(result).isEqualTo(false);
   }
   public void isOnceInTable(String stringField) {
     // expand list to show 100 users
+    await().until($(entryDropdown)).present();
     $(entryDropdown).first().fillSelect().withValue("100");
 
     // count occurrence
+    await().until($(usersTable)).present();
     String table = $(usersTable).first().text();
     int count = StringUtils.countMatches(table, stringField);
     assertThat(count).isEqualTo(1);
   }
   public void isPreventedFromDuplicateCreation() {
+    await().until($(alertInfo)).present();
     String value = $(alertInfo).first().text();
     boolean result =  value.contains("This email address already exist.");
     assertThat(result).isEqualTo(true);
   }
   public void isReset() {
+    await().until($(alert)).present();
     String value = $(alert).first().text();
     boolean result =  value.contains("Password reset, email sent.");
     assertThat(result).isEqualTo(true);
   }
   public void isPreventedFromResettingTwice() {
+    await().until($(alertDanger)).present();
     String value = $(alertDanger).first().text();
     boolean result =  value.contains("Password already reset.");
     assertThat(result).isEqualTo(true);
@@ -123,6 +134,7 @@ public class UsersFluentPage extends AbstractWp1FluentPage {
   // helpers
   @Override
   public void isAt() {
+    await().until($(idPage)).present();
     assertThat($(idPage).first().value()).isEqualTo("users");
   }
   public String getUrl() { return "pages/users"; }

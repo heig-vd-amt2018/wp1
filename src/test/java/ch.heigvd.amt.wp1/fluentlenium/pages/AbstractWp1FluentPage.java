@@ -18,6 +18,7 @@ public abstract class AbstractWp1FluentPage extends FluentPage {
   private final static String dropdown   = "#dropdown-settings";
 
   public void goToUsersPage() {
+
     $(linkusers).click();
   }
   public void goToAppsPage() {

@@ -61,19 +61,18 @@ public class Wp1PopulateDataBaseTest extends FluentTest {
   private void createApps(String userEmail, String password, int amount) {
     String user = userEmail.split("@")[0];
     goTo(baseUrl);      // login page
-    await().explicitlyFor(500, TimeUnit.MILLISECONDS);
     loginFluentPage.isAt();
 
     // Login
     loginFluentPage.typeEmailAddress(userEmail);
     loginFluentPage.typePassword(password);
     loginFluentPage.clickSignin();
-    await().explicitlyFor(500, TimeUnit.MILLISECONDS);
     homeFluentPage.isAt();      // login OK => home page
 
     // Create apps
     homeFluentPage.goToAppsPage();
     for (int i = 1; i <= amount; i++) {
+      await().untilPage(appsFluentPage).isLoaded();
       appsFluentPage.clickAddApp();
       appsFluentPage.typeAppName(user + "App" + i);
       appsFluentPage.typeAppDescription(user + " app " + i);
@@ -112,13 +111,12 @@ public class Wp1PopulateDataBaseTest extends FluentTest {
     options.addArguments("--disable-gpu");
 
     DesiredCapabilities capabilities = new DesiredCapabilities();
-    //capabilities.setCapability("chromeOptions", options);
-
+    //capabilities.setCapability("chromeOptions", options);           // uncomment for silent execution (no GUI)
     ChromeDriver chromeDriver = new ChromeDriver(capabilities);
 
     chromeDriver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
     chromeDriver.manage().timeouts().pageLoadTimeout(5000, TimeUnit.MILLISECONDS);
-
+    this.chromeDriver = chromeDriver;
     return chromeDriver;
   }
 
