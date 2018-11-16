@@ -3,19 +3,13 @@ package ch.heigvd.amt.wp1.fluentlenium;
 import ch.heigvd.amt.wp1.fluentlenium.pages.*;
 import io.probedock.client.annotations.ProbeTest;
 import org.fluentlenium.adapter.junit.FluentTest;
-import org.fluentlenium.configuration.FluentConfiguration;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.fluentlenium.core.annotation.Page;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  *  UI base tests using Fluentlenium<br>
@@ -25,7 +19,6 @@ import java.util.concurrent.TimeUnit;
  *  {user1@wp1.ch, adminadmin, ENABLED}, {user2@wp1.ch, adminadmin, ENABLED}, {user3@wp1.ch, adminadmin, RESET}
  *  defined in src/main/resources/META-INF/sql/data.sql <br>
  */
-@FluentConfiguration(webDriver="chrome", capabilities = "{chromeOptions: {args:[--headless, --disable-gpu]}}")
 public class Wp1FluentTest extends FluentTest {
 
   public static final String baseUrl = "http://localhost:8080/WP1-1.0-SNAPSHOT/";
