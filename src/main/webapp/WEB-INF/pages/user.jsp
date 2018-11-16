@@ -54,7 +54,7 @@
                             <c:set var="resetState" value="RESET"/>
                             <c:choose>
                                 <c:when test="${user.state == resetState}">
-                                    <input name="reset" value="${user.state}" class="form-control" readonly="">
+                                    <input name="userState" value="${user.state}" class="form-control" readonly="">
                                 </c:when>
                                 <c:otherwise>
                                     <select class="form-control" name="userState">
