@@ -21,7 +21,7 @@ Tests description are decribed in the following files : `TESTING_FUNCTIONAL.md`,
 
 It includes : 
 
-* UI testing with Fluenlenium
+* UI testing with FluentLenium
 * Pagination testing with JMeter
 * Transactions rollback testing : those tests are only available on fb_transactions branch
 
