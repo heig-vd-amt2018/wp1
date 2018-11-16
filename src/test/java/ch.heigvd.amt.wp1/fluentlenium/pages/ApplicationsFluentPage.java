@@ -25,6 +25,7 @@ public class ApplicationsFluentPage extends AbstractWp1FluentPage {
     private static final String addAppBtn       = "#add-app";
     private static final String modifyApp       = "#modifyApp";
     private static final String appsTable       = "#applications";
+    private static final String tableInfo       = "#applications_info";
 
     // Find elements by class
     private static final String alert         = ".alert-success";
@@ -49,7 +50,7 @@ public class ApplicationsFluentPage extends AbstractWp1FluentPage {
         $(appUpdate).click();
     }
     public void clickNext() {
-        await().explicitlyFor(500, TimeUnit.MILLISECONDS);
+        await().explicitlyFor(1000, TimeUnit.MILLISECONDS);
         $("a", withText("Next")).click();
     }
     public void clickDelete() {
@@ -68,8 +69,11 @@ public class ApplicationsFluentPage extends AbstractWp1FluentPage {
     }
 
     // Assertions
-    public void containsNElements(int elementNumber) {
-        assertThat($(modifyApp).count()).isEqualTo(elementNumber);
+    public void containsNElements(String numberOfElementString) {
+        await().until($(tableInfo)).present();
+        String value = $(tableInfo).first().text();
+        boolean result =  value.contains(numberOfElementString);
+        assertThat(result).isEqualTo(true);
     }
     public void isCreated(){
         await().until($(alert)).present();
