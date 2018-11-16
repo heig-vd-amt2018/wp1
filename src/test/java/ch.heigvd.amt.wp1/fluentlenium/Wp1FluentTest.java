@@ -404,7 +404,7 @@ public class Wp1FluentTest extends FluentTest {
     loginFluentPage.clickSignin();
     homeFluentPage.isAt();
 
-    final String oldName = "user1App";
+    final String oldName = "appToDelete";
     final String newName = "user#1 App";
 
 
