@@ -118,6 +118,7 @@ public class ApplicationsFluentPage extends AbstractWp1FluentPage {
 
     // helpers
     public int countElemsInTable() {
+        await().until($(modifyApp)).present();
         return $(modifyApp).count();
     }
 
