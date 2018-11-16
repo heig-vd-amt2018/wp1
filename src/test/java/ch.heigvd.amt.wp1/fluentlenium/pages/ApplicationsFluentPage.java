@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fluentlenium.core.filter.FilterConstructor.withText;
@@ -32,6 +33,7 @@ public class ApplicationsFluentPage extends AbstractWp1FluentPage {
 
     // Buttons click
     public void clickAddApp() {
+        await().explicitlyFor(500, TimeUnit.MILLISECONDS);
         $(createApp).click();
     }
     public void clickCreateAppBtn() {

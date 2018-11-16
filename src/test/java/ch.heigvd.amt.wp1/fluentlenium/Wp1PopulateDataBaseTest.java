@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Wp1PopulateDataBaseTest extends FluentTest {
 
+  private WebDriver chromeDriver = null;
   public static final String baseUrl = "http://localhost:8080/WP1-1.0-SNAPSHOT/";
   private static String OS = System.getProperty("os.name").toLowerCase();
 
@@ -44,13 +45,13 @@ public class Wp1PopulateDataBaseTest extends FluentTest {
   @Test
   @ProbeTest(tags = "populateDB")
   public void defaultUser1ShouldBeAbleToCreate25Apps(){
-    createApps("user1@wp1.ch", "adminadmin", 25);
+    createApps("user1@wp1.ch", "jeanbon", 25);
   }
 
   @Test
   @ProbeTest(tags = "populateDB")
   public void defaultUser2ShouldBeAbleToCreate25Apps(){
-    createApps("user2@wp1.ch", "adminadmin", 25);
+    createApps("user2@wp1.ch", "pierrequiroule", 25);
   }
 
   /**
@@ -60,12 +61,14 @@ public class Wp1PopulateDataBaseTest extends FluentTest {
   private void createApps(String userEmail, String password, int amount) {
     String user = userEmail.split("@")[0];
     goTo(baseUrl);      // login page
+    await().explicitlyFor(500, TimeUnit.MILLISECONDS);
     loginFluentPage.isAt();
 
     // Login
     loginFluentPage.typeEmailAddress(userEmail);
     loginFluentPage.typePassword(password);
     loginFluentPage.clickSignin();
+    await().explicitlyFor(500, TimeUnit.MILLISECONDS);
     homeFluentPage.isAt();      // login OK => home page
 
     // Create apps
@@ -103,6 +106,7 @@ public class Wp1PopulateDataBaseTest extends FluentTest {
     } else {
       System.err.println("Chrome driver executable missing");
     }
+
     ChromeOptions options = new ChromeOptions();
     options.addArguments("--headless");
     options.addArguments("--disable-gpu");
@@ -111,9 +115,11 @@ public class Wp1PopulateDataBaseTest extends FluentTest {
     //capabilities.setCapability("chromeOptions", options);
 
     ChromeDriver chromeDriver = new ChromeDriver(capabilities);
-    chromeDriver.manage().timeouts().pageLoadTimeout(1000, TimeUnit.MILLISECONDS);
 
-    return new ChromeDriver(capabilities);
+    chromeDriver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
+    chromeDriver.manage().timeouts().pageLoadTimeout(5000, TimeUnit.MILLISECONDS);
+
+    return chromeDriver;
   }
 
   @Override

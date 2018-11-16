@@ -16,7 +16,7 @@ import java.nio.file.Paths;
  *  Workd with Chrome driver executable<br><br>
  *
  *  Requires default users {admin@wp1.ch, adminadmin} and
- *  {user1@wp1.ch, adminadmin, ENABLED}, {user2@wp1.ch, adminadmin, ENABLED}, {user3@wp1.ch, adminadmin, RESET}
+ *  {user1@wp1.ch, jeanbon, ENABLED}, {user2@wp1.ch, pierrequiroule, ENABLED}, {user3@wp1.ch, alainproviste, RESET}
  *  defined in src/main/resources/META-INF/sql/data.sql <br>
  */
 public class Wp1FluentTest extends FluentTest {
@@ -352,7 +352,7 @@ public class Wp1FluentTest extends FluentTest {
     goTo(baseUrl);
     loginFluentPage.isAt();
     loginFluentPage.typeEmailAddress("user3@wp1.ch");
-    loginFluentPage.typePassword("adminadmin");
+    loginFluentPage.typePassword("alainproviste");
     loginFluentPage.clickSignin();
     profileFluentPage.isAt();         // redirected to profile page
     profileFluentPage.isRedirected(); // alert message OK
@@ -383,7 +383,7 @@ public class Wp1FluentTest extends FluentTest {
     goTo(baseUrl);
     loginFluentPage.isAt();
     loginFluentPage.typeEmailAddress("user1@wp1.ch");
-    loginFluentPage.typePassword("adminadmin");
+    loginFluentPage.typePassword("jeanbon");
     loginFluentPage.clickSignin();
     homeFluentPage.isAt();
 
@@ -399,7 +399,7 @@ public class Wp1FluentTest extends FluentTest {
     goTo(baseUrl);
     loginFluentPage.isAt();
     loginFluentPage.typeEmailAddress("user1@wp1.ch");
-    loginFluentPage.typePassword("adminadmin");
+    loginFluentPage.typePassword("jeanbon");
     loginFluentPage.clickSignin();
     homeFluentPage.isAt();
 
@@ -488,7 +488,7 @@ public class Wp1FluentTest extends FluentTest {
     goTo(baseUrl);
     loginFluentPage.isAt();
     loginFluentPage.typeEmailAddress("admin@wp1.ch");
-    loginFluentPage.typePassword("adminadmin");
+    loginFluentPage.typePassword("jeanbon");
     loginFluentPage.clickSignin();
     homeFluentPage.isAt();
   }
