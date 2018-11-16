@@ -41,7 +41,7 @@ public class Wp1FluentScenario1Test extends FluentTest {
   @ProbeTest(tags = "WebUI")
   public void devAppShouldRegisterCreateAppsBrowseAndLogOut () {
     goTo(baseUrl);      // login page
-    await().explicitlyFor(500, TimeUnit.MILLISECONDS);
+    await().untilPage().isLoaded();
     loginFluentPage.isAt();
 
     // Register
@@ -67,28 +67,31 @@ public class Wp1FluentScenario1Test extends FluentTest {
     }
 
     // Browse
-    await().explicitlyFor(500);
+    appsFluentPage.clickNext();
+    await().untilPage().isLoaded();
+    appsFluentPage.containsNElements(10); // amount of apps/page OK
+    await().untilPage().isLoaded();
     appsFluentPage.clickNext();
     appsFluentPage.containsNElements(10); // amount of apps/page OK
-    await().explicitlyFor(500);
-    appsFluentPage.clickNext();
-    appsFluentPage.containsNElements(10); // amount of apps/page OK
-    await().explicitlyFor(500);
+    await().untilPage().isLoaded();
     appsFluentPage.clickNext();
     appsFluentPage.containsNElements(5); // amount of apps/page OK
 
     // Go back to home
     appsFluentPage.goToHome();
+    await().untilPage().isLoaded();
     homeFluentPage.isAt();        // returned to home OK
     homeFluentPage.amountOfAppsMatches(25);       // total amount of apps OK
 
     // Logs out
     homeFluentPage.toggleDropdown();
     homeFluentPage.logOut();
+    await().untilPage().isLoaded();
     loginFluentPage.isAt();       // redirected to login OK
 
     // Try to go to home
     goTo(homeFluentPage);
+    await().untilPage().isLoaded();
     loginFluentPage.isAt();       // page still login OK
   }
 
