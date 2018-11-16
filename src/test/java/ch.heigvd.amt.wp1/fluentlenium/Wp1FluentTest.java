@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 /**
  *  UI base tests using Fluentlenium<br>
@@ -488,8 +489,9 @@ public class Wp1FluentTest extends FluentTest {
     goTo(baseUrl);
     loginFluentPage.isAt();
     loginFluentPage.typeEmailAddress("admin@wp1.ch");
-    loginFluentPage.typePassword("jeanbon");
+    loginFluentPage.typePassword("adminadmin");
     loginFluentPage.clickSignin();
+    await().explicitlyFor(1000, TimeUnit.MILLISECONDS);
     homeFluentPage.isAt();
   }
 

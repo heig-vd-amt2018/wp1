@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 /**
  *  Test scenario of a App developer registering and creating applications <br>
@@ -40,6 +41,7 @@ public class Wp1FluentScenario1Test extends FluentTest {
   @ProbeTest(tags = "WebUI")
   public void devAppShouldRegisterCreateAppsBrowseAndLogOut () {
     goTo(baseUrl);      // login page
+    await().explicitlyFor(500, TimeUnit.MILLISECONDS);
     loginFluentPage.isAt();
 
     // Register
