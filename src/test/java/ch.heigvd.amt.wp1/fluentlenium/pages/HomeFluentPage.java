@@ -1,26 +1,47 @@
 
 package ch.heigvd.amt.wp1.fluentlenium.pages;
 
+import ch.heigvd.amt.wp1.fluentlenium.Wp1FluentTest;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * This class is used to test the "Home" page in the MVCDemo app. Notice that in
- * the constructor, we check if we are on the correct page by checking the HTML
- * title of the page. This is used to detect navigation issues (for example, you
- * expect to arrive on the Beers page, but the title of the actual page is
- * "Login Page" because of some error.
- *
- * @author Olivier Liechti
+ * This class is used to test the "Home" page in the app.
  */
-public class HomeFluentPage extends AbstractMVCDemoFluentPage {
+public class HomeFluentPage extends AbstractWp1FluentPage {
 
-  private final static String idPage = "#page"; // id in the html code
+  // Find elements by id
+  private static final String idPage          = "#page";
+  private static final String fieldViewUsers  = "#users-page";
+  private static final String alert           = "#alert";
 
-  @Override
-  public void isAt() { assertThat($(idPage).first().value()).isEqualTo("home");}
+  private static final String appNumber       = ".huge"; // Find elements by class
+
+  public void clickViewUsers() {
+      $(fieldViewUsers).click();
+  }
+
+  public void isRedirectedOnRightsError() {
+      await().until($(alert)).present();
+      String value = $(alert).first().text();
+      boolean result =  value.contains("You do not have the rights to access this page.");
+      assertThat(result).isEqualTo(true);
+  }
+
+  public void amountOfAppsMatches(int appsAmount) {
+      await().until($(appNumber)).present();
+      String value = $(appNumber).first().text();
+      assertThat(value).isEqualTo(appsAmount + "");
+  }
 
   public String getUrl() {
-    return "/";
+    return Wp1FluentTest.baseUrl + "pages/home";
+  }
+
+  @Override
+  public void isAt() {
+    await().until($(idPage)).present();
+    assertThat($(idPage).first().value()).isEqualTo("home");
   }
 
 }

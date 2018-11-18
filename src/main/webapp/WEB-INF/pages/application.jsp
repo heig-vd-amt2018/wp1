@@ -3,7 +3,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"><a href="pages/applications">My applications</a> > ${application.name}</h1>
+            <h1 class="page-header"><a href="pages/applications">Applications</a> > ${application.name}</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -28,17 +28,17 @@
                         </div>
                         <div class="form-group">
                             <label>Created date</label>
-                            <input name="appCreatedDate" value="${application.createdDate}" type="datetime-local"
+                            <input name="appCreatedDate" value="${application.createdDate}"
                                    class="form-control" readonly="">
                         </div>
                         <div class="form-group">
                             <label>Name</label>
-                            <input name="appName" value="<c:out value="${application.name}"/>" class="form-control"
+                            <input id="app-name-input" name="appName" value="<c:out value="${application.name}"/>" class="form-control"
                                    placeholder="Enter name" required>
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <input name="appDescription" value="<c:out value="${application.description}"/>" class="form-control"
+                            <input id="app-description-input" name="appDescription" value="<c:out value="${application.description}"/>" class="form-control"
                                    placeholder="Enter description">
                         </div>
                         <div class="form-group">
@@ -50,8 +50,8 @@
                             <input name="appApiSecret" value="${application.apiSecret}" class="form-control"
                                    readonly="">
                         </div>
-                        <button name="update" type="submit" class="btn btn-default btn-block">Save</button>
-                        <button name="delete" class="btn btn-default btn-block">Delete</button>
+                        <button id="update-app" name="update" type="submit" class="btn btn-default btn-block">Save</button>
+                        <button id="delete-app" name="delete" class="btn btn-default btn-block">Delete</button>
                     </form>
                 </div>
                 <!-- /.panel-body -->

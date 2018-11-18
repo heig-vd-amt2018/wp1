@@ -21,7 +21,7 @@ import java.util.List;
 
 @Stateless
 @Path("/users")
-public class UsersRessource {
+public class UsersResource {
 
     @Context
     private UriInfo uriInfo;

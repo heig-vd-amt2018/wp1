@@ -1,5 +1,7 @@
 <%@include file="includes/header.jsp" %>
 
+<div id="page" value="applications"></div>
+
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -21,7 +23,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a name="collapse-title" data-toggle="collapse" data-parent="#accordion" href="#collapse"
+                        <a id="create-app" name="collapse-title" data-toggle="collapse" data-parent="#accordion" href="#collapse"
                            aria-expanded="true"
                            class="">Create a new application</a>
                     </h4>
@@ -37,15 +39,15 @@
                         <form id="form" role="form" action="pages/applications?action=save" method="post">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input name="appName" value="<c:out value="${appName}"/>" class="form-control"
+                                <input id="app-name-input" name="appName" value="<c:out value="${appName}"/>" class="form-control"
                                        placeholder="Enter name" >
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
-                                <input name="appDescription" value="<c:out value="${appDescription}"/>"
+                                <input id="app-description-input" name="appDescription" value="<c:out value="${appDescription}"/>"
                                        class="form-control" placeholder="Enter description">
                             </div>
-                            <button name="submit" type="submit" class="btn btn-default btn-block">Add</button>
+                            <button id="add-app" name="submit" type="submit" class="btn btn-default btn-block">Add</button>
                         </form>
                     </div>
                 </div>
@@ -116,7 +118,7 @@
                 {
                     "targets": -1,
                     "render": function (data) {
-                        actions = '<a href="pages/applications?appId=' + data + '" class="btn btn-default"><i class="fa fa-eye"></a>';
+                        actions = '<a href="pages/applications?appId=' + data + '" class="btn btn-default"><i id="modifyApp" class="fa fa-eye"></a>';
 
                         return actions;
                     }

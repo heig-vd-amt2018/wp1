@@ -3,7 +3,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"><a href="pages/users">${user.firstName} ${user.lastName}</a></h1>
+            <h1 class="page-header"><a href="pages/users">Users</a> > ${user.firstName} ${user.lastName}</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -33,12 +33,12 @@
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input name="userLastName" value="<c:out value="${user.lastName}"/>" class="form-control"
+                            <input id="lastname" name="userLastName" value="<c:out value="${user.lastName}"/>" class="form-control"
                                    placeholder="Enter last name" required="required">
                         </div>
                         <div class="form-group">
                             <label>email</label>
-                            <input name="userEmail" value="<c:out value="${user.email}"/>" class="form-control"
+                            <input id="email" name="userEmail" value="<c:out value="${user.email}"/>" class="form-control"
                                    placeholder="Enter email" required="required" readonly="">
                         </div>
                         <div class="form-group">
@@ -54,7 +54,7 @@
                             <c:set var="resetState" value="RESET"/>
                             <c:choose>
                                 <c:when test="${user.state == resetState}">
-                                    <input name="reset" value="${user.state}" class="form-control" readonly="">
+                                    <input name="userState" value="${user.state}" class="form-control" readonly="">
                                 </c:when>
                                 <c:otherwise>
                                     <select class="form-control" name="userState">
@@ -65,9 +65,9 @@
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        <button name="update" class="btn btn-default btn-block">Save</button>
-                        <button name="delete" class="btn btn-default btn-block">Delete</button>
-                        <button name="resetPassword" class="btn btn-default btn-block">Reset password</button>
+                        <button id="user-update-btn" name="update" class="btn btn-default btn-block">Save</button>
+                        <button id="user-delete-btn" name="delete" class="btn btn-default btn-block">Delete</button>
+                        <button id="user-reset-btn" name="resetPassword" class="btn btn-default btn-block">Reset password</button>
                     </form>
                 </div>
                 <!-- /.panel-body -->
@@ -125,7 +125,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": "api/applications/${user.id}",
+                "url": "api/applications?userId=${user.id}",
                 "method": "GET"
             },
             "columns": [

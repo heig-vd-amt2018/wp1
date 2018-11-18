@@ -8,7 +8,7 @@ Xavier Vaz Afonso
 Follow the steps to deploy the application locally:
 
 1. Clone the repository: `git clone git@github.com:heig-vd-amt2018/wp1.git amt-wp1`.
-2. Move to the cloned directory: `mv amt-wp1/`.
+2. Move to the cloned directory: `cd amt-wp1/`.
 3. Compile the project: `mvn clean install`.
 4. Move the compiled `.war` to the `payara` directory: `cp target/WP1-1.0-SNAPSHOT.war images/payara/`.
 5. Move the file `.env_example` to `.env` and edit the file with the right elements.
@@ -17,9 +17,13 @@ Follow the steps to deploy the application locally:
 8. You are done !
 
 ## Tests
-Follow the steps to test the application:
+Tests description are decribed in the following files : `TESTING_FUNCTIONAL.md`, `TESTING_NON_FUNCTIONAL_PAGINATION.md`, `TESTING_NON_FUNCTIONAL_TRANSACTIONS.md`.
 
-TODO
+It includes : 
+
+* UI testing with FluentLenium
+* Pagination testing with JMeter
+* Transactions rollback testing : those tests are only available on fb_transactions branch
 
 ## Built with
 This website was done with the following technologies:
@@ -45,6 +49,6 @@ This website was done with the following technologies:
 | Filters allow to verify and authorize users to only access allowed resources. | Done |
 | As a **user**, I have a good UI/UX experience (nice design, clear navigation, informative error messages, etc.) | Done |
 | As a **spiritual guide**, I can clone the repo, move to a documented repository and type `docker-compose up` to start the system. I can then access it with my browser. | Done |
-| As a **spiritual guide**, I find a report named `TESTING_FUNCTIONAL.md` which describes how to execute **automated functional tests**. At the minimum, there should be a scenario with the following steps: developer creates an account, developer logs in, developer creates 25 pages, developer browses the list of applications (3 pages of 10, 10 and 5 applications), developer logs out, developer tries to go back to the list of applications and is redirected to login page. The tests should include assertions, so that changing the code (e.g. introducing a bug) breaks the code. The report should describe and document a concrete example (with screenshots). | Not done (yet) |
-| As a **spiritual guide**, I find a report named `TESTING_NON_FUNCTIONAL_PAGINATION.md`which describes which **non-functional tests** have been implemented and run. At the minimum, the report answers this question: "What is the impact of using pagination between the business and the resources tier?". The report should introduce the issue, describe the design of an experiment, document the experimental results and interpret the data. | Not done (yet) |
+| As a **spiritual guide**, I find a report named `TESTING_FUNCTIONAL.md` which describes how to execute **automated functional tests**. At the minimum, there should be a scenario with the following steps: developer creates an account, developer logs in, developer creates 25 pages, developer browses the list of applications (3 pages of 10, 10 and 5 applications), developer logs out, developer tries to go back to the list of applications and is redirected to login page. The tests should include assertions, so that changing the code (e.g. introducing a bug) breaks the code. The report should describe and document a concrete example (with screenshots). | Done |
+| As a **spiritual guide**, I find a report named `TESTING_NON_FUNCTIONAL_PAGINATION.md`which describes which **non-functional tests** have been implemented and run. At the minimum, the report answers this question: "What is the impact of using pagination between the business and the resources tier?". The report should introduce the issue, describe the design of an experiment, document the experimental results and interpret the data. | Done |
 | As a spiritual guide, I find a report named `TESTING_NON_FUNCTIONAL_TRANSACTIONS`, which describes an experiment that has been done to prove that transactions work as expected with **Enterprise Java Beans** (especially in the case of rollbacks). The report describes the related code. | Done |
